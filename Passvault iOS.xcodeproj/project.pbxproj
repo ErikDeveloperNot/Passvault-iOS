@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B55CFC5865E45C834AC9A58 /* Pods_Passvault_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */; };
 		7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3A91FCBAC610077C4F5 /* AppDelegate.swift */; };
 		7FA8F3AC1FCBAC610077C4F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3AB1FCBAC610077C4F5 /* ViewController.swift */; };
 		7FA8F3AF1FCBAC610077C4F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3AD1FCBAC610077C4F5 /* Main.storyboard */; };
 		7FA8F3B11FCBAC610077C4F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3B01FCBAC610077C4F5 /* Assets.xcassets */; };
 		7FA8F3B41FCBAC610077C4F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3B21FCBAC610077C4F5 /* LaunchScreen.storyboard */; };
+		7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3DC1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,10 @@
 		7FA8F3B01FCBAC610077C4F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FA8F3B31FCBAC610077C4F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FA8F3B51FCBAC610077C4F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7FA8F3DD1FCBB4200077C4F5 /* Passvault iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Passvault iOS.xcdatamodel"; sourceTree = "<group>"; };
+		A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.release.xcconfig"; sourceTree = "<group>"; };
+		B32F283F6512DCF560B69FBB /* Pods-Passvault iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Passvault_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +35,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B55CFC5865E45C834AC9A58 /* Pods_Passvault_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5695FD6BE0099AB159E0C9AD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B32F283F6512DCF560B69FBB /* Pods-Passvault iOS.debug.xcconfig */,
+				A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7FA8F39D1FCBAC610077C4F5 = {
 			isa = PBXGroup;
 			children = (
 				7FA8F3A81FCBAC610077C4F5 /* Passvault iOS */,
 				7FA8F3A71FCBAC610077C4F5 /* Products */,
+				5695FD6BE0099AB159E0C9AD /* Pods */,
+				A39241865CD5CEC8122782E0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +72,47 @@
 		7FA8F3A81FCBAC610077C4F5 /* Passvault iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7FA8F3E11FCBB8070077C4F5 /* controller */,
+				7FA8F3E01FCBB7F40077C4F5 /* view */,
+				7FA8F3DF1FCBB7EA0077C4F5 /* model */,
 				7FA8F3A91FCBAC610077C4F5 /* AppDelegate.swift */,
-				7FA8F3AB1FCBAC610077C4F5 /* ViewController.swift */,
 				7FA8F3AD1FCBAC610077C4F5 /* Main.storyboard */,
 				7FA8F3B01FCBAC610077C4F5 /* Assets.xcassets */,
 				7FA8F3B21FCBAC610077C4F5 /* LaunchScreen.storyboard */,
 				7FA8F3B51FCBAC610077C4F5 /* Info.plist */,
+				7FA8F3DC1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld */,
 			);
 			path = "Passvault iOS";
+			sourceTree = "<group>";
+		};
+		7FA8F3DF1FCBB7EA0077C4F5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		7FA8F3E01FCBB7F40077C4F5 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		7FA8F3E11FCBB8070077C4F5 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				7FA8F3AB1FCBAC610077C4F5 /* ViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		A39241865CD5CEC8122782E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +122,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7FA8F3B81FCBAC610077C4F5 /* Build configuration list for PBXNativeTarget "Passvault iOS" */;
 			buildPhases = (
+				AD6CC0298E1F5A32D097CC6B /* [CP] Check Pods Manifest.lock */,
 				7FA8F3A21FCBAC610077C4F5 /* Sources */,
 				7FA8F3A31FCBAC610077C4F5 /* Frameworks */,
 				7FA8F3A41FCBAC610077C4F5 /* Resources */,
+				1DF2D58CC51751F137F4F6CB /* [CP] Embed Pods Frameworks */,
+				57CB66987D103DE3D53727D8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -131,6 +185,68 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1DF2D58CC51751F137F4F6CB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		57CB66987D103DE3D53727D8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD6CC0298E1F5A32D097CC6B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Passvault iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7FA8F3A21FCBAC610077C4F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -138,6 +254,7 @@
 			files = (
 				7FA8F3AC1FCBAC610077C4F5 /* ViewController.swift in Sources */,
 				7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */,
+				7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +389,7 @@
 		};
 		7FA8F3B91FCBAC610077C4F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B32F283F6512DCF560B69FBB /* Pods-Passvault iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -286,6 +404,7 @@
 		};
 		7FA8F3BA1FCBAC610077C4F5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -320,6 +439,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7FA8F3DC1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7FA8F3DD1FCBB4200077C4F5 /* Passvault iOS.xcdatamodel */,
+			);
+			currentVersion = 7FA8F3DD1FCBB4200077C4F5 /* Passvault iOS.xcdatamodel */;
+			path = "Passvault iOS.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7FA8F39E1FCBAC610077C4F5 /* Project object */;
 }

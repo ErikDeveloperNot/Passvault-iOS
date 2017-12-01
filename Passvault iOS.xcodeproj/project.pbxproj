@@ -8,23 +8,41 @@
 
 /* Begin PBXBuildFile section */
 		0B55CFC5865E45C834AC9A58 /* Pods_Passvault_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */; };
+		7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */; };
+		7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE341FCD3B89009C0F0D /* TestClass.swift */; };
+		7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */; };
+		7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3D1FCD640C009C0F0D /* Crypt.swift */; };
+		7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */; };
 		7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3A91FCBAC610077C4F5 /* AppDelegate.swift */; };
-		7FA8F3AC1FCBAC610077C4F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3AB1FCBAC610077C4F5 /* ViewController.swift */; };
+		7FA8F3AC1FCBAC610077C4F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3AB1FCBAC610077C4F5 /* LoginViewController.swift */; };
 		7FA8F3AF1FCBAC610077C4F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3AD1FCBAC610077C4F5 /* Main.storyboard */; };
 		7FA8F3B11FCBAC610077C4F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3B01FCBAC610077C4F5 /* Assets.xcassets */; };
 		7FA8F3B41FCBAC610077C4F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3B21FCBAC610077C4F5 /* LaunchScreen.storyboard */; };
 		7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3DC1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld */; };
+		7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB59441FD00CF900FF8FF5 /* AccountDetailsViewController.swift */; };
+		7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3723C1FCBC295008EAA1F /* Account.swift */; };
+		7FE372401FCBD632008EAA1F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3723F1FCBD632008EAA1F /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUtils.swift; sourceTree = "<group>"; };
+		7F54EE341FCD3B89009C0F0D /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
+		7F54EE391FCD5AB2009C0F0D /* Passvault iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passvault iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
+		7F54EE3C1FCD5AD5009C0F0D /* CommonCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCrypto.h; sourceTree = "<group>"; };
+		7F54EE3D1FCD640C009C0F0D /* Crypt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypt.swift; sourceTree = "<group>"; };
+		7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListViewController.swift; sourceTree = "<group>"; };
 		7FA8F3A61FCBAC610077C4F5 /* Passvault iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Passvault iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FA8F3A91FCBAC610077C4F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7FA8F3AB1FCBAC610077C4F5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7FA8F3AB1FCBAC610077C4F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7FA8F3AE1FCBAC610077C4F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7FA8F3B01FCBAC610077C4F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FA8F3B31FCBAC610077C4F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FA8F3B51FCBAC610077C4F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FA8F3DD1FCBB4200077C4F5 /* Passvault iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Passvault iOS.xcdatamodel"; sourceTree = "<group>"; };
+		7FAB59441FD00CF900FF8FF5 /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
+		7FE3723C1FCBC295008EAA1F /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		7FE3723F1FCBD632008EAA1F /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.release.xcconfig"; sourceTree = "<group>"; };
 		B32F283F6512DCF560B69FBB /* Pods-Passvault iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Passvault_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +69,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7F54EE381FCD5A58009C0F0D /* crypt */ = {
+			isa = PBXGroup;
+			children = (
+				7F54EE3C1FCD5AD5009C0F0D /* CommonCrypto.h */,
+				7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */,
+				7F54EE391FCD5AB2009C0F0D /* Passvault iOS-Bridging-Header.h */,
+				7F54EE3D1FCD640C009C0F0D /* Crypt.swift */,
+			);
+			path = crypt;
+			sourceTree = "<group>";
+		};
 		7FA8F39D1FCBAC610077C4F5 = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +101,7 @@
 		7FA8F3A81FCBAC610077C4F5 /* Passvault iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7FE3723E1FCBD615008EAA1F /* utils */,
 				7FA8F3E11FCBB8070077C4F5 /* controller */,
 				7FA8F3E01FCBB7F40077C4F5 /* view */,
 				7FA8F3DF1FCBB7EA0077C4F5 /* model */,
@@ -88,6 +118,8 @@
 		7FA8F3DF1FCBB7EA0077C4F5 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				7FE3723C1FCBC295008EAA1F /* Account.swift */,
+				7F54EE341FCD3B89009C0F0D /* TestClass.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -102,9 +134,21 @@
 		7FA8F3E11FCBB8070077C4F5 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				7FA8F3AB1FCBAC610077C4F5 /* ViewController.swift */,
+				7FA8F3AB1FCBAC610077C4F5 /* LoginViewController.swift */,
+				7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */,
+				7FAB59441FD00CF900FF8FF5 /* AccountDetailsViewController.swift */,
 			);
 			path = controller;
+			sourceTree = "<group>";
+		};
+		7FE3723E1FCBD615008EAA1F /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				7F54EE381FCD5A58009C0F0D /* crypt */,
+				7FE3723F1FCBD632008EAA1F /* Utils.swift */,
+				7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 		A39241865CD5CEC8122782E0 /* Frameworks */ = {
@@ -150,6 +194,7 @@
 				TargetAttributes = {
 					7FA8F3A51FCBAC610077C4F5 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -252,9 +297,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FA8F3AC1FCBAC610077C4F5 /* ViewController.swift in Sources */,
+				7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */,
+				7FE372401FCBD632008EAA1F /* Utils.swift in Sources */,
+				7FA8F3AC1FCBAC610077C4F5 /* LoginViewController.swift in Sources */,
+				7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */,
 				7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */,
+				7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */,
+				7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */,
+				7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */,
+				7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */,
 				7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */,
+				7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,11 +445,14 @@
 			baseConfigurationReference = B32F283F6512DCF560B69FBB /* Pods-Passvault iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Passvault iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.developernot.Passvault-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Passvault iOS/utils/crypt/Passvault iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -407,11 +463,13 @@
 			baseConfigurationReference = A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Passvault iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.developernot.Passvault-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Passvault iOS/utils/crypt/Passvault iOS-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

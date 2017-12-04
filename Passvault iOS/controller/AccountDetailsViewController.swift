@@ -14,22 +14,20 @@ class AccountDetailsViewController: UIViewController {
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordTextField2: UITextField!
+    @IBOutlet weak var userNameTextField: UITextField!
     
-    var accountName: String = ""
-    var url: String = ""
-    var password: String = ""
-    var oldPassword: String = ""
-    var validEncryption = true
+    var account: Account?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        accountNameLabel.text = accountName
-        urlTextField.text = url
-        passwordTextField.text = password
-        passwordTextField2.text = password
+        accountNameLabel.text = account?.accountName
+        urlTextField.text = account?.url
+        passwordTextField.text = account?.password
+        passwordTextField2.text = account?.password
+        userNameTextField.text = account?.userName
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,16 +36,23 @@ class AccountDetailsViewController: UIViewController {
     }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        Utils.deletePasswordsFromClipboard()
+// TODO - chack values, passwords match, etc
+        account?.userName = userNameTextField.text!
+        account?.password = passwordTextField.text!
+        account?.url = urlTextField.text!
+        account?.updateTime = Utils.currentTimeMillis()
+        print("Result of SaveAccount=\(CoreDataUtils.saveAccount(forAccount: account!))")
+        self.dismiss(animated: true, completion: nil)
     }
     
     
-    @IBAction func copyButtonPressed(_ sender: Any) {
-        Utils.copyToClipboard(toCopy: passwordTextField.text!)
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+        
     }
    
     

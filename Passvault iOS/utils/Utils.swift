@@ -27,4 +27,36 @@ class Utils {
     static func deletePasswordsFromClipboard()  {
         UIPasteboard.general.strings = [""]
     }
+    
+    
+    static func launchBrowser(forURL: String) -> Bool {
+        var urlAsString = forURL
+        
+        let httpIndex = forURL.index(forURL.startIndex, offsetBy: 6)
+        let http = forURL[...httpIndex]
+        let httpsIndex = forURL.index(forURL.startIndex, offsetBy: 7)
+        let https = forURL[...httpIndex]
+        
+        if http != "http://" || https != "https://" {
+            urlAsString = "http://\(forURL)"
+        }
+        
+        guard let url = URL(string: urlAsString) else {
+            print("Unable to create a URL from: \(forURL)")
+            return false
+        }
+        
+        if !UIApplication.shared.canOpenURL(url) {
+            print("Unable to open URL from: \(forURL)")
+            return false
+        }
+        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+        
+        return true
+    }
 }

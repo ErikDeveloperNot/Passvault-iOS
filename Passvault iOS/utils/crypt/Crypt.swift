@@ -30,6 +30,11 @@ class Crypt {
         }
         
         if let dec1 = crypto.decryptString(key, cipherText: forEncrypted) {
+            
+            if dec1 == "" {
+                throw CryptError.errorDecrypting
+            }
+            
             return dec1
         } else {
             throw CryptError.errorDecrypting
@@ -45,6 +50,11 @@ class Crypt {
         }
         
         if let enc1 = crypto.encryptString(key, plainText: forText) {
+            
+            if enc1 == "" {
+                throw CryptError.errorEncrypting
+            }
+            
             return enc1
         } else {
             throw CryptError.errorEncrypting

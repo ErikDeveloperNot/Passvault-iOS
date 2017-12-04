@@ -16,6 +16,9 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     var accounts: [Account] = []
     var key: String?
     var selectedAccount: Account?
+    var expanded: Bool = false
+    var expandedIndex: Int = -1
+    var expandedRows: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,9 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         accountsTableView.delegate = self
         accountsTableView.dataSource = self
 
+        accountsTableView.register(UINib(nibName: "AccountTableViewCell", bundle: nil), forCellReuseIdentifier: "accountCellReuseIdentifier")
+        accountsTableView.register(UINib(nibName: "ButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "buttonCellReuseIdentifier")
+        
         print("KEY=\(key), Number of accounts=\(accounts.count)")
     }
 
@@ -32,25 +38,72 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // Mark: - TableView implementation
+    //
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (accounts.count)
-        //return data.count
+
+        if expanded {
+            return accounts.count + expandedRows.count
+        } else {
+            return accounts.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellReuseIdentifier")!
+        var cellToReturn: UITableViewCell?
         
-        let accountName = accounts[indexPath.row].accountName
-        
-        cell.textLabel?.text = accountName
-        
-        return cell
+        if expanded {
+            if indexPath.row <= expandedIndex {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "accountCellReuseIdentifier")! as! AccountTableViewCell
+                let accountName = accounts[indexPath.row].accountName
+                setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row].validEncryption)
+                cell.accountNameLabel.text = accountName
+                cellToReturn = cell
+            } else {
+                if expandedRows.contains(indexPath.row) {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCellReuseIdentifier")! as! ButtonTableViewCell
+                    
+                    if expandedRows.count == 3 {
+                        if indexPath.row == expandedIndex + 1 {
+                            cell.buttonLabel.text = "Copy Password"
+                        } else if indexPath.row == expandedIndex + 2 {
+                            cell.buttonLabel.text = "Copy Old Password"
+                        } else {
+                            cell.buttonLabel.text = "Browser"
+                        }
+                    } else {
+                        if indexPath.row == expandedIndex + 1 {
+                            cell.buttonLabel.text = "Copy Password"
+                        } else {
+                            cell.buttonLabel.text = "Copy Old Password"
+                        }
+                    }
+                    
+                    cellToReturn = cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "accountCellReuseIdentifier")! as! AccountTableViewCell
+                    let accountName = accounts[indexPath.row - expandedRows.count].accountName
+                    cell.accountNameLabel.text = accountName
+                    setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row - expandedRows.count].validEncryption)
+                    cellToReturn = cell
+                }
+            }
+        } else {
+            let accountName = accounts[indexPath.row].accountName
+            let cell = tableView.dequeueReusableCell(withIdentifier: "accountCellReuseIdentifier")! as! AccountTableViewCell
+            cell.accountNameLabel.text = accountName
+            setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row].validEncryption)
+            cellToReturn = cell
+        }
+
+        return cellToReturn!
     }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    /*
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
             // will end up showing a confirm but for now just delete https://www.andrewcbancroft.com/2015/07/16/uitableview-swipe-to-delete-workflow-in-swift/
@@ -61,13 +114,115 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             accountsTableView.endUpdates()
         }
     }
+    */
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Row selected: \(indexPath.row)")
-        selectedAccount = accounts[indexPath.row]
-        performSegue(withIdentifier: "goToDetails", sender: self)
+        
+        if expanded {
+            if indexPath.row == expandedIndex {
+                resetExpandedRows()
+            } else {
+                if indexPath.row < expandedIndex {
+                    if !accounts[indexPath.row].validEncryption {
+                        resetExpandedRows()
+                    } else {
+                        expandedIndex = indexPath.row
+                        setExpandedRows(forIndex: expandedIndex)
+                    }
+                } else {
+                    if expandedRows.contains(indexPath.row) {
+                        
+//                        if !accounts[expandedIndex].validEncryption {
+//                            // do nothing, just return
+//                            return
+//                        }
+                        
+                        switch indexPath.row {
+                        case expandedIndex+1:
+                            Utils.copyToClipboard(toCopy: accounts[expandedIndex].password)
+                            print("coppy PWord for: \(accounts[expandedIndex].accountName)")
+                            break
+                        case expandedIndex+2:
+                            Utils.copyToClipboard(toCopy: accounts[expandedIndex].oldPassword)
+                            print("coppy OLD PWord for: \(accounts[expandedIndex].accountName)")
+                            break
+                        case expandedIndex+3:
+                            Utils.copyToClipboard(toCopy: accounts[expandedIndex].oldPassword)
+                            Utils.launchBrowser(forURL: accounts[expandedIndex].url)
+                            print("Browser for: \(accounts[expandedIndex].accountName)")
+                            break
+                        default:
+                            print("Invalid Button label")
+                        }
+                        
+                        resetExpandedRows()
+                        
+                    } else {
+                        if !accounts[indexPath.row - expandedRows.count].validEncryption {
+                            resetExpandedRows()
+                        } else {
+                            expandedIndex = indexPath.row - expandedRows.count
+                            setExpandedRows(forIndex: expandedIndex)
+                        }
+                    }
+                }
+            }
+        } else {
+            if !accounts[indexPath.row].validEncryption {
+                resetExpandedRows()
+            } else {
+                expanded = true
+                expandedIndex = indexPath.row
+                setExpandedRows(forIndex: expandedIndex)
+            }
+        }
+        
+        accountsTableView.reloadData()
+        let scrollToIndex = IndexPath(row: indexPath.row + expandedRows.count, section: 0)
+        
+        if expanded && !expandedRows.contains(indexPath.row) {
+            accountsTableView.scrollToRow(at: scrollToIndex, at: .none, animated: true)
+        }
     }
-
+    
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        if expanded && expandedRows.contains(indexPath.row) {
+            return []
+        }
+       
+        let edit = UITableViewRowAction(style: .default, title: "Edit") { (edit, indexPath) in
+            print("Edit Action Selected")
+            var index = indexPath.row
+            
+            if self.expanded && self.expandedIndex < index {
+                index -= self.expandedRows.count
+            }
+            
+            self.selectedAccount = self.accounts[index]
+            self.performSegue(withIdentifier: "goToDetails", sender: self)
+        }
+        edit.backgroundColor = UIColor.lightGray
+        
+        // delete is always shown
+        let delete = UITableViewRowAction(style: .default, title: "Delete") { (delete, indexPath) in
+            print("Delete Action Selected")
+            self.deleteAccount(indexPath: indexPath)
+        }
+        delete.backgroundColor = UIColor.red
+        
+        return [delete, edit]
+    }
+    
+    /*func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row%5 == 0 {
+            return 70.0
+        } else {
+            return 45.0
+        }
+    }*/
     
     // MARK: - Navigation
 
@@ -78,32 +233,88 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             let destination = segue.destination as! AccountDetailsViewController
             
             if let account = selectedAccount {
-                destination.accountName = account.accountName
-                destination.url = account.url
-                
-                do {
-                    destination.password = try Crypt.decryptString(key: key!, forEncrypted: account.password)
-                } catch {
-                    print("Error decrypting password for: \(account.accountName), \(error)")
-                    destination.validEncryption = false;
-                    destination.password = account.password
-                }
-              
-                do {
-                    destination.oldPassword = try Crypt.decryptString(key: key!, forEncrypted: account.oldPassword)
-                } catch {
-                    print("Error decrypting old password for: \(account.accountName), \(error)")
-                    
-                    if destination.validEncryption {
-                        destination.oldPassword = destination.password
-                    } else {
-                        destination.oldPassword = account.oldPassword
-                    }
-                    
-                }
+                destination.account = account
             }
         }
     }
     
+    
+    // MARK: utility functions
+    //
+    
+    func deleteAccount(indexPath: IndexPath) {
+        var deleteRowIndexes: [IndexPath] = []
+        
+        if expanded {
+            
+            if indexPath.row <= expandedIndex {
+                if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row].accountName) == CoreDataStatus.AccountDeleted {
+                    accounts.remove(at: indexPath.row)
+                    deleteRowIndexes.append(indexPath)
+                    deleteRowIndexes.append(contentsOf: getIndexPathsToDelete())
+                } else {
+                    print("Error deleting account from Data Store")
+                }
+            } else {
+                if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row - expandedRows.count].accountName) == CoreDataStatus.AccountDeleted {
+                    accounts.remove(at: indexPath.row - expandedRows.count)
+                    deleteRowIndexes.append(IndexPath(row: indexPath.row, section: 0))
+                    deleteRowIndexes.append(contentsOf: getIndexPathsToDelete())
+                } else {
+                    print("Error deleting account from Data Store")
+                }
+            }
+            
+            resetExpandedRows()
+            
+        } else {
+            if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row].accountName) == CoreDataStatus.AccountDeleted {
+                accounts.remove(at: indexPath.row)
+                deleteRowIndexes.append(indexPath)
+            } else {
+                print("Error deleting account from Data Store")
+            }
+        }
+        
+        accountsTableView.beginUpdates()
+        accountsTableView.deleteRows(at: deleteRowIndexes, with: .automatic)
+        accountsTableView.endUpdates()
+    }
+    
+    
+    func getIndexPathsToDelete() -> [IndexPath] {
+        var toReturn: [IndexPath] = []
+        
+        for i in expandedRows {
+            toReturn.append(IndexPath(row: i, section: 0))
+        }
+        
+        return toReturn
+    }
+    
+    
+    func setExpandedRows(forIndex index: Int) {
+        if accounts[index].url != "" {
+            expandedRows = [index+1, index+2, index+3]
+        } else {
+            expandedRows = [index+1, index+2]
+        }
+    }
+    
+    
+    func resetExpandedRows() {
+        expanded = false
+        expandedIndex = -1
+        expandedRows = []
+    }
+    
+    
+    func setAccountTableViewCellTextColor(forCell: AccountTableViewCell, validEncryption: Bool) {
+        if validEncryption {
+            forCell.accountNameLabel.textColor = UIColor.black
+        } else {
+            forCell.accountNameLabel.textColor = UIColor.lightGray
+        }
+    }
 
 }

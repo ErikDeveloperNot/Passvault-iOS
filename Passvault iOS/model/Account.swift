@@ -25,24 +25,24 @@ class Account : CustomStringConvertible, Equatable {
         return "\(accountName)"
     }
     
-    init(accountName: String, userName: String, password: String, oldPassword: String?, url: String?, updateTime: Int64?,
-         deleted: Bool?, validEncryption: Bool?) {
+    init(accountName: String, userName: String, password: String, oldPassword: String, url: String, updateTime: Int64,
+         deleted: Bool, validEncryption: Bool) {
         self.accountName = accountName
         self.userName = userName
         self.password = password
-        self.oldPassword = oldPassword ?? password
-        self.url = url ?? ""
-        self.updateTime = updateTime ?? Utils.currentTimeMillis()
-        self.deleted = deleted ?? false
-        self.validEncryption = validEncryption ?? true
+        self.oldPassword = oldPassword
+        self.url = url
+        self.updateTime = updateTime
+        self.deleted = deleted
+        self.validEncryption = validEncryption
     }
     
     convenience init(accountName: String, userName: String, password: String) {
-        self.init(accountName: accountName, userName: userName, password: password, oldPassword: nil, url: nil, updateTime: nil, deleted: nil, validEncryption: nil)
+        self.init(accountName: accountName, userName: userName, password: password, oldPassword: "", url: "", updateTime: Utils.currentTimeMillis(), deleted: false, validEncryption: true)
     }
     
     convenience init(accountName: String, userName: String, password: String, url: String) {
-        self.init(accountName: accountName, userName: userName, password: password, oldPassword: nil, url: url, updateTime: nil, deleted: nil, validEncryption: nil)
+        self.init(accountName: accountName, userName: userName, password: password, oldPassword: "", url: url, updateTime: Utils.currentTimeMillis(), deleted: false, validEncryption: true)
     }
     
     

@@ -166,7 +166,7 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginPressed(_ sender: UIButton) {
         key = Crypt.finalizeKey(key: passwordTextField.text!)
-        accounts = populateAccountsList()
+        accounts = populateAccountsList(usingKey: key!)
         
         
         
@@ -194,27 +194,16 @@ class LoginViewController: UIViewController {
             print("CONTAINS")
         }
         */
-        //CoreDataUtils.createTestAccounts(numberOfAccounts: 40, encryptionKey: key!)
+        
+        //CoreDataUtils.createTestAccounts(numberOfAccounts: 3, encryptionKey: key!)
  
     }
     
     
-    private func populateAccountsList() -> [Account] {
-        let accountsCD: [AccountCD] = CoreDataUtils.loadAllAccounts()
-        var accounts: [Account] = []
+    private func populateAccountsList(usingKey key: String) -> [Account] {
+        CoreDataUtils.key = key
+        let accounts = CoreDataUtils.loadAllAccounts()
         
-        for accounCD in accountsCD {
-            if !accounCD.accountDeleted {
-                accounts.append(Account(accountName: accounCD.accountName!, userName: accounCD.userName!, password: accounCD.password!, oldPassword: accounCD.oldPassword!, url: accounCD.url!, updateTime: accounCD.updateTime, deleted: accounCD.accountDeleted, validEncryption: true))
-            } else {
-                print("Not Loading deleted account: " + accounCD.accountName!)
-            }
-        }
-        
-//        for account in accounts {
-//            print("Account: \(account)")
-//        }
- 
         return accounts
     }
     

@@ -17,11 +17,7 @@
     </entity>
     <entity name="GeneratorCD" representedClassName="GeneratorCD" syncable="YES" codeGenerationType="class">
         <attribute name="allowedCharacters" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="digits" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="length" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="lower" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="special" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="upper" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="MRAMapCD" representedClassName="MRAMapCD" syncable="YES" codeGenerationType="class">
         <attribute name="map" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -47,7 +43,7 @@
     <elements>
         <element name="AccountCD" positionX="-54" positionY="9" width="128" height="150"/>
         <element name="GeneralCD" positionX="-18" positionY="27" width="128" height="105"/>
-        <element name="GeneratorCD" positionX="18" positionY="63" width="128" height="135"/>
+        <element name="GeneratorCD" positionX="18" positionY="63" width="128" height="75"/>
         <element name="MRAMapCD" positionX="0" positionY="45" width="128" height="90"/>
         <element name="SyncCD" positionX="-36" positionY="18" width="128" height="135"/>
         <element name="TestClass" positionX="36" positionY="126" width="128" height="75"/>

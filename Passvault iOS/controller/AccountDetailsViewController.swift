@@ -17,7 +17,7 @@ class AccountDetailsViewController: UIViewController {
     @IBOutlet weak var userNameTextField: UITextField!
     
     var account: Account?
-    
+    var deleted: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,9 +52,25 @@ class AccountDetailsViewController: UIViewController {
     
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
-        
+        deleted = true
+        //unwindToAccounts
+        self.performSegue(withIdentifier: "unwindToAccounts", sender: self)
     }
    
+    
+    @IBAction func generatePressed(_ sender: UIButton) {
+// TODO - check core data for existing default generator definition
+        let generator = CoreDataUtils.getGenerator()
+        let pword = generator.generatePassword()
+        passwordTextField.text = pword
+        passwordTextField2.text = pword
+    }
+    
+    
+    @IBAction func optionsPressed(_ sender: UIButton) {
+// TODO
+    }
+    
     
     /*
     // MARK: - Navigation

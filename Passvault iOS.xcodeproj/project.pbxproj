@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0B55CFC5865E45C834AC9A58 /* Pods_Passvault_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */; };
+		7F0A578F1FD7452F00C72999 /* SettingsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A578E1FD7452F00C72999 /* SettingsTabBarController.swift */; };
+		7F0A57911FD749A300C72999 /* GeneralSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57901FD749A300C72999 /* GeneralSettingsViewController.swift */; };
+		7F0A57931FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57921FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift */; };
+		7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */; };
 		7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */; };
 		7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE341FCD3B89009C0F0D /* TestClass.swift */; };
 		7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */; };
@@ -24,11 +28,16 @@
 		7FA8F3B41FCBAC610077C4F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA8F3B21FCBAC610077C4F5 /* LaunchScreen.storyboard */; };
 		7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3DC1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld */; };
 		7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB59441FD00CF900FF8FF5 /* AccountDetailsViewController.swift */; };
+		7FBDF57B1FD6528400F79D31 /* RandomPasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */; };
 		7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3723C1FCBC295008EAA1F /* Account.swift */; };
 		7FE372401FCBD632008EAA1F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3723F1FCBD632008EAA1F /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F0A578E1FD7452F00C72999 /* SettingsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabBarController.swift; sourceTree = "<group>"; };
+		7F0A57901FD749A300C72999 /* GeneralSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsViewController.swift; sourceTree = "<group>"; };
+		7F0A57921FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorSettingsViewController.swift; sourceTree = "<group>"; };
+		7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSettingsViewController.swift; sourceTree = "<group>"; };
 		7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUtils.swift; sourceTree = "<group>"; };
 		7F54EE341FCD3B89009C0F0D /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
 		7F54EE391FCD5AB2009C0F0D /* Passvault iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passvault iOS-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -49,6 +58,7 @@
 		7FA8F3B51FCBAC610077C4F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FA8F3DD1FCBB4200077C4F5 /* Passvault iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Passvault iOS.xcdatamodel"; sourceTree = "<group>"; };
 		7FAB59441FD00CF900FF8FF5 /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
+		7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPasswordGenerator.swift; sourceTree = "<group>"; };
 		7FE3723C1FCBC295008EAA1F /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		7FE3723F1FCBD632008EAA1F /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +167,10 @@
 				7FA8F3AB1FCBAC610077C4F5 /* LoginViewController.swift */,
 				7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */,
 				7FAB59441FD00CF900FF8FF5 /* AccountDetailsViewController.swift */,
+				7F0A578E1FD7452F00C72999 /* SettingsTabBarController.swift */,
+				7F0A57901FD749A300C72999 /* GeneralSettingsViewController.swift */,
+				7F0A57921FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift */,
+				7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -167,6 +181,7 @@
 				7F54EE381FCD5A58009C0F0D /* crypt */,
 				7FE3723F1FCBD632008EAA1F /* Utils.swift */,
 				7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */,
+				7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -324,14 +339,19 @@
 				7FE372401FCBD632008EAA1F /* Utils.swift in Sources */,
 				7F80EA4B1FD3E79800E948EF /* ButtonTableViewCell.swift in Sources */,
 				7FA8F3AC1FCBAC610077C4F5 /* LoginViewController.swift in Sources */,
+				7FBDF57B1FD6528400F79D31 /* RandomPasswordGenerator.swift in Sources */,
 				7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */,
 				7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */,
 				7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */,
 				7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */,
+				7F0A57931FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift in Sources */,
 				7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */,
 				7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */,
+				7F0A57911FD749A300C72999 /* GeneralSettingsViewController.swift in Sources */,
+				7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */,
 				7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */,
 				7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */,
+				7F0A578F1FD7452F00C72999 /* SettingsTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

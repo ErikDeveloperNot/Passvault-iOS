@@ -20,6 +20,10 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     var expandedIndex: Int = -1
     var expandedRows: [Int] = []
     
+    // used by AccountDetailsViewController to flag that an account has been deleted and index
+    var accountDeletedFromDetails: Bool = false
+    var accountSentToDetailsIndexPath: IndexPath?
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -148,7 +152,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                             print("coppy OLD PWord for: \(accounts[expandedIndex].accountName)")
                             break
                         case expandedIndex+3:
-                            Utils.copyToClipboard(toCopy: accounts[expandedIndex].oldPassword)
+                            Utils.copyToClipboard(toCopy: accounts[expandedIndex].password)
                             Utils.launchBrowser(forURL: accounts[expandedIndex].url)
                             print("Browser for: \(accounts[expandedIndex].accountName)")
                             break
@@ -192,6 +196,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         if expanded && expandedRows.contains(indexPath.row) {
             return []
         }
+        
        
         let edit = UITableViewRowAction(style: .default, title: "Edit") { (edit, indexPath) in
             print("Edit Action Selected")
@@ -202,6 +207,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             }
             
             self.selectedAccount = self.accounts[index]
+            self.accountSentToDetailsIndexPath = indexPath
             self.performSegue(withIdentifier: "goToDetails", sender: self)
         }
         edit.backgroundColor = UIColor.lightGray
@@ -238,6 +244,20 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    // called from Accontdetails to signal if account has been deleted
+    @IBAction func unwindFromDetailsController(sender: UIStoryboardSegue) {
+        if let accountDetailsViewController = sender.source as? AccountDetailsViewController {
+            accountDeletedFromDetails = accountDetailsViewController.deleted
+            //print("DELETED=\(accountDeletedFromDetails), for accout: \(selectedAccount)")
+            if accountDeletedFromDetails {
+                if let indexPath = accountSentToDetailsIndexPath {
+                    deleteAccount(indexPath: indexPath)
+                }
+            }
+            
+            accountDeletedFromDetails = false
+        }
+    }
     
     // MARK: utility functions
     //
@@ -248,31 +268,34 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         if expanded {
             
             if indexPath.row <= expandedIndex {
-                if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row].accountName) == CoreDataStatus.AccountDeleted {
+                if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row]) == CoreDataStatus.AccountDeleted {
                     accounts.remove(at: indexPath.row)
                     deleteRowIndexes.append(indexPath)
                     deleteRowIndexes.append(contentsOf: getIndexPathsToDelete())
                 } else {
                     print("Error deleting account from Data Store")
+                    present(Utils.showErrorMessage(errorMessage: "Error deleting account from Data Store"), animated: true, completion: nil)
                 }
             } else {
-                if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row - expandedRows.count].accountName) == CoreDataStatus.AccountDeleted {
+                if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row - expandedRows.count]) == CoreDataStatus.AccountDeleted {
                     accounts.remove(at: indexPath.row - expandedRows.count)
                     deleteRowIndexes.append(IndexPath(row: indexPath.row, section: 0))
                     deleteRowIndexes.append(contentsOf: getIndexPathsToDelete())
                 } else {
                     print("Error deleting account from Data Store")
+                    present(Utils.showErrorMessage(errorMessage: "Error deleting account from Data Store"), animated: true, completion: nil)
                 }
             }
             
             resetExpandedRows()
             
         } else {
-            if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row].accountName) == CoreDataStatus.AccountDeleted {
+            if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row]) == CoreDataStatus.AccountDeleted {
                 accounts.remove(at: indexPath.row)
                 deleteRowIndexes.append(indexPath)
             } else {
                 print("Error deleting account from Data Store")
+                present(Utils.showErrorMessage(errorMessage: "Error deleting account from Data Store"), animated: true, completion: nil)
             }
         }
         

@@ -59,4 +59,17 @@ class Utils {
         
         return true
     }
+    
+    
+    static func showErrorMessage(errorMessage: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Passvault Error", message: errorMessage, preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+            
+        })
+        
+        alert.addAction(alertAction)
+        
+        return alert
+    }
 }

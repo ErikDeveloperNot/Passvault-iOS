@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
         */
         
         
-       
+       /*
         print(Utils.currentTimeMillis())
         let a1 = Account(accountName: "test account", userName: "user", password: "pass")
         print(a1)
@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
         } catch {
             print(error)
         }
-        
+        */
         
     //////////////////////////
         /*
@@ -155,6 +155,7 @@ class LoginViewController: UIViewController {
         print(Crypt.finalizeKey(key: "notreal"))
         print(Crypt.finalizeKey(key: "passwordpasswordpasswordpasswordPASSWORDPASSWORD"))
         print(Crypt.finalizeKey(key: ""))
+        
         
     }
 
@@ -195,7 +196,8 @@ class LoginViewController: UIViewController {
         }
         */
         
-        //CoreDataUtils.createTestAccounts(numberOfAccounts: 3, encryptionKey: key!)
+        //CoreDataUtils.createTestAccounts(numberOfAccounts: 25, encryptionKey: key!)
+        
  
     }
     

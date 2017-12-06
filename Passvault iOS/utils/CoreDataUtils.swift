@@ -16,7 +16,7 @@ enum CoreDataStatus {
     case AccountDeleted
     case AccountUpdated
     case AccountNotFound
-    
+    case CoreDataSuccess
     case CoreDataError
 }
 
@@ -103,7 +103,7 @@ i += 1
     }
     
     
-    static func deleteAccount(forName account: String) -> CoreDataStatus {
+    static func purgeAccount(forName account: String) -> CoreDataStatus {
         var toReturn: CoreDataStatus = .AccountDeleted
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AccountCD")
@@ -129,6 +129,17 @@ i += 1
     
     static func saveAccount(forAccount account: Account) -> CoreDataStatus {
         return updateAccount(forAccount: account, true)
+    }
+    
+    
+    static func deleteAccount(forName account: Account) -> CoreDataStatus {
+        account.deleted = true
+        
+        if updateAccount(forAccount: account, false) == .AccountUpdated {
+            return CoreDataStatus.AccountDeleted
+        } else {
+            return CoreDataStatus.CoreDataError
+        }
     }
     
     
@@ -239,6 +250,101 @@ i += 1
     }
     
     
+    // MARK: Settings routines
+    
+    static func getGenerator() -> RandomPasswordGenerator {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        var generators: [GeneratorCD] = []
+        var generatorToReturn = RandomPasswordGenerator()
+        
+        do {
+            generators = try context.fetch(GeneratorCD.fetchRequest()) as! [GeneratorCD]
+print("Loaded \(generators.count)")
+            if generators.count > 0 {
+                generatorToReturn.changeGenertorSpecs(allowedCharacters: generators[0].allowedCharacters as! [String], passwordLength: generators[0].length)
+            }
+            
+        } catch {
+            print("Error getting GeneratorCD from CoreData, error: \(error)")
+        }
+        
+        return generatorToReturn
+    }
+    
+    
+    static func saveGenerator(generator: RandomPasswordGenerator) -> CoreDataStatus {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        do {
+            let generators = try context.fetch(GeneratorCD.fetchRequest()) as! [GeneratorCD]
+            
+            if generators.count > 0 {
+                generators[0].allowedCharacters = generator.allowedCharacters as NSObject
+                generators[0].length = generator.length
+            } else {
+                let newGenerator = GeneratorCD(context: context)
+                newGenerator.allowedCharacters = generator.allowedCharacters as NSObject
+                newGenerator.length = generator.length
+            }
+            
+            try context.save()
+        } catch {
+            print("Error saving Generator to CoreData, error: \(error)")
+            return CoreDataStatus.CoreDataError
+        }
+        
+        return CoreDataStatus.CoreDataSuccess
+    }
+    
+    
+    static func saveGeneralSettings(settings: GeneralSettings) -> CoreDataStatus {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        do {
+            let generalCDs = try context.fetch(GeneralCD.fetchRequest()) as! [GeneralCD]
+            var generalCD: GeneralCD?
+            
+            if generalCDs.count > 0 {
+                generalCD = generalCDs[0]
+            } else {
+                generalCD = GeneralCD(context: context)
+            }
+            
+            generalCD?.saveKey = settings.saveKey
+            generalCD?.sortMRU = settings.sortByMRU
+            
+            try context.save()
+            
+        } catch {
+            print("Error saving General Settings to CoreData, error: \(error)")
+            return CoreDataStatus.CoreDataError
+        }
+        
+        return CoreDataStatus.CoreDataSuccess
+    }
+    
+    
+    static func loadGeneralSettings() -> GeneralSettings {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        var settings: GeneralSettings?
+        
+        do {
+            let generalCD = try context.fetch(GeneralCD.fetchRequest()) as! [GeneralCD]
+            
+            if generalCD.count > 0 {
+                settings = GeneralSettings(saveKey: generalCD[0].saveKey, sortByMRU: generalCD[0].sortMRU)
+            } else {
+                settings = GeneralSettings()
+            }
+        } catch {
+            print("Error loading General Settings from CoreData, error: \(error)")
+            settings = GeneralSettings()
+        }
+        
+        return settings!
+    }
+    
+    
     
     // load test data into core data,
     static func createTestAccounts(numberOfAccounts: Int, encryptionKey: String) {
@@ -259,13 +365,13 @@ i += 1
             toAdd.userName = "User"
             toAdd.password = password
             toAdd.oldPassword = password
-            
+            /*
             if i%5 == 0 {
                 toAdd.accountDeleted = true
             } else {
                 toAdd.accountDeleted = false
             }
-            
+            */
             if i%3 == 0 {
                 toAdd.url = "www.yahoo.com"
             }

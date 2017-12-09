@@ -25,33 +25,12 @@ class SettingsTabBarController: UITabBarController {
     }
     
     
-    
-    
     // MARK: - TabBar calls
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         last = current
         current = item.title!
         saveSettings()
-        /*
-        // save settings from tab
-        switch last {
-        case "General":
-            let controller = selectedViewController as! GeneralSettingsViewController
-            saveGeneralTabSettings(controller: controller)
-            break
-        case "Generator":
-            let controller = selectedViewController as! PasswordGeneratorSettingsViewController
-            break
-        case "Sync":
-            // should end up noop since this view will contain its own save since it requires a call
-            let controller = selectedViewController as! SyncSettingsViewController
-            print(controller.testField)
-            break
-        default:
-            break
-        }
- */
     }
     
     
@@ -64,11 +43,12 @@ class SettingsTabBarController: UITabBarController {
             break
         case "Generator":
             let controller = selectedViewController as! PasswordGeneratorSettingsViewController
+            saveGeneratorTabSettings(controller: controller)
             break
         case "Sync":
             // should end up noop since this view will contain its own save since it requires a call
             let controller = selectedViewController as! SyncSettingsViewController
-            print(controller.testField)
+            //print(controller.testField)
             break
         default:
             break
@@ -80,10 +60,49 @@ class SettingsTabBarController: UITabBarController {
     // MARK: - Data Store calls
     
     func saveGeneralTabSettings(controller: GeneralSettingsViewController) {
-        let settings = GeneralSettings(saveKey: controller.saveKeySwitch.isOn, sortByMRU: controller.sortMRUSwitch.isOn)
+        let settings = GeneralSettings(saveKey: controller.saveKeySwitch.isOn, sortByMRU: controller.sortMRUSwitch.isOn, key: controller.settings.key, accountUUID: controller.settings.accountUUID)
         
         if CoreDataUtils.saveGeneralSettings(settings: settings) != CoreDataStatus.CoreDataSuccess {
-            Utils.showErrorMessage(errorMessage: "There was an error saving the General Tab Settings")
+            present(Utils.showErrorMessage(errorMessage: "There was an error saving the General Tab Settings"), animated: true, completion: nil)
+        }
+    }
+    
+    
+    func saveGeneratorTabSettings(controller: PasswordGeneratorSettingsViewController) {
+        var allowedCharacters: [String] = []
+        
+        if controller.allowLowerSwitch.isOn {
+            allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_LOWER)
+        }
+        if controller.allowUpperSwitch.isOn {
+            allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_UPPER)
+        }
+        if controller.allowDigitsSwitch.isOn {
+            allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_DIGITS)
+        }
+        
+        var specialsText = controller.specialsTextView.text
+        
+        for s in (specialsText?.split(separator: " "))! {
+            
+            if s.count > 0 {
+                // there will be instructions to seperate chars from a space, so ASSUME it is the first char
+                // TODO - May change this to better check and WARN
+                let index = s.index(s.startIndex, offsetBy: 0)
+                let character = String(s[...index])
+   
+                if allowedCharacters.contains(character) {
+                    continue
+                }
+                
+                allowedCharacters.append(character)
+            }
+        }
+        
+        let length = Int32(controller.lengthLabel.text!)
+        
+        if CoreDataUtils.saveGenerator(length: length!, allowedCharacters: allowedCharacters) != CoreDataStatus.CoreDataSuccess {
+            present(Utils.showErrorMessage(errorMessage: "There was an error saving the Generator Tab Settings"), animated: true, completion: nil)
         }
     }
     

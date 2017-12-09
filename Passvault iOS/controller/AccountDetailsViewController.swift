@@ -46,7 +46,7 @@ class AccountDetailsViewController: UIViewController {
         account?.password = passwordTextField.text!
         account?.url = urlTextField.text!
         account?.updateTime = Utils.currentTimeMillis()
-        print("Result of SaveAccount=\(CoreDataUtils.saveAccount(forAccount: account!))")
+        print("Result of SaveAccount=\(CoreDataUtils.saveNewAccount(forAccount: account!))")
         self.dismiss(animated: true, completion: nil)
     }
     

@@ -259,6 +259,19 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    // called from addAccount to return a new account
+    @IBAction func unwindFromAddController(sender: UIStoryboardSegue) {
+        if let addAccountViewController = sender.source as? AddAccountViewController {
+            let accountAdded = addAccountViewController.accountAdded
+            //print("DELETED=\(accountDeletedFromDetails), for accout: \(selectedAccount)")
+            if accountAdded {
+                let account = addAccountViewController.account
+                accounts.append(account!)
+                accountsTableView.reloadData()
+            }
+        }
+    }
+    
     // MARK: utility functions
     //
     

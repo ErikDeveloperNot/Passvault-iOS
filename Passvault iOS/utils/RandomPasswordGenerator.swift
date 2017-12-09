@@ -36,6 +36,7 @@ class RandomPasswordGenerator {
     static let DEFAULT_LENGTH: Int32 = 32
     
     var allowedCharacters: [String] = []
+    var speicalCharactersOnly: [String] = []
     var contraints: Constraints?
     var length = RandomPasswordGenerator.DEFAULT_LENGTH
 
@@ -45,6 +46,7 @@ class RandomPasswordGenerator {
         allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_UPPER)
         allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_DIGITS)
         allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_SPECIALS)
+        speicalCharactersOnly = RandomPasswordGenerator.DEFAULT_SPECIALS
         contraints = Constraints(lower: true, upper: true, digits: true, special: true)
     }
     
@@ -52,6 +54,7 @@ class RandomPasswordGenerator {
         allowedCharacters = generator.allowedCharacters as! [String]
         length = generator.length
         changeGenertorSpecs(allowedCharacters: self.allowedCharacters, passwordLength: self.length)
+        computeSpecials()
     }
 
 
@@ -130,32 +133,62 @@ class RandomPasswordGenerator {
             return
         }
         
+        
         allowedCharacters = allowed
         self.length = length
+        var lower: Bool?
+        var upper: Bool?
+        var digits: Bool?
+        var special: Bool?
         
         if constraintMet(forContraintArray: allowedCharacters, forCharactersToCheck: RandomPasswordGenerator.DEFAULT_LOWER) {
-            contraints?.lower = true
+            lower = true
         } else {
-            contraints?.lower = false
+            lower = false
         }
-        
+       
         if constraintMet(forContraintArray: allowedCharacters, forCharactersToCheck: RandomPasswordGenerator.DEFAULT_UPPER) {
-            contraints?.upper = true
+            upper = true
         } else {
-            contraints?.upper = false
+            upper = false
         }
         
         if constraintMet(forContraintArray: allowedCharacters, forCharactersToCheck: RandomPasswordGenerator.DEFAULT_DIGITS) {
-            contraints?.digits = true
+            digits = true
         } else {
-            contraints?.digits = false
+            digits = false
         }
         
         if constraintMet(forContraintArray: allowedCharacters, forCharactersToCheck: RandomPasswordGenerator.DEFAULT_SPECIALS) {
-            contraints?.special = true
+            special = true
         } else {
-            contraints?.special = false
+            special = false
         }
+        
+        contraints = Constraints(lower: lower!, upper: upper!, digits: digits!, special: special!)
+    }
+    
+    
+    func computeSpecials() {
+        
+        for s in allowedCharacters {
+            if RandomPasswordGenerator.DEFAULT_LOWER.contains(s) {
+                continue
+            }
+            if RandomPasswordGenerator.DEFAULT_UPPER.contains(s) {
+                continue
+            }
+            if RandomPasswordGenerator.DEFAULT_DIGITS.contains(s) {
+                continue
+            }
+            
+            speicalCharactersOnly.append(s)
+        }
+    }
+    
+    
+    func getSpecials() -> [String] {
+        return speicalCharactersOnly
     }
     
 }

@@ -12,10 +12,14 @@ import UIKit
 struct GeneralSettings {
     var saveKey: Bool = false
     var sortByMRU: Bool = true
+    var accountUUID: String = ""
+    var key: String = ""
     
-    init(saveKey: Bool, sortByMRU: Bool) {
+    init(saveKey: Bool, sortByMRU: Bool, key: String, accountUUID: String) {
         self.saveKey = saveKey
         self.sortByMRU = sortByMRU
+        self.key = key
+        self.accountUUID = accountUUID
     }
     
     init() {
@@ -28,11 +32,13 @@ class GeneralSettingsViewController: UIViewController {
     @IBOutlet weak var saveKeySwitch: UISwitch!
     @IBOutlet weak var sortMRUSwitch: UISwitch!
     
+    var settings: GeneralSettings!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let settings = CoreDataUtils.loadGeneralSettings()
+        settings = CoreDataUtils.loadGeneralSettings()
         saveKeySwitch.isOn = settings.saveKey
         sortMRUSwitch.isOn = settings.sortByMRU
     }

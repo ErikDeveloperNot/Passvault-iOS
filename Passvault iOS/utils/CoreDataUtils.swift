@@ -16,6 +16,7 @@ enum CoreDataStatus {
     case AccountDeleted
     case AccountUpdated
     case AccountNotFound
+    case AccountAlreadyExists
     case CoreDataSuccess
     case CoreDataError
 }
@@ -127,8 +128,8 @@ i += 1
     }
     
     
-    static func saveAccount(forAccount account: Account) -> CoreDataStatus {
-        return updateAccount(forAccount: account, true)
+    static func saveNewAccount(forAccount account: Account) -> CoreDataStatus {
+        return updateAccount(forAccount: account, true, new: true)
     }
     
     
@@ -144,6 +145,11 @@ i += 1
     
     
     static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool) -> CoreDataStatus {
+            return updateAccount(forAccount: account, insertIfDoesNotExist, new: false)
+    }
+    
+    
+    static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool, new: Bool) -> CoreDataStatus {
         var toReturn: CoreDataStatus = .AccountUpdated
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AccountCD")
@@ -153,8 +159,10 @@ i += 1
             let currentAccount = try context.fetch(fetchRequest) as! [AccountCD]
             
             if currentAccount.count < 1 && !insertIfDoesNotExist {
+                // this was an update but the account doesn't exists, should never happen
                 toReturn = .AccountNotFound
-            } else if currentAccount.count > 0 {
+            } else if currentAccount.count > 0 && !new {
+                // this is update existing account
                 //assume never more than one, need to figure out how to make sure of this
                 let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
               
@@ -170,7 +178,11 @@ i += 1
                 
                 try context.save()
                 toReturn = .AccountUpdated
+            } else if currentAccount.count > 0 && new {
+                // this is trying to add and new account for an existing account
+                toReturn = .AccountAlreadyExists
             } else if insertIfDoesNotExist {
+                // new account
                 let toAdd = AccountCD(context: context)
                 let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
                 
@@ -255,25 +267,25 @@ i += 1
     static func getGenerator() -> RandomPasswordGenerator {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         var generators: [GeneratorCD] = []
-        var generatorToReturn = RandomPasswordGenerator()
+        var generatorToReturn: RandomPasswordGenerator?
         
         do {
             generators = try context.fetch(GeneratorCD.fetchRequest()) as! [GeneratorCD]
-print("Loaded \(generators.count)")
+
             if generators.count > 0 {
-                generatorToReturn.changeGenertorSpecs(allowedCharacters: generators[0].allowedCharacters as! [String], passwordLength: generators[0].length)
+                generatorToReturn = RandomPasswordGenerator(withGenerator: generators[0])
             }
             
         } catch {
             print("Error getting GeneratorCD from CoreData, error: \(error)")
         }
         
-        return generatorToReturn
+        return generatorToReturn ?? RandomPasswordGenerator()
     }
     
     
     static func saveGenerator(generator: RandomPasswordGenerator) -> CoreDataStatus {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        /*let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         do {
             let generators = try context.fetch(GeneratorCD.fetchRequest()) as! [GeneratorCD]
@@ -285,6 +297,33 @@ print("Loaded \(generators.count)")
                 let newGenerator = GeneratorCD(context: context)
                 newGenerator.allowedCharacters = generator.allowedCharacters as NSObject
                 newGenerator.length = generator.length
+            }
+            
+            try context.save()
+        } catch {
+            print("Error saving Generator to CoreData, error: \(error)")
+            return CoreDataStatus.CoreDataError
+        }
+        
+        return CoreDataStatus.CoreDataSuccess
+        */
+        return saveGenerator(length: generator.length, allowedCharacters: generator.allowedCharacters)
+    }
+    
+    
+    static func saveGenerator(length: Int32, allowedCharacters: [String]) -> CoreDataStatus {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        do {
+            let generators = try context.fetch(GeneratorCD.fetchRequest()) as! [GeneratorCD]
+            
+            if generators.count > 0 {
+                generators[0].allowedCharacters = allowedCharacters as NSObject
+                generators[0].length = length
+            } else {
+                let newGenerator = GeneratorCD(context: context)
+                newGenerator.allowedCharacters = allowedCharacters as NSObject
+                newGenerator.length = length
             }
             
             try context.save()
@@ -312,6 +351,8 @@ print("Loaded \(generators.count)")
             
             generalCD?.saveKey = settings.saveKey
             generalCD?.sortMRU = settings.sortByMRU
+            generalCD?.key = settings.key
+            generalCD?.accountUUID = settings.accountUUID
             
             try context.save()
             
@@ -332,7 +373,7 @@ print("Loaded \(generators.count)")
             let generalCD = try context.fetch(GeneralCD.fetchRequest()) as! [GeneralCD]
             
             if generalCD.count > 0 {
-                settings = GeneralSettings(saveKey: generalCD[0].saveKey, sortByMRU: generalCD[0].sortMRU)
+                settings = GeneralSettings(saveKey: generalCD[0].saveKey, sortByMRU: generalCD[0].sortMRU, key: generalCD[0].key ?? "", accountUUID: generalCD[0].accountUUID ?? "")
             } else {
                 settings = GeneralSettings()
             }
@@ -345,6 +386,57 @@ print("Loaded \(generators.count)")
     }
     
     
+    static func loadGateway() -> Gateway {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        var syncCD: SyncCD?
+        var gateway: Gateway?
+        
+        do {
+            let syncCD = try context.fetch(SyncCD.fetchRequest()) as! [SyncCD]
+            
+            if syncCD.count > 0 {
+                gateway = Gateway(server: syncCD[0].server!, proto: syncCD[0].proto!, port: Int(syncCD[0].port), path: syncCD[0].path!, userName: syncCD[0].userName!, password: syncCD[0].password!)
+            } else {
+                gateway = Gateway()
+            }
+            
+        } catch {
+            print("Error loading Gateway from CoreData, error: \(error)")
+            gateway = Gateway()
+        }
+        
+        return gateway!
+    }
+    
+    
+    static func saveGateway(gateway: Gateway) -> CoreDataStatus {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        var syncCD: SyncCD?
+        
+        do {
+            let syncCDArray = try context.fetch(SyncCD.fetchRequest()) as! [SyncCD]
+            
+            if syncCDArray.count > 0 {
+                syncCD = syncCDArray[0]
+            } else {
+                syncCD = SyncCD(context: context)
+            }
+            
+            syncCD?.server = gateway.server
+            syncCD?.proto = gateway.proto
+            syncCD?.port = Int32(gateway.port)
+            syncCD?.path = gateway.path
+            syncCD?.userName = gateway.userName
+            syncCD?.password = gateway.password
+            
+            try context.save()
+        } catch {
+            print("Error save Gateway Configuration, error: \(error)")
+            return CoreDataStatus.CoreDataError
+        }
+        
+        return CoreDataStatus.CoreDataSuccess
+    }
     
     // load test data into core data,
     static func createTestAccounts(numberOfAccounts: Int, encryptionKey: String) {

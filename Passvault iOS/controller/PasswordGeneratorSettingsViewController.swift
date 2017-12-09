@@ -13,19 +13,36 @@ class PasswordGeneratorSettingsViewController: UIViewController {
     
     @IBOutlet weak var lengthLabel: UILabel!
     @IBOutlet weak var lengthStepper: UIStepper!
-   
-    let maxLength = 64
-    let minLength = 1
+    @IBOutlet weak var allowLowerSwitch: UISwitch!
+    @IBOutlet weak var allowUpperSwitch: UISwitch!
+    @IBOutlet weak var allowDigitsSwitch: UISwitch!
+    @IBOutlet weak var specialsTextView: UITextView!
+    
+    let MAX_LENGTH = 64
+    let MIN_LENGTH = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Get Generator from data store
+        let generator = CoreDataUtils.getGenerator()
+        let constraints = generator.contraints
+        
+        allowLowerSwitch.isOn = constraints?.lower ?? true
+        allowUpperSwitch.isOn = constraints?.upper ?? true
+        allowDigitsSwitch.isOn = constraints?.digits ?? true
+        
         lengthStepper.maximumValue = 64
         lengthStepper.minimumValue = 1
         lengthStepper.stepValue = 1
-        lengthStepper.value = 32
-        lengthLabel.text = "32"
+        lengthStepper.value = Double(generator.length)
+        lengthLabel.text = String(generator.length)
+        //lengthStepper.value = 32
+        //lengthLabel.text = "32"
+        
+        for s in generator.getSpecials() {
+            specialsTextView.text.append(" \(s)")
+        }
     }
 
     override func didReceiveMemoryWarning() {

@@ -25,6 +25,7 @@ enum CoreDataStatus {
 class CoreDataUtils {
     
     static var key: String = ""
+    static var syncRunning = false
     
     static let PASSWORD_KEY = "password"
     static let OLD_PASSWORD_KEY = "old_password"
@@ -32,6 +33,11 @@ class CoreDataUtils {
     
     
     static func loadAllAccounts() -> [Account] {
+            return loadAllAccounts(includeDeletes: false)
+    }
+    
+    
+    static func loadAllAccounts(includeDeletes: Bool) -> [Account] {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         var accounts: [Account] = []
         var accountCDs: [AccountCD] = []
@@ -42,7 +48,7 @@ class CoreDataUtils {
             
 var i = 1
             for accountCD in accountCDs {
-                if !accountCD.accountDeleted {
+                if !accountCD.accountDeleted || includeDeletes {
                     
                     guard let name = accountCD.accountName else {
                         print("accountName not set, not loading")
@@ -205,6 +211,28 @@ i += 1
         return toReturn
     }
     
+    
+    static func getAccount(forName: String) -> Account? {
+        var account: Account?
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AccountCD")
+        fetchRequest.predicate = NSPredicate(format: "accountName == %@", forName)
+        
+        do {
+            let currentAccount = try context.fetch(fetchRequest) as! [AccountCD]
+            
+            if currentAccount.count > 0 {
+                let acct = currentAccount[0]
+                account = Account(accountName: acct.accountName!, userName: acct.userName!, password: acct.password!, oldPassword: acct.oldPassword!, url: acct.url ?? "", updateTime: acct.updateTime, deleted: acct.accountDeleted, validEncryption: true)
+            }
+        } catch {
+            print("Error accessing CoreData: , \(error)")
+            return account
+        }
+        
+        return account
+    }
+
     
     static func decryptPasswords(password: String, oldPassword: String) -> Dictionary<String, String> {
         var toReturn: Dictionary<String, String> = [:]
@@ -437,6 +465,10 @@ i += 1
         
         return CoreDataStatus.CoreDataSuccess
     }
+    
+    
+    
+    
     
     // load test data into core data,
     static func createTestAccounts(numberOfAccounts: Int, encryptionKey: String) {

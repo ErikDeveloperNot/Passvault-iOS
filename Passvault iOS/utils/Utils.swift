@@ -72,4 +72,17 @@ class Utils {
         
         return alert
     }
+    
+    
+    static func showMessage(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: "Passvault Confirmation", message: message, preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+            
+        })
+        
+        alert.addAction(alertAction)
+        
+        return alert
+    }
 }

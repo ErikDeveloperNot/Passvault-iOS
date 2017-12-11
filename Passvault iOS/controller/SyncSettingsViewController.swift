@@ -21,7 +21,6 @@ class SyncSettingsViewController: UIViewController {
     let YES_SYNC_LEFT_BUTTON = "Delete"
     let YES_SYNC_RIGHT_BUTTON = "Remove"
     
-    let INTERVAL_SLEEP: useconds_t = 250000
     
     @IBOutlet weak var explanationLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
@@ -57,6 +56,8 @@ class SyncSettingsViewController: UIViewController {
         rightButton.setTitle(YES_SYNC_RIGHT_BUTTON, for: .normal)
         emailTextField.text = gateway.userName
         passwordTextField.text = gateway.password
+        emailTextField.isEnabled = false
+        passwordTextField.isEnabled = false
     }
     
     
@@ -66,21 +67,20 @@ class SyncSettingsViewController: UIViewController {
         rightButton.setTitle(NO_SYNC_RIGHT_BUTTON, for: .normal)
         emailTextField.text = ""
         passwordTextField.text = ""
+        emailTextField.isEnabled = true
+        passwordTextField.isEnabled = true
     }
     
     
-    func waitForCall(callStatusKey: Int) {
-        var running = true
-        
-        while running {
-            let status = SyncClient.jobsMap[callStatusKey]!
-            
-            if status.running {
-                usleep(self.INTERVAL_SLEEP)
-            } else {
-                running = false
-            }
-        }
+    func disableButtons() {
+        leftButton.isEnabled = false
+        rightButton.isEnabled = false
+    }
+    
+    
+    func enableButtons() {
+        leftButton.isEnabled = true
+        rightButton.isEnabled = true
     }
     
     
@@ -111,61 +111,104 @@ class SyncSettingsViewController: UIViewController {
 
     
     @IBAction func leftButtonPressed(_ sender: UIButton) {
+        disableButtons()
+        
+        if !verifyFields() {
+            enableButtons()
+            return
+        }
+        
+        let email = emailTextField.text
+        let password = passwordTextField.text
         
         if sender.title(for: .normal) == YES_SYNC_LEFT_BUTTON {
             // Delete Sync Account
             // call to sync server to delete account
+            SVProgressHUD.show()
+            let callStatusKey = SyncClient.deleteAccount(email: email!, password: password!)
             
-            // remove local gateway config
-            removeGatewayFromLocalConfig()
+            DispatchQueue.global(qos: .background).async {
+                SyncClient.waitForCall(callStatusKey: callStatusKey)
+                
+                DispatchQueue.main.async {
+                    if let error = SyncClient.jobsMap[callStatusKey]!.error {
+                        SVProgressHUD.dismiss()
+                        self.present(Utils.showErrorMessage(errorMessage: error.localizedDescription), animated: true, completion: nil)
+                        
+                        self.enableButtons()
+                        return
+                    }
+                    
+                    let returnMessage = SyncClient.jobsMap[callStatusKey]!.returned as! String
+                    self.removeGatewayFromLocalConfig()
+                    self.flipToNoGateway()
+                    self.enableButtons()
+                    SVProgressHUD.dismiss()
+                    self.present(Utils.showMessage(message: returnMessage), animated: true, completion: nil)
+                }
+            }
+            
         } else {
             // Create Sync Account
-            SyncClient.test()
+            SVProgressHUD.show()
+            // make call to registration server
+            let callStatusKey = SyncClient.createAccount(email: email!, password: password!)
+            waitForGatewayConfig(callStatusKey: callStatusKey)
         }
     }
     
     
     @IBAction func rightButtonPressed(_ sender: UIButton) {
+        disableButtons()
         
         if sender.title(for: .normal) == YES_SYNC_RIGHT_BUTTON {
             // Remove Sync Account
             removeGatewayFromLocalConfig()
+            enableButtons()
         } else {
             // Configure for existing sync account
             if !verifyFields() {
+                    enableButtons()
                     return
             }
             
+            SVProgressHUD.show()
             let email = emailTextField.text
             let password = passwordTextField.text
             // make call to registration server
             let callStatusKey = SyncClient.getConfig(email: email!, password: password!)
-            SVProgressHUD.show()
+            waitForGatewayConfig(callStatusKey: callStatusKey)
+        }
+    }
+    
+    
+    func waitForGatewayConfig(callStatusKey: Int) {
+        DispatchQueue.global(qos: .background).async {
+            SyncClient.waitForCall(callStatusKey: callStatusKey)
             
-            DispatchQueue.global(qos: .background).async {
-                self.waitForCall(callStatusKey: callStatusKey)
-                
-                DispatchQueue.main.async {
-                    if let error = SyncClient.jobsMap[callStatusKey]!.error {
-                        SVProgressHUD.dismiss()
-                        self.present(Utils.showErrorMessage(errorMessage: "There was an error getting the server configuration"), animated: true, completion: nil)
-                        
-                        return
-                    }
-                    
-                    let gateway = SyncClient.jobsMap[callStatusKey]!.returned as! Gateway
-                    
-                    if CoreDataUtils.saveGateway(gateway: gateway) != CoreDataStatus.CoreDataSuccess {
-                        print("Error saving gateway config to data store")
-                        SVProgressHUD.dismiss()
-                        self.present(Utils.showErrorMessage(errorMessage: "Error saving config to database"), animated: true, completion: nil)
-                        
-                        return
-                    }
-  
-                    self.flipToYesGateway(gateway: gateway)
+            DispatchQueue.main.async {
+                if let error = SyncClient.jobsMap[callStatusKey]!.error {
                     SVProgressHUD.dismiss()
+                    self.present(Utils.showErrorMessage(errorMessage: error.localizedDescription), animated: true, completion: nil)
+                    
+                    self.enableButtons()
+                    return
                 }
+                
+                let gateway = SyncClient.jobsMap[callStatusKey]!.returned as! Gateway
+                
+                if CoreDataUtils.saveGateway(gateway: gateway) != CoreDataStatus.CoreDataSuccess {
+                    print("Error saving gateway config to data store")
+                    SVProgressHUD.dismiss()
+                    self.present(Utils.showErrorMessage(errorMessage: "Error saving config to database"), animated: true, completion: nil)
+                    
+                    self.enableButtons()
+                    return
+                }
+                
+                self.flipToYesGateway(gateway: gateway)
+                self.enableButtons()
+                SVProgressHUD.dismiss()
             }
         }
     }

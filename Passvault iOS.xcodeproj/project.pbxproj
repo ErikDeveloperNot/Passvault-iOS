@@ -13,6 +13,7 @@
 		7F0A57931FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57921FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift */; };
 		7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */; };
 		7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */; };
+		7F41B2611FDD49B700228884 /* SyncMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41B2601FDD49B700228884 /* SyncMessages.swift */; };
 		7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE341FCD3B89009C0F0D /* TestClass.swift */; };
 		7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */; };
 		7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3D1FCD640C009C0F0D /* Crypt.swift */; };
@@ -41,6 +42,7 @@
 		7F0A57921FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorSettingsViewController.swift; sourceTree = "<group>"; };
 		7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSettingsViewController.swift; sourceTree = "<group>"; };
 		7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUtils.swift; sourceTree = "<group>"; };
+		7F41B2601FDD49B700228884 /* SyncMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMessages.swift; sourceTree = "<group>"; };
 		7F54EE341FCD3B89009C0F0D /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
 		7F54EE391FCD5AB2009C0F0D /* Passvault iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passvault iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */,
 				7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */,
 				7FAD8E8B1FD988420081CB86 /* SyncClient.swift */,
+				7F41B2601FDD49B700228884 /* SyncMessages.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				7FAD8E8C1FD988420081CB86 /* SyncClient.swift in Sources */,
 				7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */,
 				7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */,
+				7F41B2611FDD49B700228884 /* SyncMessages.swift in Sources */,
 				7F0A57911FD749A300C72999 /* GeneralSettingsViewController.swift in Sources */,
 				7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */,
 				7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */,

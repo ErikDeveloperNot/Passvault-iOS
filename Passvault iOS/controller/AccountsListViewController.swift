@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class AccountsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     @IBOutlet weak var accountsTableView: UITableView!
+    @IBOutlet weak var syncButton: UIBarButtonItem!
     
     var accounts: [Account] = []
     var key: String?
@@ -32,6 +34,12 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
 
         accountsTableView.register(UINib(nibName: "AccountTableViewCell", bundle: nil), forCellReuseIdentifier: "accountCellReuseIdentifier")
         accountsTableView.register(UINib(nibName: "ButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "buttonCellReuseIdentifier")
+        
+        if CoreDataUtils.loadGateway().server != "" {
+            syncButton.isEnabled = true
+        } else {
+            syncButton.isEnabled = false
+        }
         
         print("KEY=\(key), Number of accounts=\(accounts.count)")
     }
@@ -272,6 +280,29 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    
+    @IBAction func syncButtonPressed(_ sender: UIBarButtonItem) {
+        SVProgressHUD.show()
+        let callStatusKey = SyncClient.syncAccounts()
+        
+        DispatchQueue.global(qos: .background).async {
+            SyncClient.waitForCall(callStatusKey: callStatusKey)
+            
+            DispatchQueue.main.async {
+                if let error = SyncClient.jobsMap[callStatusKey]!.error {
+                    SVProgressHUD.dismiss()
+                    self.present(Utils.showErrorMessage(errorMessage: error.localizedDescription), animated: true, completion: nil)
+                    return
+                }
+                
+                self.accounts = CoreDataUtils.loadAllAccounts()
+                self.accountsTableView.reloadData()
+                SVProgressHUD.dismiss()
+            }
+        }
+    }
+   
+    
     // MARK: utility functions
     //
     
@@ -281,6 +312,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         if expanded {
             
             if indexPath.row <= expandedIndex {
+                accounts[indexPath.row].updateTime = Utils.currentTimeMillis()
+                
                 if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row]) == CoreDataStatus.AccountDeleted {
                     accounts.remove(at: indexPath.row)
                     deleteRowIndexes.append(indexPath)
@@ -290,6 +323,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                     present(Utils.showErrorMessage(errorMessage: "Error deleting account from Data Store"), animated: true, completion: nil)
                 }
             } else {
+                accounts[indexPath.row - expandedRows.count].updateTime = Utils.currentTimeMillis()
+                
                 if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row - expandedRows.count]) == CoreDataStatus.AccountDeleted {
                     accounts.remove(at: indexPath.row - expandedRows.count)
                     deleteRowIndexes.append(IndexPath(row: indexPath.row, section: 0))
@@ -303,6 +338,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             resetExpandedRows()
             
         } else {
+            accounts[indexPath.row].updateTime = Utils.currentTimeMillis()
+            
             if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row]) == CoreDataStatus.AccountDeleted {
                 accounts.remove(at: indexPath.row)
                 deleteRowIndexes.append(indexPath)

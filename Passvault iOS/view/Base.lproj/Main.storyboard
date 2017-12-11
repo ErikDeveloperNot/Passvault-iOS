@@ -105,6 +105,11 @@
                                             <segue destination="Rva-TY-ouc" kind="show" id="HIc-dc-pzr"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Sync" id="851-NN-Jzl">
+                                        <connections>
+                                            <action selector="syncButtonPressed:" destination="vz9-Ka-2XY" id="kbu-Gp-L53"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -122,6 +127,7 @@
                     <navigationItem key="navigationItem" title="Accounts" largeTitleDisplayMode="always" id="oGi-hn-edH"/>
                     <connections>
                         <outlet property="accountsTableView" destination="deN-oC-l9z" id="tFE-NK-BFi"/>
+                        <outlet property="syncButton" destination="851-NN-Jzl" id="kUc-Zf-zzh"/>
                         <segue destination="IPo-BW-wGr" kind="presentation" identifier="goToDetails" id="Hsp-K9-MOo"/>
                     </connections>
                 </viewController>

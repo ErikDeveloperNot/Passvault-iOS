@@ -2,8 +2,8 @@
 //  SyncClient.swift
 //  Passvault iOS
 //
-//  Created by User One on 12/7/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 12/7/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import Foundation
@@ -204,8 +204,14 @@ class SyncClient {
         let gateway = CoreDataUtils.loadGateway()
         var accounts: [CheckAccount] = []
         
-        for account in CoreDataUtils.loadAllAccounts(includeDeletes: true) {
-            accounts.append(CheckAccount(accountName: account.accountName, updateTime: account.updateTime))
+        do {
+            for account in try CoreDataUtils.loadAllAccounts(includeDeletes: true) {
+                accounts.append(CheckAccount(accountName: account.accountName, updateTime: account.updateTime))
+            }
+        } catch {
+            print("Error loading all accounts for sync initial, exiting sync")
+            CoreDataUtils.syncRunning = false
+            return -1
         }
         
         let syncRequestInitial = SyncRequestInitial(email: gateway.userName, password: gateway.password, accounts: accounts)

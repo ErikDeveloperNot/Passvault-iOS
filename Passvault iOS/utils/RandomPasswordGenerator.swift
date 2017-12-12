@@ -2,8 +2,8 @@
 //  RandomPasswordGenerator.swift
 //  Passvault iOS
 //
-//  Created by User One on 12/4/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 12/4/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import Foundation
@@ -66,7 +66,7 @@ class RandomPasswordGenerator {
         while !met {
             toReturn = ""
             
-            for i in 1...length {
+            for _ in 1...length {
                 toReturn.append(allowedCharacters[(Int(arc4random()) % size)])
             }
             
@@ -78,8 +78,15 @@ class RandomPasswordGenerator {
     
     
     func checkContraints(forPassword pword: String) -> Bool {
-        let pwordArray = pword.characters.map { (Character) -> String in
+        /*let pwordArray = pword.characters.map { (Character) -> String in
             return String(Character)
+        }*/
+        
+        var p = pword
+        var pwordArray: [String] = []
+        
+        while p.count > 0 {
+            pwordArray.append(String(p.removeFirst()))
         }
         
         contraints?.upperMet = false

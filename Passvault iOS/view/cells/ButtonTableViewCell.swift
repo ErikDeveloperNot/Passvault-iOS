@@ -2,7 +2,7 @@
 //  ButtonTableViewCell.swift
 //  Passvault iOS
 //
-//  Created by User One on 12/3/17.
+//  Created by User One on 12/11/17.
 //  Copyright © 2017 User One. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import UIKit
 class ButtonTableViewCell: UITableViewCell {
 
     @IBOutlet weak var buttonLabel: UILabel!
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

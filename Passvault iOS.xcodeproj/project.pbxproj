@@ -14,12 +14,9 @@
 		7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */; };
 		7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */; };
 		7F41B2611FDD49B700228884 /* SyncMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41B2601FDD49B700228884 /* SyncMessages.swift */; };
-		7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE341FCD3B89009C0F0D /* TestClass.swift */; };
 		7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */; };
 		7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3D1FCD640C009C0F0D /* Crypt.swift */; };
 		7F674D491FD9357200A0374A /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F674D481FD9357200A0374A /* AddAccountViewController.swift */; };
-		7F80EA4B1FD3E79800E948EF /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F80EA491FD3E79800E948EF /* ButtonTableViewCell.swift */; };
-		7F80EA4C1FD3E79800E948EF /* ButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F80EA4A1FD3E79800E948EF /* ButtonTableViewCell.xib */; };
 		7F80EA4F1FD3EA0600E948EF /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */; };
 		7F80EA501FD3EA0600E948EF /* AccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */; };
 		7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */; };
@@ -34,6 +31,8 @@
 		7FBDF57B1FD6528400F79D31 /* RandomPasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */; };
 		7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3723C1FCBC295008EAA1F /* Account.swift */; };
 		7FE372401FCBD632008EAA1F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE3723F1FCBD632008EAA1F /* Utils.swift */; };
+		7FF60BBF1FDF5935000B8BF3 /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF60BBD1FDF5935000B8BF3 /* ButtonTableViewCell.swift */; };
+		7FF60BC01FDF5935000B8BF3 /* ButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FF60BBE1FDF5935000B8BF3 /* ButtonTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,14 +42,11 @@
 		7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSettingsViewController.swift; sourceTree = "<group>"; };
 		7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUtils.swift; sourceTree = "<group>"; };
 		7F41B2601FDD49B700228884 /* SyncMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMessages.swift; sourceTree = "<group>"; };
-		7F54EE341FCD3B89009C0F0D /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
 		7F54EE391FCD5AB2009C0F0D /* Passvault iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passvault iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
 		7F54EE3C1FCD5AD5009C0F0D /* CommonCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCrypto.h; sourceTree = "<group>"; };
 		7F54EE3D1FCD640C009C0F0D /* Crypt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypt.swift; sourceTree = "<group>"; };
 		7F674D481FD9357200A0374A /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
-		7F80EA491FD3E79800E948EF /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
-		7F80EA4A1FD3E79800E948EF /* ButtonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonTableViewCell.xib; sourceTree = "<group>"; };
 		7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountTableViewCell.xib; sourceTree = "<group>"; };
 		7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +63,8 @@
 		7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPasswordGenerator.swift; sourceTree = "<group>"; };
 		7FE3723C1FCBC295008EAA1F /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		7FE3723F1FCBD632008EAA1F /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		7FF60BBD1FDF5935000B8BF3 /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
+		7FF60BBE1FDF5935000B8BF3 /* ButtonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonTableViewCell.xib; sourceTree = "<group>"; };
 		A372272A8AB16DDCE3FA898F /* Pods-Passvault iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.release.xcconfig"; sourceTree = "<group>"; };
 		B32F283F6512DCF560B69FBB /* Pods-Passvault iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Passvault iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Passvault iOS/Pods-Passvault iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		F9C073814ED4D6C1884191B4 /* Pods_Passvault_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Passvault_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,10 +105,10 @@
 		7F80EA441FD3E54B00E948EF /* cells */ = {
 			isa = PBXGroup;
 			children = (
-				7F80EA491FD3E79800E948EF /* ButtonTableViewCell.swift */,
-				7F80EA4A1FD3E79800E948EF /* ButtonTableViewCell.xib */,
 				7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */,
 				7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */,
+				7FF60BBD1FDF5935000B8BF3 /* ButtonTableViewCell.swift */,
+				7FF60BBE1FDF5935000B8BF3 /* ButtonTableViewCell.xib */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -152,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				7FE3723C1FCBC295008EAA1F /* Account.swift */,
-				7F54EE341FCD3B89009C0F0D /* TestClass.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -268,7 +265,7 @@
 			files = (
 				7FA8F3B41FCBAC610077C4F5 /* LaunchScreen.storyboard in Resources */,
 				7F80EA501FD3EA0600E948EF /* AccountTableViewCell.xib in Resources */,
-				7F80EA4C1FD3E79800E948EF /* ButtonTableViewCell.xib in Resources */,
+				7FF60BC01FDF5935000B8BF3 /* ButtonTableViewCell.xib in Resources */,
 				7FA8F3B11FCBAC610077C4F5 /* Assets.xcassets in Resources */,
 				7FA8F3AF1FCBAC610077C4F5 /* Main.storyboard in Resources */,
 			);
@@ -346,13 +343,12 @@
 				7F80EA4F1FD3EA0600E948EF /* AccountTableViewCell.swift in Sources */,
 				7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */,
 				7FE372401FCBD632008EAA1F /* Utils.swift in Sources */,
-				7F80EA4B1FD3E79800E948EF /* ButtonTableViewCell.swift in Sources */,
 				7FA8F3AC1FCBAC610077C4F5 /* LoginViewController.swift in Sources */,
 				7FBDF57B1FD6528400F79D31 /* RandomPasswordGenerator.swift in Sources */,
 				7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */,
 				7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */,
+				7FF60BBF1FDF5935000B8BF3 /* ButtonTableViewCell.swift in Sources */,
 				7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */,
-				7F54EE351FCD3B89009C0F0D /* TestClass.swift in Sources */,
 				7F0A57931FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift in Sources */,
 				7FAD8E8C1FD988420081CB86 /* SyncClient.swift in Sources */,
 				7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */,

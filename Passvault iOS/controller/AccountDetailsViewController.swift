@@ -2,8 +2,8 @@
 //  AccountDetailsViewController.swift
 //  Passvault iOS
 //
-//  Created by User One on 11/30/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 11/30/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import UIKit
@@ -59,7 +59,6 @@ class AccountDetailsViewController: UIViewController {
    
     
     @IBAction func generatePressed(_ sender: UIButton) {
-// TODO - check core data for existing default generator definition
         let generator = CoreDataUtils.getGenerator()
         let pword = generator.generatePassword()
         passwordTextField.text = pword

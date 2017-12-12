@@ -2,8 +2,8 @@
 //  AccountTableViewCell.swift
 //  Passvault iOS
 //
-//  Created by User One on 12/3/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 12/3/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import UIKit

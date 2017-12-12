@@ -2,8 +2,8 @@
 //  Crypt.swift
 //  Passvault iOS
 //
-//  Created by User One on 11/28/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 11/28/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import Foundation

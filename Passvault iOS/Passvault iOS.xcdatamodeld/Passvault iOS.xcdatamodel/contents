@@ -32,21 +32,11 @@
         <attribute name="server" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="TestClass" representedClassName="TestClass" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="TestCore3" representedClassName="TestCore3" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <elements>
         <element name="AccountCD" positionX="-54" positionY="9" width="128" height="150"/>
         <element name="GeneralCD" positionX="-18" positionY="27" width="128" height="105"/>
         <element name="GeneratorCD" positionX="18" positionY="63" width="128" height="75"/>
         <element name="MRAMapCD" positionX="0" positionY="45" width="128" height="90"/>
         <element name="SyncCD" positionX="-36" positionY="18" width="128" height="135"/>
-        <element name="TestClass" positionX="36" positionY="126" width="128" height="75"/>
-        <element name="TestCore3" positionX="-63" positionY="-18" width="128" height="75"/>
     </elements>
 </model>

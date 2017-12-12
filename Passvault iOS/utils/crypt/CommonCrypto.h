@@ -2,8 +2,8 @@
 //  ObjectiveCCommonCrypto.h
 //  TestAESSwift
 //
-//  Created by User One on 8/21/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 8/21/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

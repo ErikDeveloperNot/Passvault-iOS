@@ -2,8 +2,8 @@
 //  CoreDataUtils.swift
 //  Passvault iOS
 //
-//  Created by User One on 11/28/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 11/28/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import Foundation
@@ -32,12 +32,12 @@ class CoreDataUtils {
     static let VALID_ENCRYPTION_KEY = "valid_encryption_key"
     
     
-    static func loadAllAccounts() -> [Account] {
-            return loadAllAccounts(includeDeletes: false)
+    static func loadAllAccounts() throws -> [Account] {
+            return try loadAllAccounts(includeDeletes: false)
     }
     
     
-    static func loadAllAccounts(includeDeletes: Bool) -> [Account] {
+    static func loadAllAccounts(includeDeletes: Bool) throws -> [Account] {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         var accounts: [Account] = []
         var accountCDs: [AccountCD] = []
@@ -46,7 +46,7 @@ class CoreDataUtils {
             accountCDs = try context.fetch(AccountCD.fetchRequest())
             
             
-var i = 1
+//var i = 1
             for accountCD in accountCDs {
                 if !accountCD.accountDeleted || includeDeletes {
                     
@@ -67,21 +67,20 @@ var i = 1
                     
                     let oldPassword = accountCD.oldPassword ?? password
                     let url = accountCD.url ?? ""
-                    let updateTime = accountCD.updateTime ?? Utils.currentTimeMillis()
+                    let updateTime = accountCD.updateTime
                     
                     let decryptPasswordsResult = decryptPasswords(password: password, oldPassword: oldPassword)
                     
-                    var validEncryption: Bool = Bool(decryptPasswordsResult[VALID_ENCRYPTION_KEY]!)!
-                    var decryptedPassword: String = decryptPasswordsResult[PASSWORD_KEY]!
-                    var decryptedOldPassword: String = decryptPasswordsResult[OLD_PASSWORD_KEY]!
+                    let validEncryption: Bool = Bool(decryptPasswordsResult[VALID_ENCRYPTION_KEY]!)!
+                    let decryptedPassword: String = decryptPasswordsResult[PASSWORD_KEY]!
+                    let decryptedOldPassword: String = decryptPasswordsResult[OLD_PASSWORD_KEY]!
                    
-if i%5 == 0 {
-   validEncryption = false
-}
-i += 1
+//if i%5 == 0 {
+//   validEncryption = false
+//}
+//i += 1
                     accounts.append(Account(accountName: name, userName: user, password: decryptedPassword, oldPassword: decryptedOldPassword, url: url, updateTime: updateTime, deleted: false, validEncryption: validEncryption))
                     
-                    //accounts.append(Account(accountName: accountCD.accountName!, userName: accountCD.userName!, password: accountCD.password!, oldPassword: accountCD.oldPassword!, url: accountCD.url ?? "", updateTime: accountCD.updateTime, deleted: accountCD.accountDeleted, validEncryption: true))
                 } else {
                     print("Not Loading deleted account: " + accountCD.accountName!)
                 }
@@ -90,22 +89,10 @@ i += 1
             
             
         } catch {
-            //TODO - show error
-            print(error)
+            print("Error loading all accounts: \(error)")
+            throw error
         }
        
-        
-        /*
-        for account in accounts {
-            context.delete(account)
-            do {
-                try context.save()
-            } catch {
-                print(error)
-            }
-        }
-        */
-        
         return accounts
     }
     
@@ -121,12 +108,13 @@ i += 1
             
             // whether found or not return success as long as there is no CoreData access error
             for toRemove in currentAccounts {
+                print("purging account: \(toRemove.accountName!)")
                 context.delete(toRemove)
             }
             
             try context.save()
         } catch {
-            print("Error attempting to delete Account: \(account), error: \(error)")
+            print("Error attempting to purge Account: \(account), error: \(error)")
             toReturn = .CoreDataError
         }
         
@@ -313,28 +301,6 @@ i += 1
     
     
     static func saveGenerator(generator: RandomPasswordGenerator) -> CoreDataStatus {
-        /*let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
-        do {
-            let generators = try context.fetch(GeneratorCD.fetchRequest()) as! [GeneratorCD]
-            
-            if generators.count > 0 {
-                generators[0].allowedCharacters = generator.allowedCharacters as NSObject
-                generators[0].length = generator.length
-            } else {
-                let newGenerator = GeneratorCD(context: context)
-                newGenerator.allowedCharacters = generator.allowedCharacters as NSObject
-                newGenerator.length = generator.length
-            }
-            
-            try context.save()
-        } catch {
-            print("Error saving Generator to CoreData, error: \(error)")
-            return CoreDataStatus.CoreDataError
-        }
-        
-        return CoreDataStatus.CoreDataSuccess
-        */
         return saveGenerator(length: generator.length, allowedCharacters: generator.allowedCharacters)
     }
     
@@ -416,7 +382,6 @@ i += 1
     
     static func loadGateway() -> Gateway {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        var syncCD: SyncCD?
         var gateway: Gateway?
         
         do {

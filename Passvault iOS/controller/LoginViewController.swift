@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  Passvault iOS
 //
-//  Created by User One on 11/26/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 11/26/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import UIKit
@@ -204,9 +204,16 @@ class LoginViewController: UIViewController {
     
     private func populateAccountsList(usingKey key: String) -> [Account] {
         CoreDataUtils.key = key
-        let accounts = CoreDataUtils.loadAllAccounts()
         
-        return accounts
+        do {
+            let accounts = try CoreDataUtils.loadAllAccounts()
+            return accounts
+        } catch {
+            print("Error Loading Accounts, error: \(error)")
+            present(Utils.showErrorMessage(errorMessage: "Error loading accounts"), animated: true, completion: nil)
+        }
+        
+        return []
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

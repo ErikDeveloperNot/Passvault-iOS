@@ -2,8 +2,8 @@
 //  AccountsListController.swift
 //  Passvault iOS
 //
-//  Created by User One on 11/28/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 11/28/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import UIKit
@@ -40,8 +40,6 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             syncButton.isEnabled = false
         }
-        
-        print("KEY=\(key), Number of accounts=\(accounts.count)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,7 +47,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         // Dispose of any resources that can be recreated.
     }
     
-    // Mark: - TableView implementation
+    // MARK: - TableView Implementations
     //
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
@@ -153,16 +151,17 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                         switch indexPath.row {
                         case expandedIndex+1:
                             Utils.copyToClipboard(toCopy: accounts[expandedIndex].password)
-                            print("coppy PWord for: \(accounts[expandedIndex].accountName)")
                             break
                         case expandedIndex+2:
                             Utils.copyToClipboard(toCopy: accounts[expandedIndex].oldPassword)
-                            print("coppy OLD PWord for: \(accounts[expandedIndex].accountName)")
                             break
                         case expandedIndex+3:
                             Utils.copyToClipboard(toCopy: accounts[expandedIndex].password)
-                            Utils.launchBrowser(forURL: accounts[expandedIndex].url)
-                            print("Browser for: \(accounts[expandedIndex].accountName)")
+                            
+                            if !Utils.launchBrowser(forURL: accounts[expandedIndex].url) {
+                                present(Utils.showErrorMessage(errorMessage: "Unable to open browser for: \(accounts[expandedIndex].url))"), animated: true, completion: nil)
+                            }
+                            
                             break
                         default:
                             print("Invalid Button label")
@@ -285,6 +284,11 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         SVProgressHUD.show()
         let callStatusKey = SyncClient.syncAccounts()
         
+        if callStatusKey == -1 {
+            self.present(Utils.showErrorMessage(errorMessage: "Unable to run sync right now"), animated: true, completion: nil)
+            return
+        }
+        
         DispatchQueue.global(qos: .background).async {
             SyncClient.waitForCall(callStatusKey: callStatusKey)
             
@@ -295,9 +299,14 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                     return
                 }
                 
-                self.accounts = CoreDataUtils.loadAllAccounts()
-                self.accountsTableView.reloadData()
-                SVProgressHUD.dismiss()
+                do {
+                    self.accounts = try CoreDataUtils.loadAllAccounts()
+                    self.accountsTableView.reloadData()
+                    SVProgressHUD.dismiss()
+                    self.present(Utils.showMessage(message: "Accounts Synchronized"), animated: true, completion: nil)
+                } catch {
+                    self.present(Utils.showErrorMessage(errorMessage: "Error loading accounts"), animated: true, completion: nil)
+                }
             }
         }
     }

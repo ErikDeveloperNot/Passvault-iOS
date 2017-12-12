@@ -2,8 +2,8 @@
 //  SettingsTabBarController.swift
 //  Passvault iOS
 //
-//  Created by User One on 12/5/17.
-//  Copyright © 2017 User One. All rights reserved.
+//  Created by Erik Manor on 12/5/17.
+//  Copyright © 2017 Erik Manor. All rights reserved.
 //
 
 import UIKit
@@ -47,8 +47,6 @@ class SettingsTabBarController: UITabBarController {
             break
         case "Sync":
             // should end up noop since this view will contain its own save since it requires a call
-            let controller = selectedViewController as! SyncSettingsViewController
-            //print(controller.testField)
             break
         default:
             break
@@ -81,7 +79,7 @@ class SettingsTabBarController: UITabBarController {
             allowedCharacters.append(contentsOf: RandomPasswordGenerator.DEFAULT_DIGITS)
         }
         
-        var specialsText = controller.specialsTextView.text
+        let specialsText = controller.specialsTextView.text
         
         for s in (specialsText?.split(separator: " "))! {
             

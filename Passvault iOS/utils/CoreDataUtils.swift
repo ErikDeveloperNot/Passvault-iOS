@@ -49,7 +49,9 @@ class CoreDataUtils {
 //var i = 1
             for accountCD in accountCDs {
                 if !accountCD.accountDeleted || includeDeletes {
-                    
+                    if accountCD.accountName == "iOS Account 3" {
+                        print(accountCD.password)
+                    }
                     guard let name = accountCD.accountName else {
                         print("accountName not set, not loading")
                         continue
@@ -144,6 +146,11 @@ class CoreDataUtils {
     
     
     static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool, new: Bool) -> CoreDataStatus {
+        return updateAccount(forAccount: account, insertIfDoesNotExist, new: new, passwordEncrypted: false)
+    }
+    
+    
+    static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool, new: Bool, passwordEncrypted: Bool) -> CoreDataStatus {
         var toReturn: CoreDataStatus = .AccountUpdated
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AccountCD")
@@ -158,17 +165,22 @@ class CoreDataUtils {
             } else if currentAccount.count > 0 && !new {
                 // this is update existing account
                 //assume never more than one, need to figure out how to make sure of this
-                let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
-              
+                if !passwordEncrypted {
+                    let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
+                  
+                    if currentAccount[0].password != cryptResults[PASSWORD_KEY] {
+                        currentAccount[0].oldPassword = currentAccount[0].password
+                        currentAccount[0].password = cryptResults[PASSWORD_KEY]
+                    }
+                } else {
+                    currentAccount[0].password = account.password
+                    currentAccount[0].oldPassword = account.oldPassword
+                }
+                
                 currentAccount[0].userName = account.userName
                 currentAccount[0].url = account.url
                 currentAccount[0].accountDeleted = account.deleted
                 currentAccount[0].updateTime = account.updateTime
-                
-                if currentAccount[0].password != cryptResults[PASSWORD_KEY] {
-                    currentAccount[0].oldPassword = currentAccount[0].password
-                    currentAccount[0].password = cryptResults[PASSWORD_KEY]
-                }
                 
                 try context.save()
                 toReturn = .AccountUpdated
@@ -178,12 +190,18 @@ class CoreDataUtils {
             } else if insertIfDoesNotExist {
                 // new account
                 let toAdd = AccountCD(context: context)
-                let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
+                
+                if !passwordEncrypted {
+                    let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
+                    toAdd.password = cryptResults[PASSWORD_KEY]
+                    toAdd.oldPassword = cryptResults[OLD_PASSWORD_KEY]
+                } else {
+                    toAdd.password = account.password
+                    toAdd.oldPassword = account.oldPassword
+                }
                 
                 toAdd.accountName = account.accountName
                 toAdd.userName = account.userName
-                toAdd.password = cryptResults[PASSWORD_KEY]
-                toAdd.oldPassword = cryptResults[OLD_PASSWORD_KEY]
                 toAdd.url = account.url
                 toAdd.updateTime = account.updateTime
                 toAdd.accountDeleted = account.deleted

@@ -109,6 +109,17 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if expandedRows.contains(indexPath.row) {
+            return CGFloat(80.0)
+        } else {
+            return CGFloat(44.0)
+        }
+        
+        //return CGFloat(#your desired size#)
+    }
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

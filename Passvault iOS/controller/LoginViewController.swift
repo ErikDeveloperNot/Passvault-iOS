@@ -156,6 +156,13 @@ class LoginViewController: UIViewController {
         print(Crypt.finalizeKey(key: "passwordpasswordpasswordpasswordPASSWORDPASSWORD"))
         print(Crypt.finalizeKey(key: ""))
         
+        let k = Crypt.finalizeKey(key: "notreal")
+        do {
+            let encrypted = try Crypt.encryptString(key: k, forText: "password")
+            print("encrypted=\(encrypted)")
+        } catch {
+            print("encrypt ERROR: \(error)")
+        }
         
     }
 

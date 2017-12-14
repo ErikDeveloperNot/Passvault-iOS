@@ -29,7 +29,12 @@ class Crypt {
             throw CryptError.noKeySpecified
         }
         
-        if let dec1 = crypto.decryptString(key, cipherText: forEncrypted) {
+        let startIndex = key.index(key.startIndex, offsetBy: 20)
+        let endIndex = key.index(startIndex, offsetBy: 3)
+        let iv = finalizeKey(key: String(key[startIndex...endIndex]), finalizedLength: 16)
+        
+        //if let dec1 = crypto.decryptString(key, cipherText: forEncrypted) {
+        if let dec1 = crypto.decryptString(key, iv: iv, cipherText: forEncrypted) {
             
             if dec1 == "" {
                 throw CryptError.errorDecrypting
@@ -49,7 +54,12 @@ class Crypt {
             throw CryptError.noKeySpecified
         }
         
-        if let enc1 = crypto.encryptString(key, plainText: forText) {
+        let startIndex = key.index(key.startIndex, offsetBy: 20)
+        let endIndex = key.index(startIndex, offsetBy: 3)
+        let iv = finalizeKey(key: String(key[startIndex...endIndex]), finalizedLength: 16)
+        
+        //if let enc1 = crypto.encryptString(key, plainText: forText) {
+        if let enc1 = crypto.encryptString(key, iv: iv, plainText: forText) {
             
             if enc1 == "" {
                 throw CryptError.errorEncrypting
@@ -63,13 +73,18 @@ class Crypt {
     
     
     static func finalizeKey(key: String) -> String {
+        return finalizeKey(key: key, finalizedLength: KEY_LENGTH)
+    }
+    
+    
+    static func finalizeKey(key: String, finalizedLength: Int) -> String {
         var toReturn: String = key
         
-        if (key == nil || key.count == 0) {
+        if (key.count == 0) {
             return DEFAULT_KEY
         }
         
-        var amountToPad: Int = KEY_LENGTH - key.count
+        let amountToPad: Int = finalizedLength - key.count
         
         if amountToPad > 0 {
             var mod = 256
@@ -90,7 +105,7 @@ class Crypt {
             }
 
         } else if amountToPad < 0 {
-            let reducedKeyEndIndex = key.index(key.endIndex, offsetBy: (KEY_LENGTH-1)-key.count)
+            let reducedKeyEndIndex = key.index(key.endIndex, offsetBy: (finalizedLength-1)-key.count)
             toReturn = String(key[...reducedKeyEndIndex])
         }
 

@@ -121,7 +121,7 @@ class SyncClient {
                 
                 if let error = response.error {
                     print("Error getting gateway config: \(error)")
-                    print(String(data: response.data!, encoding: String.Encoding.utf8))
+                    print(String(data: response.data!, encoding: String.Encoding.utf8) as Any)
                     
                     if let errorResponse = String(data: response.data!, encoding: String.Encoding.utf8) {
                         if errorResponse == "An account with the same name already exists." {
@@ -161,7 +161,7 @@ class SyncClient {
                 
                 if let error = response.error {
                     print("Error deleting account: \(error)")
-                    print(String(data: response.data!, encoding: String.Encoding.utf8))
+                    print(String(data: response.data!, encoding: String.Encoding.utf8) as Any)
                     
                     if let errorResponse = String(data: response.data!, encoding: String.Encoding.utf8) {
                         if errorResponse == "Account not found." {
@@ -242,13 +242,14 @@ class SyncClient {
 print("Accounts sent from server, \(account.accountName), deleted=\(account.deleted)")
                             if account.deleted {
                                 // purge account
+print("Purging deleted account recieved from server: \(account.accountName)")
                                 if CoreDataUtils.purgeAccount(forName: account.accountName) == CoreDataStatus.CoreDataError {
                                     // should never happen, but print and keep going
                                     print("Error purging account: \(account.accountName)")
                                     continue
                                 }
                             } else {
-                                if CoreDataUtils.updateAccount(forAccount: account, true) == CoreDataStatus.CoreDataError {
+                                if CoreDataUtils.updateAccount(forAccount: account, true, new: false, passwordEncrypted: true) == CoreDataStatus.CoreDataError {
                                     // should never happen, but print and keep going
                                     print("Error persisting account: \(account.accountName)")
                                     continue

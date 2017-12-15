@@ -30,7 +30,7 @@ class CoreDataUtils {
     static let PASSWORD_KEY = "password"
     static let OLD_PASSWORD_KEY = "old_password"
     static let VALID_ENCRYPTION_KEY = "valid_encryption_key"
-    
+    static let DAY_IN_MILLI: Int64 = 86400000
     
     static func loadAllAccounts() throws -> [Account] {
             return try loadAllAccounts(includeDeletes: false)
@@ -95,7 +95,28 @@ class CoreDataUtils {
             throw error
         }
        
-        return accounts
+        return Utils.sort(accounts: accounts)
+    }
+    
+    
+    static func purgeDeletes(olderThenDays: Int16) {
+        print("Running purge deletes for accounts older then: \(olderThenDays)")
+        let check = DAY_IN_MILLI * Int64(olderThenDays)
+        let current = Utils.currentTimeMillis()
+        
+        do {
+            let accounts = try loadAllAccounts(includeDeletes: true)
+            
+            for account in accounts {
+                if account.deleted && current - account.updateTime > check {
+                    if purgeAccount(forName: account.accountName) == CoreDataStatus.CoreDataError {
+                        print("Error purging: \(account.accountName)")
+                    }
+                }
+            }
+        } catch {
+            print("Error loading accounts in purgeDeletes, \(error)")
+        }
     }
     
     
@@ -365,6 +386,7 @@ class CoreDataUtils {
             generalCD?.sortMRU = settings.sortByMRU
             generalCD?.key = settings.key
             generalCD?.accountUUID = settings.accountUUID
+            generalCD?.purgeDays = settings.purgeDays
             
             try context.save()
             
@@ -385,7 +407,7 @@ class CoreDataUtils {
             let generalCD = try context.fetch(GeneralCD.fetchRequest()) as! [GeneralCD]
             
             if generalCD.count > 0 {
-                settings = GeneralSettings(saveKey: generalCD[0].saveKey, sortByMRU: generalCD[0].sortMRU, key: generalCD[0].key ?? "", accountUUID: generalCD[0].accountUUID ?? "")
+                settings = GeneralSettings(saveKey: generalCD[0].saveKey, sortByMRU: generalCD[0].sortMRU, key: generalCD[0].key ?? "", accountUUID: generalCD[0].accountUUID ?? "", daysBeforePurgeDeletes: generalCD[0].purgeDays)
             } else {
                 settings = GeneralSettings()
             }

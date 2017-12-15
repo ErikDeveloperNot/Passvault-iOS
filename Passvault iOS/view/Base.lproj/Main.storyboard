@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ZzS-Jc-0sE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ZzS-Jc-0sE">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -396,6 +396,52 @@
                                     <constraint firstAttribute="height" constant="100" id="wm8-A6-sPR"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JvX-6u-A6Z">
+                                <rect key="frame" x="16" y="264" width="343" height="145"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7q1-h0-jM5">
+                                        <rect key="frame" x="10" y="40" width="260" height="105"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="105" id="aP7-OD-AC7"/>
+                                            <constraint firstAttribute="width" constant="260" id="hlR-ac-0g5"/>
+                                        </constraints>
+                                        <string key="text">Specifies how days after an account is deleted to wait before purging it from the database. The reason for this is if sync is used to give enough time to allow the deletion to be sync'd to the server. If syc is not used a value of 0 will purge the account when it is deleted. Default is 30 days.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Days Before Purging" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EGB-xs-9QY">
+                                        <rect key="frame" x="10" y="0.0" width="260" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="260" id="Pc3-9s-IdZ"/>
+                                            <constraint firstAttribute="height" constant="40" id="n5z-3A-dQw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="30" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eli-z4-IfP">
+                                        <rect key="frame" x="278" y="57" width="57" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="eli-z4-IfP" firstAttribute="top" secondItem="JvX-6u-A6Z" secondAttribute="top" constant="57" id="2E0-MF-Mnv"/>
+                                    <constraint firstItem="7q1-h0-jM5" firstAttribute="top" secondItem="EGB-xs-9QY" secondAttribute="bottom" id="4Nx-PP-mJJ"/>
+                                    <constraint firstAttribute="height" constant="145" id="7D3-8J-Vl0"/>
+                                    <constraint firstAttribute="bottom" secondItem="eli-z4-IfP" secondAttribute="bottom" constant="58" id="7YZ-JZ-gm8"/>
+                                    <constraint firstItem="EGB-xs-9QY" firstAttribute="top" secondItem="JvX-6u-A6Z" secondAttribute="top" id="AJN-Os-TIi"/>
+                                    <constraint firstAttribute="bottom" secondItem="7q1-h0-jM5" secondAttribute="bottom" id="F8E-EX-qjt"/>
+                                    <constraint firstItem="7q1-h0-jM5" firstAttribute="top" secondItem="EGB-xs-9QY" secondAttribute="bottom" id="Wqo-zh-f81"/>
+                                    <constraint firstAttribute="trailing" secondItem="eli-z4-IfP" secondAttribute="trailing" constant="8" id="azp-0F-gqp"/>
+                                    <constraint firstItem="7q1-h0-jM5" firstAttribute="leading" secondItem="JvX-6u-A6Z" secondAttribute="leading" constant="10" id="icX-Nd-j9x"/>
+                                    <constraint firstItem="eli-z4-IfP" firstAttribute="leading" secondItem="7q1-h0-jM5" secondAttribute="trailing" constant="8" id="lVa-IA-fKQ"/>
+                                    <constraint firstItem="EGB-xs-9QY" firstAttribute="leading" secondItem="JvX-6u-A6Z" secondAttribute="leading" constant="10" id="uPd-GB-UgR"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -403,12 +449,16 @@
                             <constraint firstAttribute="trailingMargin" secondItem="uQN-T2-JqR" secondAttribute="trailing" id="9MV-Ew-TM1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7vR-Wc-v6Y" secondAttribute="trailing" id="BxS-uo-F7x"/>
                             <constraint firstItem="uQN-T2-JqR" firstAttribute="top" secondItem="7vR-Wc-v6Y" secondAttribute="bottom" id="KhR-h1-b85"/>
+                            <constraint firstItem="JvX-6u-A6Z" firstAttribute="top" secondItem="uQN-T2-JqR" secondAttribute="bottom" id="eEX-Ic-bMA"/>
                             <constraint firstItem="7vR-Wc-v6Y" firstAttribute="top" secondItem="I1G-Pe-6CR" secondAttribute="bottom" id="eTr-Uf-YfI"/>
                             <constraint firstItem="7vR-Wc-v6Y" firstAttribute="leading" secondItem="fON-Kc-ZkP" secondAttribute="leadingMargin" id="nrU-PG-b0Q"/>
+                            <constraint firstItem="JvX-6u-A6Z" firstAttribute="leading" secondItem="fON-Kc-ZkP" secondAttribute="leadingMargin" id="ueg-3M-hhd"/>
+                            <constraint firstItem="JvX-6u-A6Z" firstAttribute="trailing" secondItem="uQN-T2-JqR" secondAttribute="trailing" id="yL5-vk-ClT"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="General" id="Qyx-WZ-3CV"/>
                     <connections>
+                        <outlet property="purgeTextField" destination="eli-z4-IfP" id="9Al-7M-yaw"/>
                         <outlet property="saveKeySwitch" destination="APo-jV-0Fu" id="z11-A9-HkH"/>
                         <outlet property="sortMRUSwitch" destination="hFx-02-vtx" id="g9q-tF-Tq2"/>
                     </connections>

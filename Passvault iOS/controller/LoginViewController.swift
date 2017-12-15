@@ -25,16 +25,25 @@ class LoginViewController: UIViewController {
             Eventually do this like access Core data and check for saved key
         */
         
+        // run purge
+        let settings = CoreDataUtils.loadGeneralSettings()
+        let days = settings.purgeDays
+        CoreDataUtils.purgeDeletes(olderThenDays: days)
+        
+        // check if key is saved
+        if settings.saveKey {
+            key = settings.key
+            
+            if key == "" {
+                print("Save key set, but key is not set, going to login")
+            } else {
+                accounts = populateAccountsList(usingKey: key!)
+                performSegue(withIdentifier: "goToAccounts", sender: nil)
+            }
+        }
         
         
-        
-        
-        
-        
-        
-        
-        
-        /*
+    /*
             EVERYTHING BELOW THIS IS JUST FOR TESTING
         */
         

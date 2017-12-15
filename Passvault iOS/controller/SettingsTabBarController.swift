@@ -58,7 +58,18 @@ class SettingsTabBarController: UITabBarController {
     // MARK: - Data Store calls
     
     func saveGeneralTabSettings(controller: GeneralSettingsViewController) {
-        let settings = GeneralSettings(saveKey: controller.saveKeySwitch.isOn, sortByMRU: controller.sortMRUSwitch.isOn, key: controller.settings.key, accountUUID: controller.settings.accountUUID)
+        var days: Int16 = 30
+        var key = ""
+        
+        if let d = Int16(controller.purgeTextField.text!) {
+            days = d
+        }
+        
+        if controller.saveKeySwitch.isOn {
+            key = CoreDataUtils.key
+        }
+        
+        let settings = GeneralSettings(saveKey: controller.saveKeySwitch.isOn, sortByMRU: controller.sortMRUSwitch.isOn, key: key, accountUUID: controller.settings.accountUUID, daysBeforePurgeDeletes: days)
         
         if CoreDataUtils.saveGeneralSettings(settings: settings) != CoreDataStatus.CoreDataSuccess {
             present(Utils.showErrorMessage(errorMessage: "There was an error saving the General Tab Settings"), animated: true, completion: nil)

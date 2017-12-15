@@ -11,6 +11,7 @@ import SVProgressHUD
 
 class AccountsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let INVALID_ENCRYPTION_MESSAGE = "Tha password for this account could not be decrypted with the login key entered. If the incorrect key was entered at login, logout and log back in. If this account was setup with a different login key then what is currently being used, the account can be recovered by entering the key used to encrypt this account. Press the decrypt button to enter the key. If the key is unknown, the other options are to delete the account, or just cancel and leave the account in this state."
     
     @IBOutlet weak var accountsTableView: UITableView!
     @IBOutlet weak var syncButton: UIBarButtonItem!
@@ -34,6 +35,17 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
 
         accountsTableView.register(UINib(nibName: "AccountTableViewCell", bundle: nil), forCellReuseIdentifier: "accountCellReuseIdentifier")
         accountsTableView.register(UINib(nibName: "ButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "buttonCellReuseIdentifier")
+        
+        if CoreDataUtils.loadGateway().server != "" {
+            syncButton.isEnabled = true
+        } else {
+            syncButton.isEnabled = false
+        }
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         if CoreDataUtils.loadGateway().server != "" {
             syncButton.isEnabled = true
@@ -139,6 +151,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Row selected: \(indexPath.row)")
+        var reloadData = true
         
         if expanded {
             if indexPath.row == expandedIndex {
@@ -146,7 +159,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 if indexPath.row < expandedIndex {
                     if !accounts[indexPath.row].validEncryption {
-                        resetExpandedRows()
+                        reloadData = false
+                        handleInvalidEncryption(forAccountIndex: indexPath.row, indexPath: indexPath)
                     } else {
                         expandedIndex = indexPath.row
                         setExpandedRows(forIndex: expandedIndex)
@@ -182,7 +196,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                         
                     } else {
                         if !accounts[indexPath.row - expandedRows.count].validEncryption {
-                            resetExpandedRows()
+                            reloadData = false
+                            handleInvalidEncryption(forAccountIndex: indexPath.row - expandedRows.count, indexPath: indexPath)
                         } else {
                             expandedIndex = indexPath.row - expandedRows.count
                             setExpandedRows(forIndex: expandedIndex)
@@ -192,7 +207,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             }
         } else {
             if !accounts[indexPath.row].validEncryption {
-                resetExpandedRows()
+                reloadData = false
+                handleInvalidEncryption(forAccountIndex: indexPath.row, indexPath: indexPath)
             } else {
                 expanded = true
                 expandedIndex = indexPath.row
@@ -200,11 +216,20 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
         
-        accountsTableView.reloadData()
-        let scrollToIndex = IndexPath(row: indexPath.row + expandedRows.count, section: 0)
-        
-        if expanded && !expandedRows.contains(indexPath.row) {
-            accountsTableView.scrollToRow(at: scrollToIndex, at: .none, animated: true)
+        if reloadData {
+            accountsTableView.reloadData()
+            var scrollIndex = indexPath.row
+            
+            if expandedRows.count > 0 {
+                scrollIndex = expandedRows[expandedRows.count - 1]
+            }
+            
+            //let scrollToIndex = IndexPath(row: indexPath.row + expandedRows.count, section: 0)
+            let scrollToIndex = IndexPath(row: scrollIndex, section: 0)
+            
+            if expanded && !expandedRows.contains(indexPath.row) {
+                accountsTableView.scrollToRow(at: scrollToIndex, at: .none, animated: true)
+            }
         }
     }
     
@@ -232,7 +257,6 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         
         // delete is always shown
         let delete = UITableViewRowAction(style: .default, title: "Delete") { (delete, indexPath) in
-            print("Delete Action Selected")
             self.deleteAccount(indexPath: indexPath)
         }
         delete.backgroundColor = UIColor.red
@@ -285,6 +309,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             if accountAdded {
                 let account = addAccountViewController.account
                 accounts.append(account!)
+                accounts = Utils.sort(accounts: accounts)
                 accountsTableView.reloadData()
             }
         }
@@ -408,6 +433,107 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             forCell.accountNameLabel.textColor = UIColor.lightGray
         }
+    }
+    
+    
+    func handleInvalidEncryption(forAccountIndex index: Int, indexPath: IndexPath) {
+        print("Account=\(accounts[index].accountName)")
+        let alert = UIAlertController(title: "Account Password Recovery", message: INVALID_ENCRYPTION_MESSAGE, preferredStyle: .alert)
+        
+        let decryptAction = UIAlertAction(title: "Decrypt", style: .default, handler: { (UIAlertAction) in
+            self.showDecryptKey(forAccountIndex: index)
+        })
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (UIAlertAction) in
+            self.deleteAccount(indexPath: indexPath)
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+//            self.resetExpandedRows()
+//            self.accountsTableView.reloadData()
+        })
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        alert.addAction(decryptAction)
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    
+    func showDecryptKey(forAccountIndex index: Int) {
+        let alert = UIAlertController(title: "Decrypt Key", message: "Enter the key that was used to encrypt this account and press Decrypt.", preferredStyle: .alert)
+        
+        let decryptAction = UIAlertAction(title: "Decrypt", style: .default, handler: { (UIAlertAction) in
+            
+            if let key = alert.textFields?[0].text {
+                
+                if key.count > 0 {
+                    let finalKey = Crypt.finalizeKey(key: key)
+                    var decryptedPass = ""
+                    var decryptedOldPass = ""
+                    var failed = false
+                    
+                    do {
+                        decryptedPass = try Crypt.decryptString(key: finalKey, forEncrypted: self.accounts[index].password)
+                        decryptedOldPass = try Crypt.decryptString(key: finalKey, forEncrypted: self.accounts[index].oldPassword)
+                    } catch {
+                        // check if pass was decrypted, if so just set old pass to current pass
+                        if decryptedPass != "" {
+                            decryptedOldPass = decryptedPass
+                        } else {
+                            print("Error decrypting password while trying to recover account: \(self.accounts[index].accountName), error: \(error)")
+                            failed = true
+                        }
+                    }
+                    
+                    if !failed {
+                        self.accounts[index].password = decryptedPass
+                        self.accounts[index].oldPassword = decryptedOldPass
+                        
+                        if CoreDataUtils.updateAccount(forAccount: self.accounts[index], false) != CoreDataStatus.AccountUpdated {
+                            print("Error saving account: \(self.accounts[index])")
+//                            self.resetExpandedRows()
+//                            self.accountsTableView.reloadData()
+                            self.present(Utils.showErrorMessage(errorMessage: "The account was decrypted, but could not be saved."), animated: true, completion: nil)
+                        } else {
+                            self.resetExpandedRows()
+                            
+                            do {
+                                self.accounts = try CoreDataUtils.loadAllAccounts()
+                            } catch {
+                                // shouldn't ever really happen but account should show correctly at next login
+                                print("Error reloading accounts")
+                            }
+                            
+                            self.accountsTableView.reloadData()
+                        }
+                        
+                    } else {
+//                        self.resetExpandedRows()
+                        self.present(Utils.showErrorMessage(errorMessage: "The account could not be decrypted with the supplied key"), animated: true, completion: nil)
+                    }
+                } else {
+                    self.present(Utils.showErrorMessage(errorMessage: "The account could not be decrypted with the supplied key"), animated: true, completion: nil)
+                }
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+//            self.resetExpandedRows()
+        })
+        
+        alert.addTextField { (decryptTextField) in
+            decryptTextField.placeholder = "Enter Key"
+            decryptTextField.isSecureTextEntry = true
+            decryptTextField.textAlignment = NSTextAlignment.center
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(decryptAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 
 }

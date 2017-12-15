@@ -14,12 +14,14 @@ struct GeneralSettings {
     var sortByMRU: Bool = true
     var accountUUID: String = ""
     var key: String = ""
+    var purgeDays: Int16 = 30
     
-    init(saveKey: Bool, sortByMRU: Bool, key: String, accountUUID: String) {
+    init(saveKey: Bool, sortByMRU: Bool, key: String, accountUUID: String, daysBeforePurgeDeletes: Int16) {
         self.saveKey = saveKey
         self.sortByMRU = sortByMRU
         self.key = key
         self.accountUUID = accountUUID
+        self.purgeDays = daysBeforePurgeDeletes
     }
     
     init() {
@@ -27,10 +29,13 @@ struct GeneralSettings {
     }
 }
 
-class GeneralSettingsViewController: UIViewController {
+class GeneralSettingsViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var saveKeySwitch: UISwitch!
     @IBOutlet weak var sortMRUSwitch: UISwitch!
+    @IBOutlet weak var purgeTextField: UITextField!
+    
+    let CHECK_PURGE_STRING = "0123456789"
     
     var settings: GeneralSettings!
     
@@ -41,6 +46,8 @@ class GeneralSettingsViewController: UIViewController {
         settings = CoreDataUtils.loadGeneralSettings()
         saveKeySwitch.isOn = settings.saveKey
         sortMRUSwitch.isOn = settings.sortByMRU
+        purgeTextField.text = String(settings.purgeDays)
+        purgeTextField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +55,27 @@ class GeneralSettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // MARK: - UITextFieldDelegate calls
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if CHECK_PURGE_STRING.contains(string) || string == "" {
+            return true
+        } else {
+            return false
+        }
+        
+    }
+    
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
+        if let purge = Int16(textField.text!) {
+            settings.purgeDays = purge
+        }
+        
+        return true
+    }
 
     /*
     // MARK: - Navigation

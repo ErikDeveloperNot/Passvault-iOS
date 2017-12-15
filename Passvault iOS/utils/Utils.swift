@@ -61,6 +61,14 @@ class Utils {
     }
     
     
+    static func sort(accounts: [Account]) -> [Account] {
+        // alpha for now
+        return accounts.sorted { (acct1, acct2) -> Bool in
+            return acct1.accountName.lowercased() < acct2.accountName.lowercased()
+        }
+    }
+    
+    
     static func showErrorMessage(errorMessage: String) -> UIAlertController {
         let alert = UIAlertController(title: "Passvault Error", message: errorMessage, preferredStyle: .alert)
         

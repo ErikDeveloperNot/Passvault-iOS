@@ -19,9 +19,11 @@ class AddAccountViewController: UIViewController {
     var account: Account?
     var accountAdded: Bool = false
     
+    // only used when override generator is used
+    var generator: RandomPasswordGenerator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -32,14 +34,23 @@ class AddAccountViewController: UIViewController {
     
     
     @IBAction func generatePressed(_ sender: UIButton) {
-        let generator = CoreDataUtils.getGenerator()
+        /*let generator = CoreDataUtils.getGenerator()
         let password = generator.generatePassword()
         passwordTextField.text = password
-        passwordTextField2.text = password
+        passwordTextField2.text = password*/
+        
+        if generator == nil {
+            generator = CoreDataUtils.getGenerator()
+        }
+        
+        let pword = generator!.generatePassword()
+        passwordTextField.text = pword
+        passwordTextField2.text = pword
     }
     
     
     @IBAction func overridePressed(_ sender: UIButton) {
+        
     }
     
     @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
@@ -82,14 +93,24 @@ class AddAccountViewController: UIViewController {
         //self.dismiss(animated: true, completion: nil)
     }
     
-    /*
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier != "unwindToAccountsList" {
+            let controller = segue.destination as! PasswordGeneratorSettingsViewController
+            controller.sendingController = SendingController.AddAccount
+        }
     }
-    */
+ 
+    
+    
+    @IBAction func unwindToAddFromOverride(sender: UIStoryboardSegue) {
+        print(sender.source)
+        generator = (sender.source as! PasswordGeneratorSettingsViewController).generator
+    }
 
 }

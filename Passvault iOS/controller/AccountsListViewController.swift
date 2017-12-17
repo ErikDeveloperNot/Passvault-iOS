@@ -18,6 +18,9 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     
     var accounts: [Account] = []
     var key: String?
+    var sortType: SortType = SortType.Alpha
+    
+    // used for tableview
     var selectedAccount: Account?
     var expanded: Bool = false
     var expandedIndex: Int = -1
@@ -41,6 +44,12 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             syncButton.isEnabled = false
         }
+        
+        if CoreDataUtils.loadGeneralSettings().sortByMRU {
+            sortType = SortType.MOA
+        }
+        
+        MRAComparator.getInstance().debugMaps()
     }
     
     
@@ -52,6 +61,10 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             syncButton.isEnabled = false
         }
+
+        accounts = Utils.sort(accounts: accounts, sortType: sortType)
+        resetExpandedRows()
+        accountsTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -172,6 +185,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
 //                            // do nothing, just return
 //                            return
 //                        }
+                        MRAComparator.getInstance().incrementAccessCount(forAccount: accounts[expandedIndex].accountName)
                         
                         switch indexPath.row {
                         case expandedIndex+1:
@@ -193,6 +207,11 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                         }
                         
                         resetExpandedRows()
+                    
+                        if sortType == SortType.MOA {
+                            accounts = Utils.sort(accounts: accounts, sortType: sortType)
+                        }
+                        
                         
                     } else {
                         if !accounts[indexPath.row - expandedRows.count].validEncryption {
@@ -283,6 +302,9 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             if let account = selectedAccount {
                 destination.account = account
             }
+        } else if segue.identifier == "goToSettings" {
+            let destination = segue.destination as! SettingsTabBarController
+            destination.accountListViewController = self
         }
     }
     
@@ -309,7 +331,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             if accountAdded {
                 let account = addAccountViewController.account
                 accounts.append(account!)
-                accounts = Utils.sort(accounts: accounts)
+                accounts = Utils.sort(accounts: accounts, sortType: sortType)
                 accountsTableView.reloadData()
             }
         }
@@ -536,4 +558,5 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         present(alert, animated: true, completion: nil)
     }
 
+    
 }

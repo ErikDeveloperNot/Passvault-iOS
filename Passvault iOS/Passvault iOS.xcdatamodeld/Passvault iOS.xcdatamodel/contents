@@ -23,7 +23,6 @@
     <entity name="MRAMapCD" representedClassName="MRAMapCD" syncable="YES" codeGenerationType="class">
         <attribute name="map" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="mraTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="SyncCD" representedClassName="SyncCD" syncable="YES" codeGenerationType="class">
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
@@ -37,7 +36,7 @@
         <element name="AccountCD" positionX="-54" positionY="9" width="128" height="150"/>
         <element name="GeneralCD" positionX="-18" positionY="27" width="128" height="120"/>
         <element name="GeneratorCD" positionX="18" positionY="63" width="128" height="75"/>
-        <element name="MRAMapCD" positionX="0" positionY="45" width="128" height="90"/>
+        <element name="MRAMapCD" positionX="0" positionY="45" width="128" height="75"/>
         <element name="SyncCD" positionX="-36" positionY="18" width="128" height="135"/>
     </elements>
 </model>

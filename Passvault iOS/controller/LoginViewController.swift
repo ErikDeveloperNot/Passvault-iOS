@@ -42,6 +42,28 @@ class LoginViewController: UIViewController {
             }
         }
         
+//CoreDataUtils.saveMRA()
+/*
+let maps = CoreDataUtils.loadMRA()
+print(maps.mraTime)
+var mras = maps.map as! [String : [Int32]]
+        for user in mras {
+            print(user)
+            print("key=\(user.key), value=\(user.value)")
+            for value in user.value {
+                print(value)
+            }
+        }
+        //let mraComp = MRAComparator(mraMapCD: maps)
+        let mraComp = MRAComparator.getInstance()
+//        mraComp.deleteMap(forAccount: "Account 1")
+//        mraComp.deleteMap(forAccount: "Account 2")
+//        mraComp.deleteMap(forAccount: "Account 3")
+//        mraComp.createMap(account: "Account 1")
+//        mraComp.createMap(account: "Account 2")
+//        mraComp.createMap(account: "Account 3")
+        //mraComp.clearMaps()
+        print(CoreDataUtils.saveMRA())*/
         
     /*
             EVERYTHING BELOW THIS IS JUST FOR TESTING

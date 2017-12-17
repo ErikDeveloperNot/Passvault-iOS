@@ -19,6 +19,9 @@ class AccountDetailsViewController: UIViewController {
     var account: Account?
     var deleted: Bool = false
     
+    // only used if override generator is used
+    var generator: RandomPasswordGenerator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,10 +64,15 @@ class AccountDetailsViewController: UIViewController {
    
     
     @IBAction func generatePressed(_ sender: UIButton) {
-        let generator = CoreDataUtils.getGenerator()
-        let pword = generator.generatePassword()
+        
+        if generator == nil {
+            generator = CoreDataUtils.getGenerator()
+        }
+        
+        let pword = generator!.generatePassword()
         passwordTextField.text = pword
         passwordTextField2.text = pword
+        
     }
     
     
@@ -73,14 +81,21 @@ class AccountDetailsViewController: UIViewController {
     }
     
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let controller = segue.destination as! PasswordGeneratorSettingsViewController
+        controller.sendingController = SendingController.EditAccount
     }
-    */
+    
 
+    
+    @IBAction func unwindToDetailsFromOverride(sender: UIStoryboardSegue) {
+        print(sender.source)
+        generator = (sender.source as! PasswordGeneratorSettingsViewController).generator
+    }
 }

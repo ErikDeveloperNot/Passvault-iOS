@@ -12,7 +12,7 @@ class SettingsTabBarController: UITabBarController {
 
     var current: String = "General"
     var last: String = "General"
-    
+    var accountListViewController: UIViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +74,8 @@ class SettingsTabBarController: UITabBarController {
         if CoreDataUtils.saveGeneralSettings(settings: settings) != CoreDataStatus.CoreDataSuccess {
             present(Utils.showErrorMessage(errorMessage: "There was an error saving the General Tab Settings"), animated: true, completion: nil)
         }
+        
+        (accountListViewController as! AccountsListViewController).sortType = settings.sortByMRU ? SortType.MOA : SortType.Alpha
     }
     
     

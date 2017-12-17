@@ -19,6 +19,11 @@ class Utils {
     }
     
     
+    static func getMRACurrentDay() -> Int64 {
+        return (currentTimeMillis() / CoreDataUtils.DAY_IN_MILLI)
+    }
+    
+    
     static func copyToClipboard(toCopy string: String) {
         UIPasteboard.general.string = string
     }
@@ -31,7 +36,7 @@ class Utils {
     
     static func launchBrowser(forURL: String) -> Bool {
         var urlAsString = forURL
-        
+
         let httpIndex = forURL.index(forURL.startIndex, offsetBy: 6)
         let http = forURL[...httpIndex]
         let httpsIndex = forURL.index(forURL.startIndex, offsetBy: 7)
@@ -61,10 +66,29 @@ class Utils {
     }
     
     
-    static func sort(accounts: [Account]) -> [Account] {
-        // alpha for now
-        return accounts.sorted { (acct1, acct2) -> Bool in
-            return acct1.accountName.lowercased() < acct2.accountName.lowercased()
+    static func sort(accounts: [Account], sortType: SortType) -> [Account] {
+        
+        if sortType == SortType.MOA {
+            let comparator = MRAComparator.getInstance()
+            
+            return accounts.sorted { (acct1, acct2) -> Bool in
+                let moa = comparator.getMostAccessed(forAccountName: acct1.accountName, andAccountName: acct2.accountName)
+                
+                switch moa {
+                case acct1.accountName:
+                    return true
+                case acct2.accountName:
+                    return false
+                default:
+                    // if same return alapha
+                    return acct1.accountName.lowercased() < acct2.accountName.lowercased()
+                }
+            }
+            
+        } else {
+            return accounts.sorted { (acct1, acct2) -> Bool in
+                return acct1.accountName.lowercased() < acct2.accountName.lowercased()
+            }
         }
     }
     

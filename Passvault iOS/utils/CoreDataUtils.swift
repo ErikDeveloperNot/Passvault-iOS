@@ -95,7 +95,8 @@ class CoreDataUtils {
             throw error
         }
        
-        return Utils.sort(accounts: accounts)
+        //return Utils.sort(accounts: accounts)
+        return accounts
     }
     
     
@@ -417,6 +418,59 @@ class CoreDataUtils {
         }
         
         return settings!
+    }
+    
+    
+    static func saveMRA() -> CoreDataStatus {
+        //Testing for now
+        /*var map: [String : [Int8]] = [:]
+        map["test1"] = [2,4,5,0,7,9,10]
+        map["test2"] = [1,0,0,3,8,8,1]*/
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        do {
+            var mraMaps = try context.fetch(MRAMapCD.fetchRequest()) as! [MRAMapCD]
+            var mraMap: MRAMapCD?
+            
+            if mraMaps.count > 0 {
+                //mraMap = mraMaps[0]
+                //mraMaps[0] = mraMapCD
+            } else {
+                //mraMap = MRAMapCD(context: context)
+            }
+            
+            //mraMap?.mraTime = Utils.getMRACurrentDay()
+            //mraMap?.map = map as NSObject
+            
+            
+            try context.save()
+        } catch {
+            print(error)
+        }
+        
+        return CoreDataStatus.CoreDataSuccess
+    }
+    
+    
+    static func loadMRA() -> MRAMapCD {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        do {
+            let mraMaps = try context.fetch(MRAMapCD.fetchRequest()) as! [MRAMapCD]
+print(mraMaps.count)
+            
+            if mraMaps.count > 0 {
+                return mraMaps[0]
+            } else {
+                return MRAMapCD(context: context)
+            }
+            
+        } catch {
+            print(error)
+        }
+        
+        return MRAMapCD(context: context)
     }
     
     

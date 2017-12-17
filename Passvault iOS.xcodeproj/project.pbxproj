@@ -19,6 +19,7 @@
 		7F674D491FD9357200A0374A /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F674D481FD9357200A0374A /* AddAccountViewController.swift */; };
 		7F80EA4F1FD3EA0600E948EF /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */; };
 		7F80EA501FD3EA0600E948EF /* AccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */; };
+		7F8E69111FE51FAB0070F84A /* MRAComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E69101FE51FAB0070F84A /* MRAComparator.swift */; };
 		7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */; };
 		7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3A91FCBAC610077C4F5 /* AppDelegate.swift */; };
 		7FA8F3AC1FCBAC610077C4F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8F3AB1FCBAC610077C4F5 /* LoginViewController.swift */; };
@@ -49,6 +50,7 @@
 		7F674D481FD9357200A0374A /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountTableViewCell.xib; sourceTree = "<group>"; };
+		7F8E69101FE51FAB0070F84A /* MRAComparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAComparator.swift; sourceTree = "<group>"; };
 		7F8E9BD71FCE86C1008397FA /* AccountsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListViewController.swift; sourceTree = "<group>"; };
 		7FA8F3A61FCBAC610077C4F5 /* Passvault iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Passvault iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FA8F3A91FCBAC610077C4F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				7FBDF57A1FD6528400F79D31 /* RandomPasswordGenerator.swift */,
 				7FAD8E8B1FD988420081CB86 /* SyncClient.swift */,
 				7F41B2601FDD49B700228884 /* SyncMessages.swift */,
+				7F8E69101FE51FAB0070F84A /* MRAComparator.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				7FBDF57B1FD6528400F79D31 /* RandomPasswordGenerator.swift in Sources */,
 				7FE3723D1FCBC295008EAA1F /* Account.swift in Sources */,
 				7FA8F3AA1FCBAC610077C4F5 /* AppDelegate.swift in Sources */,
+				7F8E69111FE51FAB0070F84A /* MRAComparator.swift in Sources */,
 				7FF60BBF1FDF5935000B8BF3 /* ButtonTableViewCell.swift in Sources */,
 				7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */,
 				7F0A57931FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift in Sources */,

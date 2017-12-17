@@ -102,7 +102,7 @@
                                     </barButtonItem>
                                     <barButtonItem systemItem="organize" id="mcM-00-R71">
                                         <connections>
-                                            <segue destination="Rva-TY-ouc" kind="show" id="HIc-dc-pzr"/>
+                                            <segue destination="Rva-TY-ouc" kind="show" identifier="goToSettings" id="HIc-dc-pzr"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Sync" id="851-NN-Jzl">
@@ -148,7 +148,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NC9-Iz-WfJ">
-                                <rect key="frame" x="16" y="64" width="343" height="75"/>
+                                <rect key="frame" x="16" y="20" width="343" height="75"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V5E-wg-rfG">
                                         <rect key="frame" x="284" y="22" width="51" height="31"/>
@@ -170,7 +170,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pt-l7-NV1">
-                                <rect key="frame" x="16" y="139" width="343" height="75"/>
+                                <rect key="frame" x="16" y="95" width="343" height="75"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YpM-gE-RU5">
                                         <rect key="frame" x="284" y="22" width="51" height="31"/>
@@ -192,7 +192,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FxU-IL-vG4">
-                                <rect key="frame" x="16" y="214" width="343" height="75"/>
+                                <rect key="frame" x="16" y="170" width="343" height="75"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hmj-ZG-DYk">
                                         <rect key="frame" x="284" y="22" width="51" height="31"/>
@@ -214,7 +214,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rMo-Ca-Oqq">
-                                <rect key="frame" x="16" y="289" width="343" height="75"/>
+                                <rect key="frame" x="16" y="245" width="343" height="75"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="64" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lix-PX-V3x">
                                         <rect key="frame" x="283" y="23" width="50" height="29"/>
@@ -256,7 +256,7 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hn1-f2-3ZK">
-                                <rect key="frame" x="16" y="488" width="343" height="100"/>
+                                <rect key="frame" x="16" y="482" width="343" height="100"/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="xdt-xZ-SP1"/>
@@ -265,30 +265,58 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Allowed Specials" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Zs-R4-hXx">
-                                <rect key="frame" x="82" y="429" width="211" height="21"/>
+                                <rect key="frame" x="82" y="389" width="211" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHh-ST-ez2">
+                                <rect key="frame" x="82" y="598" width="90" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="580-SW-0K7"/>
+                                </constraints>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="aPv-bd-dma" eventType="touchUpInside" id="0sG-Qd-a2X"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NE8-wd-zCV">
+                                <rect key="frame" x="203" y="598" width="90" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="GRj-r6-l1i"/>
+                                    <constraint firstAttribute="height" constant="30" id="Mcn-im-YRm"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveButtonPressed:" destination="aPv-bd-dma" eventType="touchUpInside" id="Rj6-ow-K2g"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="NC9-Iz-WfJ" secondAttribute="trailing" id="2gH-tc-vab"/>
-                            <constraint firstItem="NC9-Iz-WfJ" firstAttribute="top" secondItem="lJC-3B-4Ey" secondAttribute="bottom" id="5JB-Jh-AIN"/>
                             <constraint firstItem="4pt-l7-NV1" firstAttribute="top" secondItem="NC9-Iz-WfJ" secondAttribute="bottom" id="5xZ-sV-XzS"/>
                             <constraint firstItem="FxU-IL-vG4" firstAttribute="leading" secondItem="Sz5-3j-595" secondAttribute="leadingMargin" id="8BH-41-7ZI"/>
+                            <constraint firstItem="6hx-Cr-ia8" firstAttribute="top" secondItem="wHh-ST-ez2" secondAttribute="bottom" constant="39" id="8dM-ED-6We"/>
+                            <constraint firstItem="wHh-ST-ez2" firstAttribute="top" secondItem="hn1-f2-3ZK" secondAttribute="bottom" constant="16" id="DIZ-Im-zdJ"/>
                             <constraint firstItem="4pt-l7-NV1" firstAttribute="leading" secondItem="Sz5-3j-595" secondAttribute="leadingMargin" id="E0n-tg-qay"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FxU-IL-vG4" secondAttribute="trailing" id="Fhq-f9-arU"/>
                             <constraint firstItem="rMo-Ca-Oqq" firstAttribute="top" secondItem="FxU-IL-vG4" secondAttribute="bottom" id="GXw-dH-USJ"/>
                             <constraint firstItem="hn1-f2-3ZK" firstAttribute="leading" secondItem="Sz5-3j-595" secondAttribute="leadingMargin" id="Gps-3N-LEn"/>
                             <constraint firstItem="rMo-Ca-Oqq" firstAttribute="leading" secondItem="Sz5-3j-595" secondAttribute="leadingMargin" id="I9C-l1-JsT"/>
+                            <constraint firstItem="6hx-Cr-ia8" firstAttribute="top" secondItem="NE8-wd-zCV" secondAttribute="bottom" constant="39" id="MCt-0e-HpI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4pt-l7-NV1" secondAttribute="trailing" id="Otk-ow-5FQ"/>
                             <constraint firstItem="NC9-Iz-WfJ" firstAttribute="leading" secondItem="Sz5-3j-595" secondAttribute="leadingMargin" id="Usg-YK-iU0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NE8-wd-zCV" secondAttribute="trailing" constant="66" id="Uw6-zY-dMi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NE8-wd-zCV" secondAttribute="trailing" constant="66" id="VLH-jt-JS3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rMo-Ca-Oqq" secondAttribute="trailing" id="YQn-hC-dcb"/>
                             <constraint firstItem="FxU-IL-vG4" firstAttribute="top" secondItem="4pt-l7-NV1" secondAttribute="bottom" id="ZCb-aX-ujG"/>
-                            <constraint firstItem="6hx-Cr-ia8" firstAttribute="top" secondItem="hn1-f2-3ZK" secondAttribute="bottom" constant="30" id="j6s-p3-nu3"/>
+                            <constraint firstItem="NE8-wd-zCV" firstAttribute="top" secondItem="hn1-f2-3ZK" secondAttribute="bottom" constant="16" id="aDh-Bb-gFU"/>
+                            <constraint firstItem="NC9-Iz-WfJ" firstAttribute="top" secondItem="lJC-3B-4Ey" secondAttribute="bottom" id="gQA-nd-DX3"/>
+                            <constraint firstItem="wHh-ST-ez2" firstAttribute="leading" secondItem="Sz5-3j-595" secondAttribute="leadingMargin" constant="66" id="j6S-I5-7as"/>
                             <constraint firstItem="hn1-f2-3ZK" firstAttribute="trailing" secondItem="Sz5-3j-595" secondAttribute="trailingMargin" id="tKK-gM-vpA"/>
+                            <constraint firstItem="6hx-Cr-ia8" firstAttribute="top" secondItem="hn1-f2-3ZK" secondAttribute="bottom" constant="85" id="z19-6h-co7"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Generator" id="F5s-3R-fKw"/>
@@ -296,12 +324,17 @@
                         <outlet property="allowDigitsSwitch" destination="Hmj-ZG-DYk" id="l0c-x6-XZM"/>
                         <outlet property="allowLowerSwitch" destination="V5E-wg-rfG" id="4DY-N2-hw6"/>
                         <outlet property="allowUpperSwitch" destination="YpM-gE-RU5" id="BMl-zT-CoH"/>
+                        <outlet property="cancelButton" destination="wHh-ST-ez2" id="ZtQ-6u-2eR"/>
                         <outlet property="lengthLabel" destination="lix-PX-V3x" id="YHZ-aq-SDf"/>
                         <outlet property="lengthStepper" destination="skS-cX-f2N" id="dS4-0C-hza"/>
+                        <outlet property="saveButton" destination="NE8-wd-zCV" id="hzK-0e-8lN"/>
                         <outlet property="specialsTextView" destination="hn1-f2-3ZK" id="g5P-Vv-GTL"/>
+                        <segue destination="wuK-vi-pgP" kind="unwind" identifier="unwindToAddFromOverrideWithSender" unwindAction="unwindToAddFromOverrideWithSender:" id="zVj-5n-Bwz"/>
+                        <segue destination="wuK-vi-pgP" kind="unwind" identifier="unwindToDetailsFromOverrideWithSender" unwindAction="unwindToDetailsFromOverrideWithSender:" id="llw-zh-cKT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWu-ni-eDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="wuK-vi-pgP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3912.8000000000002" y="-109.29535232383809"/>
         </scene>
@@ -597,6 +630,7 @@
                                 <state key="normal" title="Generator Options"/>
                                 <connections>
                                     <action selector="optionsPressed:" destination="IPo-BW-wGr" eventType="touchUpInside" id="6PD-o4-wHn"/>
+                                    <segue destination="aPv-bd-dma" kind="show" id="v8E-RY-1Y3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -838,6 +872,7 @@
                                                 <state key="normal" title="Override Options"/>
                                                 <connections>
                                                     <action selector="overridePressed:" destination="DAo-tY-GPW" eventType="touchUpInside" id="0JD-at-atO"/>
+                                                    <segue destination="aPv-bd-dma" kind="show" id="XJX-eC-npx"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1034,4 +1069,7 @@
     <resources>
         <image name="vault" width="242" height="240"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="XJX-eC-npx"/>
+    </inferredMetricsTieBreakers>
 </document>

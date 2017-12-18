@@ -44,13 +44,23 @@ class AccountDetailsViewController: UIViewController {
     
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-// TODO - chack values, passwords match, etc
+        
+        if userNameTextField.text! == "" || passwordTextField.text! == "" || passwordTextField2.text! == "" {
+            present(Utils.showErrorMessage(errorMessage: "Account name, user name, and both password fields must contain values"), animated: true, completion: nil)
+            return
+        }
+        
+        if passwordTextField.text! != passwordTextField2.text! {
+            present(Utils.showErrorMessage(errorMessage: "Passwords don't match"), animated: true, completion: nil)
+            return
+        }
+        
         account?.userName = userNameTextField.text!
         account?.password = passwordTextField.text!
         account?.url = urlTextField.text!
         account?.updateTime = Utils.currentTimeMillis()
-        //print("Result of SaveAccount=\(CoreDataUtils.saveNewAccount(forAccount: account!))")
-        print("Result of SaveAccount=\(CoreDataUtils.updateAccount(forAccount: account!, false))")
+        
+        print("Result of SaveAccount=\(CoreDataUtils.updateAccount(forAccount: account!, passwordEncrypted: false))")
         
         self.dismiss(animated: true, completion: nil)
     }
@@ -77,7 +87,7 @@ class AccountDetailsViewController: UIViewController {
     
     
     @IBAction func optionsPressed(_ sender: UIButton) {
-// TODO
+
     }
     
     
@@ -88,8 +98,13 @@ class AccountDetailsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let controller = segue.destination as! PasswordGeneratorSettingsViewController
-        controller.sendingController = SendingController.EditAccount
+        if segue.identifier == "unwindToAccounts" {
+            
+        } else if segue.identifier == "goToGenerator" {
+            let controller = segue.destination as! PasswordGeneratorSettingsViewController
+            controller.sendingController = SendingController.EditAccount
+        }
+        
     }
     
 

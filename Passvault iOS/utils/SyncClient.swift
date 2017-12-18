@@ -249,7 +249,8 @@ print("Purging deleted account recieved from server: \(account.accountName)")
                                     continue
                                 }
                             } else {
-                                if CoreDataUtils.updateAccount(forAccount: account, true, new: false, passwordEncrypted: true) == CoreDataStatus.CoreDataError {
+//                                if CoreDataUtils.updateAccount(forAccount: account, true, new: false, passwordEncrypted: true) == CoreDataStatus.CoreDataError {
+                                if CoreDataUtils.updateAccount(forAccount: account, passwordEncrypted: true) == CoreDataStatus.CoreDataError {
                                     // should never happen, but print and keep going
                                     print("Error persisting account: \(account.accountName)")
                                     continue

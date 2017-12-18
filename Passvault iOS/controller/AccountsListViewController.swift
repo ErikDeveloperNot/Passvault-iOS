@@ -330,7 +330,14 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             //print("DELETED=\(accountDeletedFromDetails), for accout: \(selectedAccount)")
             if accountAdded {
                 let account = addAccountViewController.account
-                accounts.append(account!)
+                //accounts.append(account!)\
+                do {
+                    accounts = try CoreDataUtils.loadAllAccounts()
+                } catch {
+                    print("Error loading accounts from datastore, \(error)")
+                    Utils.showErrorMessage(errorMessage: "Error loading accounts from datastore, \(error)")
+                }
+                
                 accounts = Utils.sort(accounts: accounts, sortType: sortType)
                 accountsTableView.reloadData()
             }
@@ -434,7 +441,10 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     
     
     func setExpandedRows(forIndex index: Int) {
-        if accounts[index].url != "" {
+// TODO - use a better reg exp
+        let url = accounts[index].url.lowercased()
+        
+        if (url.starts(with: "http://") || url.starts(with: "https://")) && url.count >= 11  {
             expandedRows = [index+1, index+2, index+3]
         } else {
             expandedRows = [index+1, index+2]
@@ -514,7 +524,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                         self.accounts[index].password = decryptedPass
                         self.accounts[index].oldPassword = decryptedOldPass
                         
-                        if CoreDataUtils.updateAccount(forAccount: self.accounts[index], false) != CoreDataStatus.AccountUpdated {
+                        if CoreDataUtils.updateAccount(forAccount: self.accounts[index], passwordEncrypted: false) != CoreDataStatus.AccountUpdated {
                             print("Error saving account: \(self.accounts[index])")
 //                            self.resetExpandedRows()
 //                            self.accountsTableView.reloadData()

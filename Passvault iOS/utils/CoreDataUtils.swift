@@ -110,7 +110,7 @@ class CoreDataUtils {
             
             for account in accounts {
                 if account.deleted && current - account.updateTime > check {
-                    if purgeAccount(forName: account.accountName) == CoreDataStatus.CoreDataError {
+                    if purgeAccount(forName: account.accountName, withUpdateTime: account.updateTime) == CoreDataStatus.CoreDataError {
                         print("Error purging: \(account.accountName)")
                     }
                 }
@@ -122,10 +122,20 @@ class CoreDataUtils {
     
     
     static func purgeAccount(forName account: String) -> CoreDataStatus {
+        return purgeAccount(forName: account, withUpdateTime: -1)
+    }
+    
+    
+    static func purgeAccount(forName account: String, withUpdateTime time: Int64) -> CoreDataStatus {
         var toReturn: CoreDataStatus = .AccountDeleted
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AccountCD")
-        fetchRequest.predicate = NSPredicate(format: "accountName == %@", account)
+        
+        if time == -1 {
+            fetchRequest.predicate = NSPredicate(format: "accountName == %@", account)
+        } else {
+            fetchRequest.predicate = NSPredicate(format: "%K == %@ AND %K == %@", argumentArray: ["accountName", account, "updateTime", time])
+        }
         
         do {
             let currentAccounts = try context.fetch(fetchRequest) as! [AccountCD]
@@ -146,15 +156,10 @@ class CoreDataUtils {
     }
     
     
-    static func saveNewAccount(forAccount account: Account) -> CoreDataStatus {
-        return updateAccount(forAccount: account, true, new: true)
-    }
-    
-    
     static func deleteAccount(forName account: Account) -> CoreDataStatus {
         account.deleted = true
         
-        if updateAccount(forAccount: account, false) == .AccountUpdated {
+        if updateAccount(forAccount: account, passwordEncrypted: false) == .AccountUpdated {
             return CoreDataStatus.AccountDeleted
         } else {
             return CoreDataStatus.CoreDataError
@@ -162,18 +167,25 @@ class CoreDataUtils {
     }
     
     
-    static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool) -> CoreDataStatus {
-            return updateAccount(forAccount: account, insertIfDoesNotExist, new: false)
+    static func saveNewAccount(forAccount account: Account) -> CoreDataStatus {
+        
+        if let existingAccount = getAccount(forName: account.accountName) {
+            
+            if !existingAccount.deleted {
+                return CoreDataStatus.AccountAlreadyExists
+            }
+        }
+        
+        if updateAccount(forAccount: account, passwordEncrypted: false) != CoreDataStatus.CoreDataError {
+            return CoreDataStatus.AccountCreated
+        } else {
+            return CoreDataStatus.CoreDataError
+        }
     }
     
     
-    static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool, new: Bool) -> CoreDataStatus {
-        return updateAccount(forAccount: account, insertIfDoesNotExist, new: new, passwordEncrypted: false)
-    }
-    
-    
-    static func updateAccount(forAccount account: Account, _ insertIfDoesNotExist: Bool, new: Bool, passwordEncrypted: Bool) -> CoreDataStatus {
-        var toReturn: CoreDataStatus = .AccountUpdated
+    static func updateAccount(forAccount account: Account, passwordEncrypted: Bool) -> CoreDataStatus {
+        var toReturn: CoreDataStatus = .CoreDataError
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "AccountCD")
         fetchRequest.predicate = NSPredicate(format: "accountName == %@", account.accountName)
@@ -181,36 +193,38 @@ class CoreDataUtils {
         do {
             let currentAccount = try context.fetch(fetchRequest) as! [AccountCD]
             
-            if currentAccount.count < 1 && !insertIfDoesNotExist {
-                // this was an update but the account doesn't exists, should never happen
-                toReturn = .AccountNotFound
-            } else if currentAccount.count > 0 && !new {
-                // this is update existing account
-                //assume never more than one, need to figure out how to make sure of this
-                if !passwordEncrypted {
-                    let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
-                  
-                    if currentAccount[0].password != cryptResults[PASSWORD_KEY] {
-                        currentAccount[0].oldPassword = currentAccount[0].password
-                        currentAccount[0].password = cryptResults[PASSWORD_KEY]
+            if currentAccount.count > 0 {
+                // update
+                var toUpdate = currentAccount[0]
+                
+                if currentAccount.count > 1 {
+                    // should never happen but delete all others
+                    for index in 1..<currentAccount.count {
+                        print("Purging extra account for account: \(currentAccount[index].accountName!), results=\(purgeAccount(forName: currentAccount[index].accountName!, withUpdateTime: currentAccount[index].updateTime))")
                     }
-                } else {
-                    currentAccount[0].password = account.password
-                    currentAccount[0].oldPassword = account.oldPassword
                 }
                 
-                currentAccount[0].userName = account.userName
-                currentAccount[0].url = account.url
-                currentAccount[0].accountDeleted = account.deleted
-                currentAccount[0].updateTime = account.updateTime
+                if !passwordEncrypted {
+                    let cryptResults = encryptPasswords(password: account.password, oldPassword: account.oldPassword)
+                    
+                    if toUpdate.password != cryptResults[PASSWORD_KEY] {
+                        toUpdate.oldPassword = cryptResults[OLD_PASSWORD_KEY]
+                        toUpdate.password = cryptResults[PASSWORD_KEY]
+                    }
+                } else {
+                    toUpdate.password = account.password
+                    toUpdate.oldPassword = account.oldPassword
+                }
+                
+                toUpdate.userName = account.userName
+                toUpdate.url = account.url
+                toUpdate.accountDeleted = account.deleted
+                toUpdate.updateTime = account.updateTime
                 
                 try context.save()
                 toReturn = .AccountUpdated
-            } else if currentAccount.count > 0 && new {
-                // this is trying to add and new account for an existing account
-                toReturn = .AccountAlreadyExists
-            } else if insertIfDoesNotExist {
-                // new account
+            } else {
+                // new
                 let toAdd = AccountCD(context: context)
                 
                 if !passwordEncrypted {
@@ -227,18 +241,19 @@ class CoreDataUtils {
                 toAdd.url = account.url
                 toAdd.updateTime = account.updateTime
                 toAdd.accountDeleted = account.deleted
-               
+                
                 try context.save()
                 toReturn = .AccountCreated
             }
+            
         } catch {
             print("Error accessing CoreData: , \(error)")
             toReturn = .CoreDataError
         }
-   
+        
         return toReturn
     }
-    
+   
     
     static func getAccount(forName: String) -> Account? {
         var account: Account?

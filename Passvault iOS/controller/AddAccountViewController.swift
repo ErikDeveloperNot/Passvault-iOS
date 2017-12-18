@@ -34,10 +34,6 @@ class AddAccountViewController: UIViewController {
     
     
     @IBAction func generatePressed(_ sender: UIButton) {
-        /*let generator = CoreDataUtils.getGenerator()
-        let password = generator.generatePassword()
-        passwordTextField.text = password
-        passwordTextField2.text = password*/
         
         if generator == nil {
             generator = CoreDataUtils.getGenerator()
@@ -100,7 +96,7 @@ class AddAccountViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier != "unwindToAccountsList" {
+        if segue.identifier == "goToGenerator" {
             let controller = segue.destination as! PasswordGeneratorSettingsViewController
             controller.sendingController = SendingController.AddAccount
         }

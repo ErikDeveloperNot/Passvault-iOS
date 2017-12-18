@@ -630,7 +630,7 @@
                                 <state key="normal" title="Generator Options"/>
                                 <connections>
                                     <action selector="optionsPressed:" destination="IPo-BW-wGr" eventType="touchUpInside" id="6PD-o4-wHn"/>
-                                    <segue destination="aPv-bd-dma" kind="show" id="v8E-RY-1Y3"/>
+                                    <segue destination="aPv-bd-dma" kind="show" identifier="goToGenerator" id="v8E-RY-1Y3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -872,7 +872,7 @@
                                                 <state key="normal" title="Override Options"/>
                                                 <connections>
                                                     <action selector="overridePressed:" destination="DAo-tY-GPW" eventType="touchUpInside" id="0JD-at-atO"/>
-                                                    <segue destination="aPv-bd-dma" kind="show" id="XJX-eC-npx"/>
+                                                    <segue destination="aPv-bd-dma" kind="show" identifier="goToGenerator" id="XJX-eC-npx"/>
                                                 </connections>
                                             </button>
                                         </subviews>

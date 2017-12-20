@@ -28,23 +28,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="vault" translatesAutoresizingMaskIntoConstraints="NO" id="hlK-5k-REB">
-                                <rect key="frame" x="0.0" y="64" width="375" height="398"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safe-login" translatesAutoresizingMaskIntoConstraints="NO" id="q04-IM-fk3">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="&lt;Enter Password&gt;" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZAF-wP-MZW">
-                                <rect key="frame" x="16" y="498" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="&lt;Enter Password&gt;" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZAF-wP-MZW">
+                                <rect key="frame" x="16" y="573" width="343" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="LBF-j2-k5i"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HC9-Zg-GvD">
-                                <rect key="frame" x="16" y="546" width="343" height="91"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HC9-Zg-GvD">
+                                <rect key="frame" x="16" y="617" width="343" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="b4N-e4-k5t"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,7 +57,18 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ay4-Uv-0LS" firstAttribute="top" secondItem="q04-IM-fk3" secondAttribute="bottom" id="0af-T7-J13"/>
+                            <constraint firstAttribute="trailing" secondItem="HC9-Zg-GvD" secondAttribute="trailing" constant="16" id="4es-3f-l9d"/>
+                            <constraint firstItem="ZAF-wP-MZW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="Cem-ht-r4o"/>
+                            <constraint firstItem="HC9-Zg-GvD" firstAttribute="top" secondItem="ZAF-wP-MZW" secondAttribute="bottom" constant="14" id="ETZ-8a-kmu"/>
+                            <constraint firstItem="HC9-Zg-GvD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="YsF-vz-8pZ"/>
+                            <constraint firstItem="q04-IM-fk3" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="cxB-lg-641"/>
+                            <constraint firstItem="ay4-Uv-0LS" firstAttribute="top" secondItem="HC9-Zg-GvD" secondAttribute="bottom" constant="20" id="eQP-oU-H77"/>
+                            <constraint firstAttribute="trailing" secondItem="ZAF-wP-MZW" secondAttribute="trailing" constant="16" id="hIa-K8-qSg"/>
+                            <constraint firstItem="q04-IM-fk3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="lhn-oh-iPD"/>
+                            <constraint firstAttribute="trailing" secondItem="q04-IM-fk3" secondAttribute="trailing" id="vS8-Hf-DsU"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="3Yi-0Y-cFI"/>
                     <connections>
@@ -1067,7 +1080,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="vault" width="242" height="240"/>
+        <image name="safe-login" width="1280" height="1112"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="XJX-eC-npx"/>

@@ -90,7 +90,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             if indexPath.row <= expandedIndex {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "accountCellReuseIdentifier")! as! AccountTableViewCell
                 let accountName = accounts[indexPath.row].accountName
-                setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row].validEncryption)
+                setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row].validEncryption, row: indexPath.row)
                 cell.accountNameLabel.text = accountName
                 cellToReturn = cell
             } else {
@@ -100,16 +100,26 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                     if expandedRows.count == 3 {
                         if indexPath.row == expandedIndex + 1 {
                             cell.buttonLabel.text = "Copy Password"
+                            cell.contentView.backgroundColor = UIColor(red: CGFloat(95) / 255.0, green: CGFloat(75) / 255.0, blue: CGFloat(112) / 255.0, alpha: 1.0)
+                            cell.buttonLabel.backgroundColor = UIColor(red: CGFloat(127.0) / 255.0, green: CGFloat(124.0) / 255.0, blue: CGFloat(231.0) / 255.0, alpha: 1.0)
                         } else if indexPath.row == expandedIndex + 2 {
                             cell.buttonLabel.text = "Copy Old Password"
+                            cell.buttonLabel.backgroundColor = UIColor(red: CGFloat(127.0) / 255.0, green: CGFloat(124.0) / 255.0, blue: CGFloat(231.0) / 255.0, alpha: 1.0)
+                            cell.contentView.backgroundColor = UIColor(red: CGFloat(96.0) / 255.0 , green: CGFloat(89.0) / 255.0, blue: CGFloat(159.0) / 255.0, alpha: 1.0)
                         } else {
                             cell.buttonLabel.text = "Browser"
+                            cell.contentView.backgroundColor = UIColor(red: CGFloat(95) / 255.0, green: CGFloat(75) / 255.0, blue: CGFloat(112) / 255.0, alpha: 1.0)
+                            cell.buttonLabel.backgroundColor = UIColor(red: CGFloat(127.0) / 255.0, green: CGFloat(124.0) / 255.0, blue: CGFloat(231.0) / 255.0, alpha: 1.0)
                         }
                     } else {
                         if indexPath.row == expandedIndex + 1 {
                             cell.buttonLabel.text = "Copy Password"
+                            cell.contentView.backgroundColor = UIColor(red: CGFloat(95) / 255.0, green: CGFloat(75) / 255.0, blue: CGFloat(112) / 255.0, alpha: 1.0)
+                            cell.buttonLabel.backgroundColor = UIColor(red: CGFloat(127.0) / 255.0, green: CGFloat(124.0) / 255.0, blue: CGFloat(231.0) / 255.0, alpha: 1.0)
                         } else {
                             cell.buttonLabel.text = "Copy Old Password"
+                            cell.buttonLabel.backgroundColor = UIColor(red: CGFloat(127.0) / 255.0, green: CGFloat(124.0) / 255.0, blue: CGFloat(231.0) / 255.0, alpha: 1.0)
+                            cell.contentView.backgroundColor = UIColor(red: CGFloat(96.0) / 255.0 , green: CGFloat(89.0) / 255.0, blue: CGFloat(159.0) / 255.0, alpha: 1.0)
                         }
                     }
                     
@@ -118,7 +128,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                     let cell = tableView.dequeueReusableCell(withIdentifier: "accountCellReuseIdentifier")! as! AccountTableViewCell
                     let accountName = accounts[indexPath.row - expandedRows.count].accountName
                     cell.accountNameLabel.text = accountName
-                    setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row - expandedRows.count].validEncryption)
+                    setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row - expandedRows.count].validEncryption, row: indexPath.row)
                     cellToReturn = cell
                 }
             }
@@ -126,7 +136,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             let accountName = accounts[indexPath.row].accountName
             let cell = tableView.dequeueReusableCell(withIdentifier: "accountCellReuseIdentifier")! as! AccountTableViewCell
             cell.accountNameLabel.text = accountName
-            setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row].validEncryption)
+            setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row].validEncryption, row: indexPath.row)
             cellToReturn = cell
         }
 
@@ -136,7 +146,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if expandedRows.contains(indexPath.row) {
-            return CGFloat(80.0)
+            return CGFloat(70.0)
+            //return CGFloat(0.0)
         } else {
             return CGFloat(44.0)
         }
@@ -459,11 +470,17 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
-    func setAccountTableViewCellTextColor(forCell: AccountTableViewCell, validEncryption: Bool) {
+    func setAccountTableViewCellTextColor(forCell: AccountTableViewCell, validEncryption: Bool, row: Int) {
         if validEncryption {
             forCell.accountNameLabel.textColor = UIColor.black
         } else {
             forCell.accountNameLabel.textColor = UIColor.lightGray
+        }
+        
+        if row % 2 == 0 {
+            forCell.contentView.backgroundColor = UIColor(red: CGFloat(183) / 255.0, green: CGFloat(157) / 255.0, blue: CGFloat(254) / 255.0, alpha: 1.0)
+        } else {
+            forCell.contentView.backgroundColor = UIColor(red: CGFloat(127) / 255.0, green: CGFloat(124) / 255.0, blue: CGFloat(231) / 255.0, alpha: 1.0)
         }
     }
     

@@ -14,6 +14,8 @@
 		7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */; };
 		7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */; };
 		7F41B2611FDD49B700228884 /* SyncMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41B2601FDD49B700228884 /* SyncMessages.swift */; };
+		7F4EBCC71FEA6D170062E66A /* AccountNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4EBCC51FEA6D170062E66A /* AccountNameTableViewCell.swift */; };
+		7F4EBCC81FEA6D170062E66A /* AccountNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4EBCC61FEA6D170062E66A /* AccountNameTableViewCell.xib */; };
 		7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */; };
 		7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3D1FCD640C009C0F0D /* Crypt.swift */; };
 		7F674D491FD9357200A0374A /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F674D481FD9357200A0374A /* AddAccountViewController.swift */; };
@@ -43,6 +45,8 @@
 		7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSettingsViewController.swift; sourceTree = "<group>"; };
 		7F14B0CB1FCE5DB100F6A203 /* CoreDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUtils.swift; sourceTree = "<group>"; };
 		7F41B2601FDD49B700228884 /* SyncMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMessages.swift; sourceTree = "<group>"; };
+		7F4EBCC51FEA6D170062E66A /* AccountNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountNameTableViewCell.swift; sourceTree = "<group>"; };
+		7F4EBCC61FEA6D170062E66A /* AccountNameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountNameTableViewCell.xib; sourceTree = "<group>"; };
 		7F54EE391FCD5AB2009C0F0D /* Passvault iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Passvault iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
 		7F54EE3C1FCD5AD5009C0F0D /* CommonCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCrypto.h; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 				7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */,
 				7FF60BBD1FDF5935000B8BF3 /* ButtonTableViewCell.swift */,
 				7FF60BBE1FDF5935000B8BF3 /* ButtonTableViewCell.xib */,
+				7F4EBCC51FEA6D170062E66A /* AccountNameTableViewCell.swift */,
+				7F4EBCC61FEA6D170062E66A /* AccountNameTableViewCell.xib */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -268,6 +274,7 @@
 			files = (
 				7FA8F3B41FCBAC610077C4F5 /* LaunchScreen.storyboard in Resources */,
 				7F80EA501FD3EA0600E948EF /* AccountTableViewCell.xib in Resources */,
+				7F4EBCC81FEA6D170062E66A /* AccountNameTableViewCell.xib in Resources */,
 				7FF60BC01FDF5935000B8BF3 /* ButtonTableViewCell.xib in Resources */,
 				7FA8F3B11FCBAC610077C4F5 /* Assets.xcassets in Resources */,
 				7FA8F3AF1FCBAC610077C4F5 /* Main.storyboard in Resources */,
@@ -361,6 +368,7 @@
 				7F0A57911FD749A300C72999 /* GeneralSettingsViewController.swift in Sources */,
 				7F0A57951FD74C9300C72999 /* SyncSettingsViewController.swift in Sources */,
 				7FA8F3DE1FCBB4200077C4F5 /* Passvault iOS.xcdatamodeld in Sources */,
+				7F4EBCC71FEA6D170062E66A /* AccountNameTableViewCell.swift in Sources */,
 				7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */,
 				7F674D491FD9357200A0374A /* AddAccountViewController.swift in Sources */,
 				7F0A578F1FD7452F00C72999 /* SettingsTabBarController.swift in Sources */,

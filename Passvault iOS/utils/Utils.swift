@@ -40,9 +40,9 @@ class Utils {
         let httpIndex = forURL.index(forURL.startIndex, offsetBy: 6)
         let http = forURL[...httpIndex]
         let httpsIndex = forURL.index(forURL.startIndex, offsetBy: 7)
-        let https = forURL[...httpIndex]
-        
-        if http != "http://" || https != "https://" {
+        let https = forURL[...httpsIndex]
+
+        if http != "http://" && https != "https://" {
             urlAsString = "http://\(forURL)"
         }
         

@@ -57,7 +57,7 @@ class AccountDetailsViewController: UIViewController {
         
         account?.userName = userNameTextField.text!
         account?.password = passwordTextField.text!
-        account?.url = urlTextField.text!
+        account?.url = Utils.addURLProtocol(forURL: urlTextField.text!)
         account?.updateTime = Utils.currentTimeMillis()
         
         print("Result of SaveAccount=\(CoreDataUtils.updateAccount(forAccount: account!, passwordEncrypted: false))")

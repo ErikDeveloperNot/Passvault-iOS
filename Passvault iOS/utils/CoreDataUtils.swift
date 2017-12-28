@@ -158,6 +158,7 @@ class CoreDataUtils {
     
     static func deleteAccount(forName account: Account) -> CoreDataStatus {
         account.deleted = true
+        account.updateTime = Utils.currentTimeMillis()
         
         if updateAccount(forAccount: account, passwordEncrypted: false) == .AccountUpdated {
             return CoreDataStatus.AccountDeleted
@@ -195,7 +196,7 @@ class CoreDataUtils {
             
             if currentAccount.count > 0 {
                 // update
-                var toUpdate = currentAccount[0]
+                let toUpdate = currentAccount[0]
                 
                 if currentAccount.count > 1 {
                     // should never happen but delete all others

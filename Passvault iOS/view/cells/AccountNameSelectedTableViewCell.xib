@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeueExtras.ttc">
+            <string>HelveticaNeue-CondensedBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="AccountNameSelectedTableViewCell" customModule="Passvault_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" alpha="0.94999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cell_background_1" translatesAutoresizingMaskIntoConstraints="NO" id="Dun-eQ-2yj">
+                        <rect key="frame" x="0.0" y="1" width="320" height="41.5"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FkC-qH-mjt">
+                        <rect key="frame" x="16" y="21.5" width="288" height="0.0"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="Dun-eQ-2yj" secondAttribute="trailing" id="0CK-g1-Ntg"/>
+                    <constraint firstItem="FkC-qH-mjt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6Mq-kb-47B"/>
+                    <constraint firstAttribute="bottom" secondItem="Dun-eQ-2yj" secondAttribute="bottom" constant="1" id="Dke-yH-MGS"/>
+                    <constraint firstItem="Dun-eQ-2yj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Jxz-Ln-yXk"/>
+                    <constraint firstItem="Dun-eQ-2yj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="Rl0-F2-98i"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="FkC-qH-mjt" secondAttribute="trailing" id="bdD-OX-1cD"/>
+                    <constraint firstItem="FkC-qH-mjt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="hWI-Zf-waA"/>
+                    <constraint firstItem="FkC-qH-mjt" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="kPF-TX-DjG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="accountNameLabel" destination="FkC-qH-mjt" id="zbH-Cf-mQo"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="cell_background_1" width="300" height="72"/>
+    </resources>
+</document>

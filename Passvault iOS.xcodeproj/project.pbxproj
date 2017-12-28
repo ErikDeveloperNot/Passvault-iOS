@@ -18,7 +18,10 @@
 		7F4EBCC81FEA6D170062E66A /* AccountNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4EBCC61FEA6D170062E66A /* AccountNameTableViewCell.xib */; };
 		7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */; };
 		7F54EE3E1FCD640C009C0F0D /* Crypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F54EE3D1FCD640C009C0F0D /* Crypt.swift */; };
+		7F59BEDE1FF352B80002B9BE /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F59BEDD1FF352B80002B9BE /* InfoViewController.swift */; };
 		7F674D491FD9357200A0374A /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F674D481FD9357200A0374A /* AddAccountViewController.swift */; };
+		7F7D3C871FEE554700EA9245 /* AccountNameSelectedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7D3C851FEE554700EA9245 /* AccountNameSelectedTableViewCell.swift */; };
+		7F7D3C881FEE554700EA9245 /* AccountNameSelectedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7D3C861FEE554700EA9245 /* AccountNameSelectedTableViewCell.xib */; };
 		7F80EA4F1FD3EA0600E948EF /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */; };
 		7F80EA501FD3EA0600E948EF /* AccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */; };
 		7F8E69111FE51FAB0070F84A /* MRAComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E69101FE51FAB0070F84A /* MRAComparator.swift */; };
@@ -51,7 +54,10 @@
 		7F54EE3A1FCD5AB3009C0F0D /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
 		7F54EE3C1FCD5AD5009C0F0D /* CommonCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCrypto.h; sourceTree = "<group>"; };
 		7F54EE3D1FCD640C009C0F0D /* Crypt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypt.swift; sourceTree = "<group>"; };
+		7F59BEDD1FF352B80002B9BE /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		7F674D481FD9357200A0374A /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
+		7F7D3C851FEE554700EA9245 /* AccountNameSelectedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountNameSelectedTableViewCell.swift; sourceTree = "<group>"; };
+		7F7D3C861FEE554700EA9245 /* AccountNameSelectedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountNameSelectedTableViewCell.xib; sourceTree = "<group>"; };
 		7F80EA4D1FD3EA0600E948EF /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		7F80EA4E1FD3EA0600E948EF /* AccountTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountTableViewCell.xib; sourceTree = "<group>"; };
 		7F8E69101FE51FAB0070F84A /* MRAComparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAComparator.swift; sourceTree = "<group>"; };
@@ -117,6 +123,8 @@
 				7FF60BBE1FDF5935000B8BF3 /* ButtonTableViewCell.xib */,
 				7F4EBCC51FEA6D170062E66A /* AccountNameTableViewCell.swift */,
 				7F4EBCC61FEA6D170062E66A /* AccountNameTableViewCell.xib */,
+				7F7D3C851FEE554700EA9245 /* AccountNameSelectedTableViewCell.swift */,
+				7F7D3C861FEE554700EA9245 /* AccountNameSelectedTableViewCell.xib */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -183,6 +191,7 @@
 				7F0A57921FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift */,
 				7F0A57941FD74C9300C72999 /* SyncSettingsViewController.swift */,
 				7F674D481FD9357200A0374A /* AddAccountViewController.swift */,
+				7F59BEDD1FF352B80002B9BE /* InfoViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -274,6 +283,7 @@
 			files = (
 				7FA8F3B41FCBAC610077C4F5 /* LaunchScreen.storyboard in Resources */,
 				7F80EA501FD3EA0600E948EF /* AccountTableViewCell.xib in Resources */,
+				7F7D3C881FEE554700EA9245 /* AccountNameSelectedTableViewCell.xib in Resources */,
 				7F4EBCC81FEA6D170062E66A /* AccountNameTableViewCell.xib in Resources */,
 				7FF60BC01FDF5935000B8BF3 /* ButtonTableViewCell.xib in Resources */,
 				7FA8F3B11FCBAC610077C4F5 /* Assets.xcassets in Resources */,
@@ -361,6 +371,7 @@
 				7FF60BBF1FDF5935000B8BF3 /* ButtonTableViewCell.swift in Sources */,
 				7F14B0CC1FCE5DB100F6A203 /* CoreDataUtils.swift in Sources */,
 				7F0A57931FD749C500C72999 /* PasswordGeneratorSettingsViewController.swift in Sources */,
+				7F7D3C871FEE554700EA9245 /* AccountNameSelectedTableViewCell.swift in Sources */,
 				7FAD8E8C1FD988420081CB86 /* SyncClient.swift in Sources */,
 				7FAB59451FD00CF900FF8FF5 /* AccountDetailsViewController.swift in Sources */,
 				7F8E9BD81FCE86C1008397FA /* AccountsListViewController.swift in Sources */,
@@ -371,6 +382,7 @@
 				7F4EBCC71FEA6D170062E66A /* AccountNameTableViewCell.swift in Sources */,
 				7F54EE3B1FCD5AB3009C0F0D /* CommonCrypto.m in Sources */,
 				7F674D491FD9357200A0374A /* AddAccountViewController.swift in Sources */,
+				7F59BEDE1FF352B80002B9BE /* InfoViewController.swift in Sources */,
 				7F0A578F1FD7452F00C72999 /* SettingsTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

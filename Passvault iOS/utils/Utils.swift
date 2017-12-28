@@ -10,6 +10,20 @@ import Foundation
 import UIKit
 
 
+extension UIColor {
+    
+    convenience init(hex: Int) {
+        let components = (
+            R: CGFloat((hex >> 16) & 0xff) / 255,
+            G: CGFloat((hex >> 08) & 0xff) / 255,
+            B: CGFloat((hex >> 00) & 0xff) / 255
+        )
+        self.init(red: components.R, green: components.G, blue: components.B, alpha: 1)
+    }
+    
+}
+
+
 class Utils {
     
     
@@ -66,6 +80,30 @@ class Utils {
     }
     
     
+    static func addURLProtocol(forURL: String) -> String {
+        var urlAsString = forURL
+        
+        if forURL.count == 0 {
+            return forURL
+        }
+        
+        if forURL.count > 9 {
+            let httpIndex = forURL.index(forURL.startIndex, offsetBy: 6)
+            let http = forURL[...httpIndex]
+            let httpsIndex = forURL.index(forURL.startIndex, offsetBy: 7)
+            let https = forURL[...httpsIndex]
+            
+            if http != "http://" && https != "https://" {
+                urlAsString = "http://\(forURL)"
+            }
+        } else {
+            urlAsString = "http://\(forURL)"
+        }
+        
+        return urlAsString
+    }
+    
+    
     static func sort(accounts: [Account], sortType: SortType) -> [Account] {
         
         if sortType == SortType.MOA {
@@ -117,4 +155,10 @@ class Utils {
         
         return alert
     }
+    
+    
+    static func getUIColorForHexValue(hex: Int) -> UIColor {
+        return UIColor(hex: hex)
+    }
+    
 }

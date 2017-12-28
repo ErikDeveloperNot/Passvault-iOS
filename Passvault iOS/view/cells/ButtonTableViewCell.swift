@@ -8,9 +8,19 @@
 
 import UIKit
 
+
+/*protocol OptionsButton {
+    func buttonPressed(forRow: Int?)
+}*/
+
 class ButtonTableViewCell: UITableViewCell {
 
     @IBOutlet weak var buttonLabel: UILabel!
+    @IBOutlet weak var buttonImage: UIImageView!
+    //@IBOutlet weak var button: UIButton!
+    
+    /*var row: Int?
+    var delegate: OptionsButton?*/
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,4 +33,12 @@ class ButtonTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    /*@IBAction func buttonPressed(_ sender: UIButton) {
+        print("Button Pressed inside")
+        
+        delegate?.buttonPressed(forRow: row)
+    }
+    @IBAction func buttonOutside(_ sender: UIButton) {
+        print("Button Pressed outside")
+    }*/
 }

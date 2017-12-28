@@ -11,6 +11,7 @@ import SVProgressHUD
 
 class AccountsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
     let INVALID_ENCRYPTION_MESSAGE = "Tha password for this account could not be decrypted with the login key entered. If the incorrect key was entered at login, logout and log back in. If this account was setup with a different login key then what is currently being used, the account can be recovered by entering the key used to encrypt this account. Press the decrypt button to enter the key. If the key is unknown, the other options are to delete the account, or just cancel and leave the account in this state."
     
     @IBOutlet weak var accountsTableView: UITableView!
@@ -22,13 +23,18 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     
     // used for tableview
     var selectedAccount: Account?
-    var expanded: Bool = false
-    var expandedIndex: Int = -1
-    var expandedRows: [Int] = []
+//    var expanded: Bool = false
+//    var expandedIndex: Int = -1
+//    var expandedRows: [Int] = []
     
     // used for tableview 2.0
     let MULTIPLIER = 5
+    let DARK_BUTTON = "grey_gradient_dark_button"
+    let LIGHT_BUTTON = "grey_gradient_button"
+    let CELL_TEXT_HEX = 0x332BA1
     var expandedRow = -1
+    var selectedOptionRow = -1
+    
     
     // used by AccountDetailsViewController to flag that an account has been deleted and index
     var accountDeletedFromDetails: Bool = false
@@ -42,6 +48,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
 
         accountsTableView.register(UINib(nibName: "ButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "buttonCellReuseIdentifier")
         accountsTableView.register(UINib(nibName: "AccountNameTableViewCell", bundle: nil), forCellReuseIdentifier: "accountNameReuseIdentifier")
+        accountsTableView.register(UINib(nibName: "AccountNameSelectedTableViewCell", bundle: nil), forCellReuseIdentifier: "accountNameSelectedReuseIdentifier")
         
         if CoreDataUtils.loadGateway().server != "" {
             syncButton.isEnabled = true
@@ -54,6 +61,11 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         MRAComparator.getInstance().debugMaps()
+        
+        // to support the options cells behaving like buttons instead of rows
+        let colorView = UIView()
+        colorView.backgroundColor = UIColor.clear
+        UITableViewCell.appearance().selectedBackgroundView = colorView
     }
     
     
@@ -67,7 +79,6 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         }
 
         accounts = Utils.sort(accounts: accounts, sortType: sortType)
-        //resetExpandedRows()
         accountsTableView.reloadData()
     }
 
@@ -89,38 +100,76 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row % MULTIPLIER == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "accountNameReuseIdentifier")! as! AccountNameTableViewCell
             
             if expandedRow == indexPath.row / MULTIPLIER {
-                cell.accountNameLabel.text = "Username: \(accounts[indexPath.row / MULTIPLIER].userName)"
+                let cell = tableView.dequeueReusableCell(withIdentifier: "accountNameSelectedReuseIdentifier")! as! AccountNameSelectedTableViewCell
+                cell.accountNameLabel.text = "username: \(accounts[indexPath.row / MULTIPLIER].userName)"
+                
+                return cell
             } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "accountNameReuseIdentifier")! as! AccountNameTableViewCell
+                
                 cell.accountNameLabel.text = accounts[indexPath.row / MULTIPLIER].accountName
+                setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row/MULTIPLIER].validEncryption, row: indexPath.row/MULTIPLIER)
+                
+                return cell
             }
             
-            setAccountTableViewCellTextColor(forCell: cell, validEncryption: accounts[indexPath.row/MULTIPLIER].validEncryption, row: indexPath.row/MULTIPLIER)
-            
-            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "buttonCellReuseIdentifier")! as! ButtonTableViewCell
+//            cell.row = indexPath.row
+//            cell.delegate = self
             
-            switch indexPath.row % 5 {
+            // if row is selected options row make it look like a button was pressed then
+            // then change back to the default
+            if indexPath.row == selectedOptionRow {
+                cell.buttonLabel.textColor = UIColor.white
+                cell.buttonImage.image = UIImage(named: DARK_BUTTON)
+                selectedOptionRow = -1
+                DispatchQueue.global(qos: .background).async {
+                    usleep(100000)
+                    
+                    DispatchQueue.main.async {
+                        cell.buttonLabel.textColor = Utils.getUIColorForHexValue(hex: self.CELL_TEXT_HEX)
+                        cell.buttonImage.image = UIImage(named: self.LIGHT_BUTTON)
+                    }
+                }
+            }
+            
+//if expandedRow == indexPath.row/MULTIPLIER {
+//cell.isHidden = false
+            switch indexPath.row % MULTIPLIER {
             case 1:
                 cell.buttonLabel.text = "Copy Password"
+//                setButtonTitleForAllStates(titleToSet: "Copy Password", forButton: cell.button)
                 break
             case 2:
                 cell.buttonLabel.text = "Copy Old Password"
+//                setButtonTitleForAllStates(titleToSet: "Copy Old Password", forButton: cell.button)
                 break
             case 3:
                 cell.buttonLabel.text = "Open URL"
+//                let url = accounts[indexPath.row/MULTIPLIER].url.lowercased()
+//                if ((url.starts(with: "http://") || url.starts(with: "https://")) && url.count >= 11) {
+//                    setButtonTitleForAllStates(titleToSet: "Open URL", forButton: cell.button)
+//                } else {
+//                    cell.isHidden = true
+//                }
                 break
             case 4:
                 cell.buttonLabel.text = "Edit Account"
+//              setButtonTitleForAllStates(titleToSet: "Edit Account", forButton: cell.button)
                 break
             default:
-                print("Error, should never see this, index=\(indexPath.row % 5)")
+                print("Error, should never see this, index=\(indexPath.row % MULTIPLIER)")
                 break
             }
-            
+
+
+//    //cell.isHidden = false
+//} else {
+//    cell.isHidden = true
+//}
             return cell
         }
     }
@@ -129,8 +178,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row % MULTIPLIER == 0 {
-            //return 44.0
-            return 35.0
+            return 44.0
+            //return 35.0
         }
         
         if indexPath.row / MULTIPLIER == expandedRow && accounts[indexPath.row/MULTIPLIER].validEncryption {
@@ -176,16 +225,16 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 
                 if expandedRow != -1 {
-                    rowsToReload = buildIndexPaths(forRow: IndexPath(row: expandedRow*5, section: 0))
+                    rowsToReload = buildIndexPaths(forRow: IndexPath(row: expandedRow*MULTIPLIER, section: 0))
                 }
                 
                 rowsToReload.append(contentsOf: buildIndexPaths(forRow: indexPath))
-                expandedRow = indexPath.row / 5
+                expandedRow = indexPath.row / MULTIPLIER
             }
             
             accountsTableView.reloadRows(at: rowsToReload, with: .fade)
         } else {
-        
+            
             switch indexPath.row % MULTIPLIER {
             case 1:
                 MRAComparator.getInstance().incrementAccessCount(forAccount: accounts[expandedRow].accountName)
@@ -210,6 +259,11 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                 self.performSegue(withIdentifier: "goToDetails", sender: self)
                 break
             }
+            
+            // reload low to make it look like button was clicked
+            selectedOptionRow = indexPath.row
+            accountsTableView.reloadRows(at: [indexPath], with: .none)
+            
         }
         
     }
@@ -233,6 +287,13 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             deleteAccount(indexPath: indexPath)
         }
     }
+    
+    
+    // MARK: - OptionsButton implementation
+    
+    /*func buttonPressed(forRow: Int?) {
+        print("Button Pressed for row: \(forRow)")
+    }*/
     
     
     // MARK: - Navigation
@@ -321,14 +382,31 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     }
    
     
+    @IBAction func infoPressed(_ sender: UIBarButtonItem) {
+    }
+    
     // MARK: utility functions
     //
+    
+    func setButtonTitleForAllStates(titleToSet title: String, forButton button: UIButton) {
+        button.setTitle(title, for: .disabled)
+        button.setTitle(title, for: .normal)
+        button.setTitle(title, for: .selected)
+    }
     
     func deleteAccount(indexPath: IndexPath) {
         
         if indexPath.row / MULTIPLIER == expandedRow {
             expandedRow = -1
+        } else if expandedRow > -1 {
+            let rowsToUpdate = buildIndexPaths(forRow: IndexPath(row: expandedRow * MULTIPLIER, section: 0))
+            expandedRow = -1
+            accountsTableView.reloadRows(at: rowsToUpdate, with: .fade)
         }
+        
+//        if indexPath.row / MULTIPLIER == expandedRow {
+//            expandedRow = -1
+//        }
         
         if CoreDataUtils.deleteAccount(forName: accounts[indexPath.row/MULTIPLIER]) == CoreDataStatus.AccountDeleted {
             accounts.remove(at: indexPath.row/MULTIPLIER)
@@ -337,36 +415,6 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
             print("Error deleting account from Data Store")
             present(Utils.showErrorMessage(errorMessage: "Error deleting account from Data Store"), animated: true, completion: nil)
         }
-    }
-    
-    
-    func getIndexPathsToDelete() -> [IndexPath] {
-        var toReturn: [IndexPath] = []
-        
-        for i in expandedRows {
-            toReturn.append(IndexPath(row: i, section: 0))
-        }
-        
-        return toReturn
-    }
-    
-    
-    func setExpandedRows(forIndex index: Int) {
-// TODO - use a better reg exp
-        let url = accounts[index].url.lowercased()
-        
-        if (url.starts(with: "http://") || url.starts(with: "https://")) && url.count >= 11  {
-            expandedRows = [index+1, index+2, index+3]
-        } else {
-            expandedRows = [index+1, index+2]
-        }
-    }
-    
-    
-    func resetExpandedRows() {
-        expanded = false
-        expandedIndex = -1
-        expandedRows = []
     }
     
     
@@ -412,8 +460,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         alert.addAction(deleteAction)
         alert.addAction(decryptAction)
         
+        alert.view.backgroundColor = UIColor.darkGray
         present(alert, animated: true, completion: nil)
-        
     }
     
     

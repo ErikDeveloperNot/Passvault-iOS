@@ -71,7 +71,7 @@ class AddAccountViewController: UIViewController {
             return
         }
         
-        account = Account(accountName: accountName!, userName: userName!, password: password!, url: url!)
+        account = Account(accountName: accountName!, userName: userName!, password: password!, url: Utils.addURLProtocol(forURL: url!))
         let status = CoreDataUtils.saveNewAccount(forAccount: account!)
         
         if status != CoreDataStatus.AccountCreated {

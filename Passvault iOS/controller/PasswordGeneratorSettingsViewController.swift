@@ -14,7 +14,7 @@ enum SendingController {
     case EditAccount
 }
 
-class PasswordGeneratorSettingsViewController: UIViewController {
+class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDelegate {
 
     
     @IBOutlet weak var lengthLabel: UILabel!
@@ -70,6 +70,8 @@ class PasswordGeneratorSettingsViewController: UIViewController {
             cancelButton.isEnabled = false
         }
         
+        specialsTextView.delegate = self
+        hideKeyboardOnTap()
     }
 
     
@@ -159,6 +161,17 @@ class PasswordGeneratorSettingsViewController: UIViewController {
             //unwindToDetailsFromOverrideWithSender
             performSegue(withIdentifier: "unwindToDetailsFromOverrideWithSender", sender: self)
         }
+    }
+    
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        
+        return true
     }
     
     /*

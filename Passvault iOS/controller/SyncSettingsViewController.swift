@@ -9,7 +9,7 @@
 import UIKit
 import SVProgressHUD
 
-class SyncSettingsViewController: UIViewController {
+class SyncSettingsViewController: UIViewController, UITextFieldDelegate {
 
     let NO_SYNC_MSG = "In order to sync passwords with the free service an account is needed. In order to create an account enter a valid email address/password and click Create. If a account already exists for this email address enter it along with the existing password and click Configure."
     
@@ -20,6 +20,9 @@ class SyncSettingsViewController: UIViewController {
     
     let YES_SYNC_LEFT_BUTTON = "Delete"
     let YES_SYNC_RIGHT_BUTTON = "Remove"
+    
+    let EMAIL = 0
+    let PASS = 1
     
     
     @IBOutlet weak var explanationLabel: UILabel!
@@ -42,6 +45,11 @@ class SyncSettingsViewController: UIViewController {
             // setup view for no gateway
             flipToNoGateway()
         }
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        hideKeyboardOnTap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -234,6 +242,19 @@ class SyncSettingsViewController: UIViewController {
     }
     
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        switch textField.tag {
+        case EMAIL:
+            passwordTextField.becomeFirstResponder()
+            break
+        default:
+            break
+        }
+        
+        return true
+    }
     
     
     /*

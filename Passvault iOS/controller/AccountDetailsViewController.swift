@@ -8,7 +8,13 @@
 
 import UIKit
 
-class AccountDetailsViewController: UIViewController {
+class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
+    
+    let USER = 0
+    let URL = 1
+    let PASS1 = 2
+    let PASS2 = 3
+    
 
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var urlTextField: UITextField!
@@ -31,6 +37,13 @@ class AccountDetailsViewController: UIViewController {
         passwordTextField.text = account?.password
         passwordTextField2.text = account?.password
         userNameTextField.text = account?.userName
+        
+        urlTextField.delegate = self
+        userNameTextField.delegate = self
+        passwordTextField.delegate = self
+        passwordTextField2.delegate = self
+        
+        hideKeyboardOnTap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,6 +101,29 @@ class AccountDetailsViewController: UIViewController {
     
     @IBAction func optionsPressed(_ sender: UIButton) {
 
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        switch textField.tag {
+        case USER:
+            urlTextField.becomeFirstResponder()
+            break
+        case URL:
+            passwordTextField.becomeFirstResponder()
+            break
+        case PASS1:
+            passwordTextField2.becomeFirstResponder()
+            break
+        case PASS2:
+            break
+        default:
+            break
+        }
+        
+        return true
     }
     
     

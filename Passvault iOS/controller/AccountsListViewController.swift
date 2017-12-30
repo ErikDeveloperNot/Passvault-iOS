@@ -31,7 +31,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     let MULTIPLIER = 5
     let DARK_BUTTON = "grey_gradient_dark_button"
     let LIGHT_BUTTON = "grey_gradient_button"
-    let CELL_TEXT_HEX = 0x332BA1
+    let CELL_TEXT_HEX = 0x5F4BCF
     var expandedRow = -1
     var selectedOptionRow = -1
     
@@ -62,10 +62,16 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         
         MRAComparator.getInstance().debugMaps()
         
+        let settings = CoreDataUtils.loadGeneralSettings()
+        let days = settings.purgeDays
+        CoreDataUtils.purgeDeletes(olderThenDays: days)
+        
         // to support the options cells behaving like buttons instead of rows
         let colorView = UIView()
         colorView.backgroundColor = UIColor.clear
         UITableViewCell.appearance().selectedBackgroundView = colorView
+        
+        hideKeyboardOnTap()
     }
     
     
@@ -352,6 +358,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func syncButtonPressed(_ sender: UIBarButtonItem) {
         SVProgressHUD.show()
+        resetExpandedAcount()
         let callStatusKey = SyncClient.syncAccounts()
         
         if callStatusKey == -1 {
@@ -438,6 +445,17 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         return paths
+    }
+    
+    
+    func resetExpandedAcount() {
+        
+        if expandedRow > -1 {
+            let indexPath = IndexPath(row: expandedRow * MULTIPLIER, section: 0)
+            expandedRow = -1
+            
+            accountsTableView.reloadRows(at: buildIndexPaths(forRow: indexPath), with: .fade)
+        }
     }
     
     

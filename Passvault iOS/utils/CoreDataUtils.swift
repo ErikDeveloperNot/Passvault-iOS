@@ -49,9 +49,7 @@ class CoreDataUtils {
 //var i = 1
             for accountCD in accountCDs {
                 if !accountCD.accountDeleted || includeDeletes {
-                    if accountCD.accountName == "iOS Account 3" {
-                        print(accountCD.password)
-                    }
+                   
                     guard let name = accountCD.accountName else {
                         print("accountName not set, not loading")
                         continue
@@ -76,12 +74,12 @@ class CoreDataUtils {
                     let validEncryption: Bool = Bool(decryptPasswordsResult[VALID_ENCRYPTION_KEY]!)!
                     let decryptedPassword: String = decryptPasswordsResult[PASSWORD_KEY]!
                     let decryptedOldPassword: String = decryptPasswordsResult[OLD_PASSWORD_KEY]!
-                   
+                    let deleted = accountCD.accountDeleted
 //if i%5 == 0 {
 //   validEncryption = false
 //}
 //i += 1
-                    accounts.append(Account(accountName: name, userName: user, password: decryptedPassword, oldPassword: decryptedOldPassword, url: url, updateTime: updateTime, deleted: false, validEncryption: validEncryption))
+                    accounts.append(Account(accountName: name, userName: user, password: decryptedPassword, oldPassword: decryptedOldPassword, url: url, updateTime: updateTime, deleted: deleted, validEncryption: validEncryption))
                     
                 } else {
                     print("Not Loading deleted account: " + accountCD.accountName!)
@@ -109,6 +107,7 @@ class CoreDataUtils {
             let accounts = try loadAllAccounts(includeDeletes: true)
             
             for account in accounts {
+print("\(account.accountName), deleted=\(account.deleted), \(current - account.updateTime > check)")
                 if account.deleted && current - account.updateTime > check {
                     if purgeAccount(forName: account.accountName, withUpdateTime: account.updateTime) == CoreDataStatus.CoreDataError {
                         print("Error purging: \(account.accountName)")

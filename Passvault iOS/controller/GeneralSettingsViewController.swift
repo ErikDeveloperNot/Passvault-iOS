@@ -48,6 +48,8 @@ class GeneralSettingsViewController: UIViewController, UITextFieldDelegate {
         sortMRUSwitch.isOn = settings.sortByMRU
         purgeTextField.text = String(settings.purgeDays)
         purgeTextField.delegate = self
+        
+        hideKeyboardOnTap()
     }
 
     override func didReceiveMemoryWarning() {

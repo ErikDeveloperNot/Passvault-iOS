@@ -8,7 +8,13 @@
 
 import UIKit
 
-class AddAccountViewController: UIViewController {
+class AddAccountViewController: UIViewController, UITextFieldDelegate {
+    
+    let NAME = 0
+    let USER = 1
+    let URL = 2
+    let PASS1 = 3
+    let PASS2 = 4
 
     @IBOutlet weak var accountNameTextField: UITextField!
     @IBOutlet weak var userNameTextField: UITextField!
@@ -25,6 +31,13 @@ class AddAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        accountNameTextField.delegate = self
+        userNameTextField.delegate = self
+        urlTextField.delegate = self
+        passwordTextField.delegate = self
+        passwordTextField2.delegate = self
+        
+        hideKeyboardOnTap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,6 +100,32 @@ class AddAccountViewController: UIViewController {
         accountAdded = true
         self.performSegue(withIdentifier: "unwindToAccountsList", sender: self)
         //self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        switch textField.tag {
+        case NAME:
+            userNameTextField.becomeFirstResponder()
+            break
+        case USER:
+            urlTextField.becomeFirstResponder()
+            break
+        case URL:
+            passwordTextField.becomeFirstResponder()
+            break
+        case PASS1:
+            passwordTextField2.becomeFirstResponder()
+            break
+        case PASS2:
+            break
+        default:
+            break
+        }
+        
+        return true
     }
     
     

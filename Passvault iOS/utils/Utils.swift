@@ -161,4 +161,30 @@ class Utils {
         return UIColor(hex: hex)
     }
     
+    
+    static func adjustInsetForKeyboardShow(_ show: Bool, notification: Notification, scrollView: UIScrollView) {
+        
+        if show {
+            let userInfo = notification.userInfo ?? [:]
+            let kbSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
+            let insets = UIEdgeInsets.init(top: 0, left: 0, bottom: kbSize.height + 10, right: 0)
+            scrollView.contentInset = insets
+            scrollView.scrollIndicatorInsets = insets
+        } else {
+            let insets = UIEdgeInsets.zero
+            scrollView.contentInset.bottom = insets.bottom
+            scrollView.scrollIndicatorInsets.bottom = insets.bottom
+            
+        }
+    }
+    
+    
+    @objc static func keyboardWillShow(_ notification: Notification, scrollView: UIScrollView) {
+        Utils.adjustInsetForKeyboardShow(true, notification: notification, scrollView: scrollView)
+    }
+    
+    @objc static func keyboardWillHide(_ notification: Notification, scrollView: UIScrollView) {
+        Utils.adjustInsetForKeyboardShow(false, notification: notification, scrollView: scrollView)
+    }
+    
 }

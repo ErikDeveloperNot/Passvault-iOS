@@ -31,6 +31,13 @@ class SyncSettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
     
+    // support scrolling keyboard
+    @IBOutlet var masterView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var outerView: UIView!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    var shifted = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +57,34 @@ class SyncSettingsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         
         hideKeyboardOnTap()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(SyncSettingsViewController.keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(SyncSettingsViewController.keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
+        
+        heightConstraint.constant = masterView.bounds.height
+        outerView.layoutIfNeeded()
     }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !shifted {
+            heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
+            outerView.layoutIfNeeded()
+            shifted = true
+        }
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -254,6 +288,17 @@ class SyncSettingsViewController: UIViewController, UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    
+    // MARK: - Support Keyboard Scrolling
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        Utils.adjustInsetForKeyboardShow(true, notification: notification, scrollView: scrollView)
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        Utils.adjustInsetForKeyboardShow(false, notification: notification, scrollView: scrollView)
     }
     
     

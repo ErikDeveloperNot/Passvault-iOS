@@ -29,10 +29,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     let PURGE_SLEEP: UInt32 = 86400
     
     @IBOutlet weak var passwordTextField: UITextField!
+    
+    // keyboard scrolling support
     @IBOutlet var masterView: UIView!
     @IBOutlet weak var outerView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    var shifted = false
     
     var accounts: [Account]?
     var key: String?
@@ -86,8 +89,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     // not sure if this is a hack or the way it needs to be done
     override func viewDidAppear(_ animated: Bool) {
-        heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
-        outerView.layoutIfNeeded()
+        if !shifted {
+            heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
+            outerView.layoutIfNeeded()
+            shifted = true
+        }
     }
 
     deinit {
@@ -134,30 +140,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-//    func adjustInsetForKeyboardShow(_ show: Bool, notification: Notification) {
-//
-//        if show {
-//            let userInfo = notification.userInfo ?? [:]
-//            let kbSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
-//            let insets = UIEdgeInsets.init(top: 0, left: 0, bottom: kbSize.height, right: 0)
-//            scrollView.contentInset = insets
-//            scrollView.scrollIndicatorInsets = insets
-//        } else {
-//            let insets = UIEdgeInsets.zero
-//            scrollView.contentInset.bottom = insets.bottom
-//            scrollView.scrollIndicatorInsets.bottom = insets.bottom
-//
-//        }
-//    }
-    
-    
     @objc func keyboardWillShow(_ notification: Notification) {
-//        adjustInsetForKeyboardShow(true, notification: notification)
         Utils.adjustInsetForKeyboardShow(true, notification: notification, scrollView: scrollView)
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-//        adjustInsetForKeyboardShow(false, notification: notification)
         Utils.adjustInsetForKeyboardShow(false, notification: notification, scrollView: scrollView)
     }
     

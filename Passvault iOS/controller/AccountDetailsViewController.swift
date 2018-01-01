@@ -22,6 +22,13 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField2: UITextField!
     @IBOutlet weak var userNameTextField: UITextField!
     
+    // support keyboard scrolling
+    @IBOutlet var masterView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var outerView: UIView!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    
+    
     var account: Account?
     var deleted: Bool = false
     
@@ -44,6 +51,29 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField2.delegate = self
         
         hideKeyboardOnTap()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AccountDetailsViewController.keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AccountDetailsViewController.keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
+        
+        heightConstraint.constant = masterView.bounds.height
+        outerView.layoutIfNeeded()
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
+        outerView.layoutIfNeeded()
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,6 +157,15 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    // MARK: - Support Keyboard Scrolling
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        Utils.adjustInsetForKeyboardShow(true, notification: notification, scrollView: scrollView)
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        Utils.adjustInsetForKeyboardShow(false, notification: notification, scrollView: scrollView)
+    }
     
     // MARK: - Navigation
 

@@ -166,7 +166,10 @@ class Utils {
         
         if show {
             let userInfo = notification.userInfo ?? [:]
+            print(userInfo[UIKeyboardFrameEndUserInfoKey])
+            
             let kbSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
+            print(kbSize.height)
             let insets = UIEdgeInsets.init(top: 0, left: 0, bottom: kbSize.height + 10, right: 0)
             scrollView.contentInset = insets
             scrollView.scrollIndicatorInsets = insets

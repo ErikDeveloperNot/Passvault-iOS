@@ -27,7 +27,7 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var outerView: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
-    
+    var shifted = false
     
     var account: Account?
     var deleted: Bool = false
@@ -51,16 +51,6 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField2.delegate = self
         
         hideKeyboardOnTap()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(AccountDetailsViewController.keyboardWillShow(_:)),
-                                               name: Notification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(AccountDetailsViewController.keyboardWillHide(_:)),
-                                               name: Notification.Name.UIKeyboardWillHide,
-                                               object: nil)
-        
         heightConstraint.constant = masterView.bounds.height
         outerView.layoutIfNeeded()
     }
@@ -72,9 +62,27 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
-        outerView.layoutIfNeeded()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AccountDetailsViewController.keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AccountDetailsViewController.keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
+        
+        if !shifted {
+            heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
+            outerView.layoutIfNeeded()
+            shifted = true
+        }
     }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -82,7 +90,9 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
+        deleted = false
+        self.performSegue(withIdentifier: "unwindToAccounts", sender: self)
     }
     
     
@@ -105,7 +115,9 @@ class AccountDetailsViewController: UIViewController, UITextFieldDelegate {
         
         print("Result of SaveAccount=\(CoreDataUtils.updateAccount(forAccount: account!, passwordEncrypted: false))")
         
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
+        deleted = false
+        self.performSegue(withIdentifier: "unwindToAccounts", sender: self)
     }
     
     

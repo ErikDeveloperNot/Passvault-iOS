@@ -57,16 +57,6 @@ class SyncSettingsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         
         hideKeyboardOnTap()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(SyncSettingsViewController.keyboardWillShow(_:)),
-                                               name: Notification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(SyncSettingsViewController.keyboardWillHide(_:)),
-                                               name: Notification.Name.UIKeyboardWillHide,
-                                               object: nil)
-        
         heightConstraint.constant = masterView.bounds.height
         outerView.layoutIfNeeded()
     }
@@ -83,9 +73,24 @@ class SyncSettingsViewController: UIViewController, UITextFieldDelegate {
             outerView.layoutIfNeeded()
             shifted = true
         }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(SyncSettingsViewController.keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(SyncSettingsViewController.keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
+        
     }
     
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

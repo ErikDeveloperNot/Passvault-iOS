@@ -27,6 +27,7 @@ class AddAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var outerView: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    var shifted = false
     
     var account: Account?
     var accountAdded: Bool = false
@@ -44,16 +45,6 @@ class AddAccountViewController: UIViewController, UITextFieldDelegate {
         passwordTextField2.delegate = self
         
         hideKeyboardOnTap()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(AddAccountViewController.keyboardWillShow(_:)),
-                                               name: Notification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(AddAccountViewController.keyboardWillHide(_:)),
-                                               name: Notification.Name.UIKeyboardWillHide,
-                                               object: nil)
-        
         heightConstraint.constant = masterView.bounds.height
         outerView.layoutIfNeeded()
     }
@@ -65,8 +56,25 @@ class AddAccountViewController: UIViewController, UITextFieldDelegate {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
-        outerView.layoutIfNeeded()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AddAccountViewController.keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AddAccountViewController.keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
+        
+        if !shifted {
+            heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
+            outerView.layoutIfNeeded()
+            shifted = true
+        }
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
     
 

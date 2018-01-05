@@ -14,8 +14,9 @@ enum SendingController {
     case EditAccount
 }
 
-class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDelegate {
+class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
 
+    @IBOutlet weak var bottomView: UIView!
     
     @IBOutlet weak var lengthLabel: UILabel!
     @IBOutlet weak var lengthStepper: UIStepper!
@@ -25,6 +26,13 @@ class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDeleg
     @IBOutlet weak var specialsTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    
+    // support scrolling keyboard
+    @IBOutlet var masterView: UIView!
+    @IBOutlet weak var outerView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    var shifted = false
     
     let MAX_LENGTH = 64.0
     let MIN_LENGTH = 4.0
@@ -49,14 +57,10 @@ class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDeleg
         lengthStepper.stepValue = 1
         lengthStepper.value = Double(generator.length)
         lengthLabel.text = String(generator.length)
-        //lengthStepper.value = 32
-        //lengthLabel.text = "32"
         
         for s in generator.getSpecials() {
             specialsTextView.text.append(" \(s)")
         }
-        
-        print("parent = \(self.parent)")
         
         if self.parent == nil {
             saveButton.isHidden = false
@@ -72,8 +76,39 @@ class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDeleg
         
         specialsTextView.delegate = self
         hideKeyboardOnTap()
+        
+        heightConstraint.constant = masterView.bounds.height
+        outerView.layoutIfNeeded()
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !shifted {
+            print(masterView.safeAreaInsets)
+            heightConstraint.constant -= (masterView.safeAreaInsets.bottom + masterView.safeAreaInsets.top)
+            outerView.layoutIfNeeded()
+            shifted = true
+        }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(PasswordGeneratorSettingsViewController.keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(PasswordGeneratorSettingsViewController.keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
     }
 
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -135,15 +170,6 @@ class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDeleg
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         setGenerator()
         unwind()
-        /*
-        if sendingController == SendingController.AddAccount {
-            //unwindToAddFromOverrideWithSender
-            performSegue(withIdentifier: "unwindToAddFromOverrideWithSender", sender: self)
-        } else {
-            //unwindToDetailsFromOverrideWithSender
-            performSegue(withIdentifier: "unwindToDetailsFromOverrideWithSender", sender: self)
-        }
- */
     }
     
     
@@ -173,6 +199,31 @@ class PasswordGeneratorSettingsViewController: UIViewController, UITextViewDeleg
         
         return true
     }
+    
+    
+    // MARK: - Support Keyboard Scrolling
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        /*
+            key board scroll for text view = [bottom or top View Height + 60 (height of first view in bottom half) + 30 (offset of start of textview) + textView height - masterView safe area insets top]
+         
+            insets are set to the keyboard height
+        */
+        let userInfo = notification.userInfo ?? [:]
+        let kbSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
+        let insets = UIEdgeInsets.init(top: 0, left: 0, bottom: kbSize.height, right: 0)
+        scrollView.contentInset = insets
+        scrollView.scrollIndicatorInsets = insets
+        let textViewHeight = specialsTextView.bounds.height
+        let masterViewSafeAreaInsets = masterView.safeAreaInsets.top
+        scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: outerView.bounds.width, height: bottomView.bounds.height + 60 + 30 + textViewHeight - masterViewSafeAreaInsets), animated: true)
+    }
+    
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        Utils.adjustInsetForKeyboardShow(false, notification: notification, scrollView: scrollView)
+    }
+    
     
     /*
     // MARK: - Navigation

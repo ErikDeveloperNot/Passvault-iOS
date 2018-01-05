@@ -328,6 +328,8 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                 if let indexPath = accountSentToDetailsIndexPath {
                     deleteAccount(indexPath: indexPath)
                 }
+            } else {
+                resetExpandedAcount()
             }
             
             accountDeletedFromDetails = false
@@ -378,6 +380,7 @@ class AccountsListViewController: UIViewController, UITableViewDelegate, UITable
                 
                 do {
                     self.accounts = try CoreDataUtils.loadAllAccounts()
+                    self.accounts = Utils.sort(accounts: self.accounts, sortType: self.sortType)
                     self.accountsTableView.reloadData()
                     SVProgressHUD.dismiss()
                     self.present(Utils.showMessage(message: "Accounts Synchronized"), animated: true, completion: nil)

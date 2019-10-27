@@ -37,7 +37,7 @@ class InfoViewController: UIViewController {
             }
         }
         
-        versionLabel.text = "Passvault iOS version: \(version ?? "x.x")"
+        versionLabel.text = "Passvault version: \(version ?? "x.x")"
         
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(InfoViewController.openFreePix))
         freePixLabel1.addGestureRecognizer(tap1)

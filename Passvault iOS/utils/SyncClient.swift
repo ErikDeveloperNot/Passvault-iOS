@@ -69,7 +69,8 @@ class SyncClient {
     
     static let sessionmanager = createSessionManager()
     
-    static let SYNC_SERVER = "https://ec2-13-56-39-109.us-west-1.compute.amazonaws.com:8443"
+    //static let SYNC_SERVER = "https://ec2-13-56-39-109.us-west-1.compute.amazonaws.com:8443"
+    static let SYNC_SERVER = "https://passvault.erikdevelopernot.net:8443"
     static let REGISTER_PATH = "/PassvaultServiceRegistration/service/registerV1/sync-server"
     static let DELETE_PATH = "/PassvaultServiceRegistration/service/deleteAccount/sync-server"
     // hardcode even though it is in the Gateway, doubt it will change
@@ -267,7 +268,7 @@ print("Purging deleted account recieved from server: \(account.accountName)")
                         var accountsToPurge: [String] = []
                         
                         for accountName in syncResponse.sendAccountsToServerList {
-                            
+print("AccountName:: \(accountName)");
                             if let account = CoreDataUtils.getAccount(forName: accountName) {
                                 syncAccountsToSend.append(SyncAccount(accountName: account.accountName, userName: account.userName, password: account.password, oldPassword: account.oldPassword, url: account.url, updateTime: account.updateTime, deleted: account.deleted))
 print("Final Request Sending back account, \(account.accountName), deleted=\(account.deleted)")
@@ -331,7 +332,8 @@ print("After FINAL REquest Purging account: \(accountToPurge)")
         let serverTrustPolicy = ServerTrustPolicy.disableEvaluation
         
         var policies: [String : ServerTrustPolicy] = [:]
-        policies["ec2-13-56-39-109.us-west-1.compute.amazonaws.com"] = serverTrustPolicy
+        //policies["ec2-13-56-39-109.us-west-1.compute.amazonaws.com"] = serverTrustPolicy
+        policies["passvault.erikdevelopernot.net"] = serverTrustPolicy
         policies["httpbin.org"] = serverTrustPolicy
         policies["73.222.80.66"] = serverTrustPolicy
         
@@ -364,7 +366,7 @@ print("After FINAL REquest Purging account: \(accountToPurge)")
     static func test() {
         //sessionManager.request("https://httpbin.org/get").responseJSON { response in
         //Alamofire.request("https://httpbin.org/get").responseJSON { response in
-        sessionmanager.request("https://ec2-13-56-39-109.us-west-1.compute.amazonaws.com:8443/PassvaultServiceRegistration/service/registerV1").responseJSON { response in
+        sessionmanager.request("https://passvault.erikdevelopernot.net:8443/PassvaultServiceRegistration/service/registerV1").responseJSON { response in
             //print("Request: \(String(describing: response.request))")   // original url request
             //print("Response: \(String(describing: response.response))") // http url response
             //print("Result: \(response.result)")                         // response serialization result
